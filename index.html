@@ -8,16 +8,25 @@
 body {
   font-family: Arial;
   text-align: center;
-  background-image: url("mc-achtergrond.jpg");
+  background-image: url("achtergrond.jpg");
   background-size: cover;
   background-position: center;
+  margin: 0;
 }
 
+/* Tekstvak bovenaan */
+.paneel {
+  background: rgba(0, 0, 0, 0.7); /* zwart met doorzichtigheid */
+  color: white;
+  padding: 20px;
+}
+
+/* Afbeelding-container */
 #container {
   position: relative;
   width: 600px;
   height: 600px;
-  margin: auto;
+  margin: 40px auto;
 }
 
 .vak {
@@ -53,14 +62,14 @@ body {
 
 <body>
 
-<h2>Voer wachtwoord in</h2>
+<div class="paneel">
+  <h2>Voer wachtwoord in</h2>
 
-<form onsubmit="checkPW(); return false;">
-  <input type="password" id="pw">
-  <button type="submit">Toon</button>
-</form>
-
-<br><br>
+  <form onsubmit="checkPW(); return false;">
+    <input type="password" id="pw">
+    <button type="submit">Toon</button>
+  </form>
+</div>
 
 <div id="container">
 
