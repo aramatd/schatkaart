@@ -2,78 +2,81 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Beveiligde Pagina</title>
+<title>Puzzel</title>
 
 <style>
 body {
   margin: 0;
+  overflow: hidden;
   font-family: Arial, sans-serif;
-  text-align: center;
-
-  /* Achtergrondafbeelding */
-  background-image: url("achtergrond.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-/* Vakje voor login */
+/* Scherpe achtergrond */
+.base-bg {
+  position: fixed;
+  inset: 0;
+  background: url("achtergrond.jpg") center/cover no-repeat;
+  z-index: -2;
+}
+
+/* 4 vakken met ANDERE afbeelding */
+.vak {
+  position: fixed;
+  width: 50vw;
+  height: 50vh;
+  background: url("afbeelding.jpg") center/cover no-repeat;
+  filter: blur(25px);
+}
+
+/* Correcte uitlijning */
+#vak1 { top:0; left:0; transform: translate(0,0); }
+#vak2 { top:0; left:50vw; transform: translate(-50vw,0); }
+#vak3 { top:50vh; left:0; transform: translate(0,-50vh); }
+#vak4 { top:50vh; left:50vw; transform: translate(-50vw,-50vh); }
+
+/* Login */
 .login-box {
-  background: rgba(0, 0, 0, 0.65);
+  position: relative;
+  z-index: 1;
+  background: rgba(0,0,0,0.75);
   color: white;
-  padding: 30px;
-  width: 320px;
-  border-radius: 15px;
-}
-
-/* Input veld */
-input {
-  padding: 10px;
-  width: 90%;
-  margin-top: 10px;
-  border-radius: 6px;
-  border: none;
-}
-
-/* Knop */
-button {
-  margin-top: 15px;
-  padding: 10px 20px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  background-color: #4CAF50;
-  color: white;
-  font-size: 14px;
-}
-
-button:hover {
-  background-color: #45a049;
+  padding: 20px;
+  border-radius: 12px;
+  width: 300px;
+  margin: 15% auto;
+  text-align: center;
 }
 </style>
 </head>
 
 <body>
 
+<div class="base-bg"></div>
+
+<div id="vak1" class="vak"></div>
+<div id="vak2" class="vak"></div>
+<div id="vak3" class="vak"></div>
+<div id="vak4" class="vak"></div>
+
 <div class="login-box">
-  <h2>Vul je wachtwoord in</h2>
-  <input type="password" id="password" placeholder="Wachtwoord" onkeydown="if(event.key==='Enter'){checkPassword()}">
-  <br>
-  <button onclick="checkPassword()">Inloggen</button>
+  <h3>Vul je wachtwoord in</h3>
+  <input type="password" id="pw" onkeydown="if(event.key==='Enter'){check()}">
+  <button onclick="check()">Inloggen</button>
 </div>
 
 <script>
-function checkPassword() {
-  var password = document.getElementById("password").value;
+let stap = 0;
+const wachtwoorden = ["een","twee","drie","vier"];
 
-  if (password === "1234") {
-    window.location.href = "beveiligd.html";
+function check() {
+  const input = document.getElementById("pw").value;
+
+  if (input === wachtwoorden[stap]) {
+    document.getElementById("vak"+(stap+1)).style.filter = "blur(0px)";
+    stap++;
+    document.getElementById("pw").value = "";
   } else {
-    alert("Onjuist wachtwoord");
+    alert("Fout");
   }
 }
 </script>
