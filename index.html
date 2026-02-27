@@ -2,82 +2,101 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Puzzel</title>
+<title>Verborgen afbeelding</title>
 
 <style>
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: Arial;
+  text-align: center;
+}
+
+#container {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  margin: auto;
+}
+
+.vak {
+  position: absolute;
+  width: 300px;
+  height: 300px;
   overflow: hidden;
 }
 
-/* Scherpe achtergrond */
-.base-bg {
-  position: fixed;
-  inset: 0;
-  background: url("achtergrond.jpg") center/cover no-repeat;
-  z-index: -2;
+#vak1 { top: 0; left: 0; }
+#vak2 { top: 0; left: 300px; }
+#vak3 { top: 300px; left: 0; }
+#vak4 { top: 300px; left: 300px; }
+
+.vak img {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  filter: blur(40px) brightness(0.6);
+  transition: filter 0.5s ease;
 }
 
-/* 4 vakken erboven */
-.vak {
-  position: fixed;
-  width: 50vw;
-  height: 50vh;
-  background: url("afbeelding.jpg") center/cover no-repeat;
-  filter: blur(25px);
-}
+#vak1 img { top: 0; left: 0; }
+#vak2 img { top: 0; left: -300px; }
+#vak3 img { top: -300px; left: 0; }
+#vak4 img { top: -300px; left: -300px; }
 
-/* Perfecte uitlijning */
-#vak1 { top:0; left:0; transform: translate(0,0); }
-#vak2 { top:0; left:50vw; transform: translate(-50vw,0); }
-#vak3 { top:50vh; left:0; transform: translate(0,-50vh); }
-#vak4 { top:50vh; left:50vw; transform: translate(-50vw,-50vh); }
-
-/* Login vak */
-.login-box {
-  position: relative;
-  z-index: 1;
-  background: rgba(0,0,0,0.75);
-  color: white;
-  padding: 20px;
-  border-radius: 12px;
-  width: 300px;
-  margin: 15% auto;
-  text-align: center;
+.scherp img {
+  filter: blur(0px) brightness(1);
 }
 </style>
 </head>
 
 <body>
 
-<div class="base-bg"></div>
+<h2>Voer wachtwoord in</h2>
 
-<div id="vak1" class="vak"></div>
-<div id="vak2" class="vak"></div>
-<div id="vak3" class="vak"></div>
-<div id="vak4" class="vak"></div>
+<form onsubmit="checkPW(); return false;">
+  <input type="password" id="pw">
+  <button type="submit">Toon</button>
+</form>
 
-<div class="login-box">
-  <h3>Vul je wachtwoord in</h3>
-  <input type="password" id="pw" onkeydown="if(event.key==='Enter'){check()}">
-  <button onclick="check()">Inloggen</button>
+<br><br>
+
+<div id="container">
+
+  <div class="vak" id="vak1">
+    <img src="afbeelding.jpg">
+  </div>
+
+  <div class="vak" id="vak2">
+    <img src="afbeelding.jpg">
+  </div>
+
+  <div class="vak" id="vak3">
+    <img src="afbeelding.jpg">
+  </div>
+
+  <div class="vak" id="vak4">
+    <img src="afbeelding.jpg">
+  </div>
+
 </div>
 
 <script>
-let stap = 0;
-const wachtwoorden = ["een","twee","drie","vier"];
+function checkPW() {
 
-function check() {
-  const input = document.getElementById("pw").value;
+  var p = document.getElementById("pw").value;
 
-  if (input === wachtwoorden[stap]) {
-    document.getElementById("vak"+(stap+1)).style.filter = "blur(0px)";
-    stap++;
-    document.getElementById("pw").value = "";
-  } else {
-    alert("Fout");
-  }
+  if (p === "rood")
+    document.getElementById("vak1").classList.add("scherp");
+
+  if (p === "blauw")
+    document.getElementById("vak2").classList.add("scherp");
+
+  if (p === "groen")
+    document.getElementById("vak3").classList.add("scherp");
+
+  if (p === "geel")
+    document.getElementById("vak4").classList.add("scherp");
+
+  document.getElementById("pw").value = "";
 }
 </script>
 
