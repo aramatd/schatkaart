@@ -8,13 +8,27 @@
 body {
   font-family: Arial;
   text-align: center;
+  margin: 0;
+
+  /* NIEUWE achtergrond */
+  background: url("achtergrond.jpg") center/cover no-repeat fixed;
+}
+
+/* Login vakje */
+.login-box {
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  display: inline-block;
+  padding: 20px;
+  margin-top: 30px;
+  border-radius: 12px;
 }
 
 #container {
   position: relative;
   width: 600px;
   height: 600px;
-  margin: auto;
+  margin: 40px auto;
 }
 
 .vak {
@@ -50,14 +64,14 @@ body {
 
 <body>
 
-<h2>Voer wachtwoord in</h2>
+<div class="login-box">
+  <h2>Voer wachtwoord in</h2>
 
-<form onsubmit="checkPW(); return false;">
-  <input type="password" id="pw">
-  <button type="submit">Toon</button>
-</form>
-
-<br><br>
+  <form onsubmit="checkPW(); return false;">
+    <input type="password" id="pw">
+    <button type="submit">Toon</button>
+  </form>
+</div>
 
 <div id="container">
 
