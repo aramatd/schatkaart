@@ -2,113 +2,79 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Verborgen afbeelding</title>
+<title>Beveiligde Pagina</title>
 
 <style>
 body {
-  font-family: Arial;
+  margin: 0;
+  font-family: Arial, sans-serif;
   text-align: center;
+
+  /* Achtergrondafbeelding */
   background-image: url("achtergrond.jpg");
   background-size: cover;
   background-position: center;
-  margin: 0;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Tekstvak bovenaan */
-.paneel {
-  background: rgba(0, 0, 0, 0.7); /* zwart met doorzichtigheid */
+/* Vakje voor login */
+.login-box {
+  background: rgba(0, 0, 0, 0.65);
   color: white;
-  padding: 20px;
+  padding: 30px;
+  width: 320px;
+  border-radius: 15px;
 }
 
-/* Afbeelding-container */
-#container {
-  position: relative;
-  width: 600px;
-  height: 600px;
-  margin: 40px auto;
+/* Input veld */
+input {
+  padding: 10px;
+  width: 90%;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: none;
 }
 
-.vak {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  overflow: hidden;
+/* Knop */
+button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 14px;
 }
 
-#vak1 { top: 0; left: 0; }
-#vak2 { top: 0; left: 300px; }
-#vak3 { top: 300px; left: 0; }
-#vak4 { top: 300px; left: 300px; }
-
-.vak img {
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  filter: blur(40px) brightness(0.6);
-  transition: filter 0.5s ease;
-}
-
-#vak1 img { top: 0; left: 0; }
-#vak2 img { top: 0; left: -300px; }
-#vak3 img { top: -300px; left: 0; }
-#vak4 img { top: -300px; left: -300px; }
-
-.scherp img {
-  filter: blur(0px) brightness(1);
+button:hover {
+  background-color: #45a049;
 }
 </style>
 </head>
 
 <body>
 
-<div class="paneel">
-  <h2>Voer wachtwoord in</h2>
-
-  <form onsubmit="checkPW(); return false;">
-    <input type="password" id="pw">
-    <button type="submit">Toon</button>
-  </form>
-</div>
-
-<div id="container">
-
-  <div class="vak" id="vak1">
-    <img src="afbeelding.jpg">
-  </div>
-
-  <div class="vak" id="vak2">
-    <img src="afbeelding.jpg">
-  </div>
-
-  <div class="vak" id="vak3">
-    <img src="afbeelding.jpg">
-  </div>
-
-  <div class="vak" id="vak4">
-    <img src="afbeelding.jpg">
-  </div>
-
+<div class="login-box">
+  <h2>Vul je wachtwoord in</h2>
+  <input type="password" id="password" placeholder="Wachtwoord" onkeydown="if(event.key==='Enter'){checkPassword()}">
+  <br>
+  <button onclick="checkPassword()">Inloggen</button>
 </div>
 
 <script>
-function checkPW() {
+function checkPassword() {
+  var password = document.getElementById("password").value;
 
-  var p = document.getElementById("pw").value;
-
-  if (p === "rood")
-    document.getElementById("vak1").classList.add("scherp");
-
-  if (p === "blauw")
-    document.getElementById("vak2").classList.add("scherp");
-
-  if (p === "groen")
-    document.getElementById("vak3").classList.add("scherp");
-
-  if (p === "geel")
-    document.getElementById("vak4").classList.add("scherp");
-
-  document.getElementById("pw").value = "";
+  if (password === "1234") {
+    window.location.href = "beveiligd.html";
+  } else {
+    alert("Onjuist wachtwoord");
+  }
 }
 </script>
 
