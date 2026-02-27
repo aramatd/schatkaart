@@ -17,21 +17,28 @@ body {
   margin: auto;
 }
 
-img {
+.vak {
   position: absolute;
   width: 300px;
   height: 300px;
+  overflow: hidden; /* voorkomt blur-lekkage */
+}
+
+#vak1 { top: 0; left: 0; }
+#vak2 { top: 0; left: 300px; }
+#vak3 { top: 300px; left: 0; }
+#vak4 { top: 300px; left: 300px; }
+
+.vak img {
+  width: 100%;
+  height: 100%;
+  display: block;
   filter: blur(40px) brightness(0.6);
   transition: filter 0.5s ease;
 }
 
-#deel1 { top: 0; left: 0; }
-#deel2 { top: 0; left: 300px; }
-#deel3 { top: 300px; left: 0; }
-#deel4 { top: 300px; left: 300px; }
-
-.scherp {
-  filter: blur(0px);
+.scherp img {
+  filter: blur(0px) brightness(1);
 }
 </style>
 </head>
@@ -46,10 +53,23 @@ img {
 <br><br>
 
 <div id="container">
-  <img id="deel1" src="deel1.jpg">
-  <img id="deel2" src="deel2.jpg">
-  <img id="deel3" src="deel3.jpg">
-  <img id="deel4" src="deel4.jpg">
+
+  <div class="vak" id="vak1">
+    <img src="deel1.jpg">
+  </div>
+
+  <div class="vak" id="vak2">
+    <img src="deel2.jpg">
+  </div>
+
+  <div class="vak" id="vak3">
+    <img src="deel3.jpg">
+  </div>
+
+  <div class="vak" id="vak4">
+    <img src="deel4.jpg">
+  </div>
+
 </div>
 
 <script>
@@ -58,16 +78,16 @@ function checkPW() {
   var p = document.getElementById("pw").value;
 
   if (p === "rood")
-    document.getElementById("deel1").classList.add("scherp");
+    document.getElementById("vak1").classList.add("scherp");
 
   if (p === "blauw")
-    document.getElementById("deel2").classList.add("scherp");
+    document.getElementById("vak2").classList.add("scherp");
 
   if (p === "groen")
-    document.getElementById("deel3").classList.add("scherp");
+    document.getElementById("vak3").classList.add("scherp");
 
   if (p === "geel")
-    document.getElementById("deel4").classList.add("scherp");
+    document.getElementById("vak4").classList.add("scherp");
 
 }
 </script>
