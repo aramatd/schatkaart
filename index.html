@@ -5,11 +5,15 @@
 <title>Verborgen afbeelding</title>
 
 <style>
-body { font-family: Arial; text-align: center; }
+body {
+  font-family: Arial;
+  text-align: center;
+}
 
 #container {
   position: relative;
   width: 600px;
+  height: 600px;
   margin: auto;
 }
 
@@ -17,7 +21,8 @@ img {
   position: absolute;
   width: 300px;
   height: 300px;
-  display: none;
+  filter: blur(12px);
+  transition: filter 0.5s ease;
 }
 
 #deel1 { top: 0; left: 0; }
@@ -25,6 +30,9 @@ img {
 #deel3 { top: 300px; left: 0; }
 #deel4 { top: 300px; left: 300px; }
 
+.scherp {
+  filter: blur(0px);
+}
 </style>
 </head>
 
@@ -34,6 +42,8 @@ img {
 
 <input type="password" id="pw">
 <button onclick="checkPW()">Toon</button>
+
+<br><br>
 
 <div id="container">
   <img id="deel1" src="deel1.jpg">
@@ -47,10 +57,17 @@ function checkPW() {
 
   var p = document.getElementById("pw").value;
 
-  if (p === "rood") document.getElementById("deel1").style.display = "block";
-  if (p === "blauw") document.getElementById("deel2").style.display = "block";
-  if (p === "groen") document.getElementById("deel3").style.display = "block";
-  if (p === "geel") document.getElementById("deel4").style.display = "block";
+  if (p === "rood")
+    document.getElementById("deel1").classList.add("scherp");
+
+  if (p === "blauw")
+    document.getElementById("deel2").classList.add("scherp");
+
+  if (p === "groen")
+    document.getElementById("deel3").classList.add("scherp");
+
+  if (p === "geel")
+    document.getElementById("deel4").classList.add("scherp");
 
 }
 </script>
