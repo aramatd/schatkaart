@@ -19,20 +19,22 @@ body {
   z-index: -2;
 }
 
-/* 4 vakken met ANDERE afbeelding */
+/* 4 vakken */
 .vak {
   position: fixed;
   width: 50vw;
   height: 50vh;
-  background: url("afbeelding.jpg") center/cover no-repeat;
+  background-image: url("afbeelding.jpg");
+  background-size: 100vw 100vh;   /* zorgt dat hij gecentreerd blijft */
+  background-repeat: no-repeat;
   filter: blur(25px);
 }
 
-/* Correcte uitlijning */
-#vak1 { top:0; left:0; transform: translate(0,0); }
-#vak2 { top:0; left:50vw; transform: translate(-50vw,0); }
-#vak3 { top:50vh; left:0; transform: translate(0,-50vh); }
-#vak4 { top:50vh; left:50vw; transform: translate(-50vw,-50vh); }
+/* Juiste uitsnede per vak */
+#vak1 { top:0; left:0; background-position: 0 0; }
+#vak2 { top:0; left:50vw; background-position: -50vw 0; }
+#vak3 { top:50vh; left:0; background-position: 0 -50vh; }
+#vak4 { top:50vh; left:50vw; background-position: -50vw -50vh; }
 
 /* Login */
 .login-box {
