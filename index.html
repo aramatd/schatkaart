@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Verborgen afbeelding</title>
+
+<style>
+body { font-family: Arial; text-align: center; }
+
+#container {
+  position: relative;
+  width: 600px;
+  margin: auto;
+}
+
+img {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  display: none;
+}
+
+#deel1 { top: 0; left: 0; }
+#deel2 { top: 0; left: 300px; }
+#deel3 { top: 300px; left: 0; }
+#deel4 { top: 300px; left: 300px; }
+
+</style>
+</head>
+
+<body>
+
+<h2>Voer wachtwoord in</h2>
+
+<input type="password" id="pw">
+<button onclick="checkPW()">Toon</button>
+
+<div id="container">
+  <img id="deel1" src="deel1.jpg">
+  <img id="deel2" src="deel2.jpg">
+  <img id="deel3" src="deel3.jpg">
+  <img id="deel4" src="deel4.jpg">
+</div>
+
+<script>
+function checkPW() {
+
+  var p = document.getElementById("pw").value;
+
+  if (p === "rood") document.getElementById("deel1").style.display = "block";
+  if (p === "blauw") document.getElementById("deel2").style.display = "block";
+  if (p === "groen") document.getElementById("deel3").style.display = "block";
+  if (p === "geel") document.getElementById("deel4").style.display = "block";
+
+}
+</script>
+
+</body>
+</html>
