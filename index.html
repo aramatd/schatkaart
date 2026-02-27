@@ -24,7 +24,6 @@ body {
   overflow: hidden;
 }
 
-/* Posities van de 4 vakken */
 #vak1 { top: 0; left: 0; }
 #vak2 { top: 0; left: 300px; }
 #vak3 { top: 300px; left: 0; }
@@ -38,13 +37,11 @@ body {
   transition: filter 0.5s ease;
 }
 
-/* Elk vak toont zijn eigen kwart van dezelfde afbeelding */
 #vak1 img { top: 0; left: 0; }
 #vak2 img { top: 0; left: -300px; }
 #vak3 img { top: -300px; left: 0; }
 #vak4 img { top: -300px; left: -300px; }
 
-/* Wanneer correct wachtwoord */
 .scherp img {
   filter: blur(0px) brightness(1);
 }
@@ -55,8 +52,10 @@ body {
 
 <h2>Voer wachtwoord in</h2>
 
-<input type="password" id="pw">
-<button onclick="checkPW()">Toon</button>
+<form onsubmit="checkPW(); return false;">
+  <input type="password" id="pw">
+  <button type="submit">Toon</button>
+</form>
 
 <br><br>
 
@@ -97,6 +96,7 @@ function checkPW() {
   if (p === "geel")
     document.getElementById("vak4").classList.add("scherp");
 
+  document.getElementById("pw").value = "";
 }
 </script>
 
