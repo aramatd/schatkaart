@@ -105,17 +105,20 @@ let shovel = [
 
 function checkRecipe(){
 
+  let result = document.getElementById("result");
+  result.innerHTML = "";
+
   if(match(boot)){
-    document.getElementById("result").innerHTML =
-    '<img src="boot.png" width="80">';
+    result.innerHTML = '<img src="boot.png" width="80">';
     return;
   }
 
   if(match(shovel)){
-    document.getElementById("result").innerHTML =
-    '<img src="shovel.png" width="80">';
+    result.innerHTML = '<img src="shovel.png" width="80">';
     return;
   }
+
+}
 
   document.getElementById("result").innerHTML = "";
 
