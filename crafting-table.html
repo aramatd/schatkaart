@@ -11,7 +11,6 @@ body{
   background:#8b8b8b;
 }
 
-/* Crafting layout */
 #crafting{
   display:flex;
   align-items:center;
@@ -20,14 +19,12 @@ body{
   margin-top:40px;
 }
 
-/* 3x3 grid */
 #grid{
   display:grid;
   grid-template-columns:repeat(3,60px);
   gap:6px;
 }
 
-/* Minecraft vakje look */
 .vak{
   width:60px;
   height:60px;
@@ -39,7 +36,6 @@ body{
   cursor:pointer;
 }
 
-/* materialen */
 .plank{
   background-image:url("planks_oak.png");
   background-size:cover;
@@ -52,12 +48,10 @@ body{
   background-repeat:no-repeat;
 }
 
-/* pijl */
 #arrow{
   font-size:40px;
 }
 
-/* resultaatvak */
 #result{
   width:70px;
   height:70px;
@@ -104,7 +98,6 @@ body{
 <script>
 
 let vakjes = document.querySelectorAll(".vak");
-let staat = [0,0,0,0,0,0,0,0,0];
 
 /*
 0 leeg
@@ -112,18 +105,24 @@ let staat = [0,0,0,0,0,0,0,0,0];
 2 stick
 */
 
-vakjes.forEach((vak,i)=>{
+vakjes.forEach((vak)=>{
 
   vak.addEventListener("click",function(){
 
-    staat[i]++;
+    if(vak.dataset.type==undefined) vak.dataset.type=0;
 
-    if(staat[i]>2) staat[i]=0;
+    let type = parseInt(vak.dataset.type);
+
+    type++;
+
+    if(type>2) type=0;
+
+    vak.dataset.type = type;
 
     vak.classList.remove("plank","stick");
 
-    if(staat[i]==1) vak.classList.add("plank");
-    if(staat[i]==2) vak.classList.add("stick");
+    if(type==1) vak.classList.add("plank");
+    if(type==2) vak.classList.add("stick");
 
     checkRecipe();
 
@@ -131,39 +130,36 @@ vakjes.forEach((vak,i)=>{
 
 });
 
-let boot = [
-0,0,0,
-1,0,1,
-1,1,1
-];
-
-let shovel = [
-0,1,0,
-0,2,0,
-0,2,0
-];
-
 function checkRecipe(){
 
-  let result = document.getElementById("result");
+  let grid=[];
+
+  vakjes.forEach(v=>{
+    grid.push(parseInt(v.dataset.type)||0);
+  });
+
+  let boot=[0,0,0,1,0,1,1,1,1];
+  let shovel=[0,1,0,0,2,0,0,2,0];
+
+  let result=document.getElementById("result");
   result.innerHTML="";
 
-  if(match(boot)){
+  if(match(grid,boot)){
     result.innerHTML='<img src="boot.png">';
     return;
   }
 
-  if(match(shovel)){
+  if(match(grid,shovel)){
     result.innerHTML='<img src="shovel.png">';
     return;
   }
 
 }
 
-function match(recipe){
+function match(a,b){
 
   for(let i=0;i<9;i++){
-    if(staat[i]!==recipe[i]) return false;
+    if(a[i]!=b[i]) return false;
   }
 
   return true;
