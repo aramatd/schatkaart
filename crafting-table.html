@@ -99,70 +99,62 @@ body{
 
 let vakjes = document.querySelectorAll(".vak");
 
-/*
-0 leeg
-1 plank
-2 stick
-*/
+vakjes.forEach(vak=>{
+  vak.dataset.type = 0;
 
-vakjes.forEach((vak)=>{
+  vak.onclick = function(){
 
-  vak.addEventListener("click",function(){
+    let t = Number(vak.dataset.type);
 
-    if(vak.dataset.type==undefined) vak.dataset.type=0;
+    t++;
+    if(t>2) t=0;
 
-    let type = parseInt(vak.dataset.type);
-
-    type++;
-
-    if(type>2) type=0;
-
-    vak.dataset.type = type;
+    vak.dataset.type = t;
 
     vak.classList.remove("plank","stick");
 
-    if(type==1) vak.classList.add("plank");
-    if(type==2) vak.classList.add("stick");
+    if(t==1) vak.classList.add("plank");
+    if(t==2) vak.classList.add("stick");
 
     checkRecipe();
-
-  });
-
+  }
 });
+
+function getGrid(){
+
+  let g=[];
+  vakjes.forEach(v=>g.push(Number(v.dataset.type)));
+  return g;
+
+}
 
 function checkRecipe(){
 
-  let grid=[];
+  let g = getGrid();
+  let result = document.getElementById("result");
 
-  vakjes.forEach(v=>{
-    grid.push(parseInt(v.dataset.type)||0);
-  });
-
-  let boot=[0,0,0,1,0,1,1,1,1];
-  let shovel=[0,1,0,0,2,0,0,2,0];
-
-  let result=document.getElementById("result");
   result.innerHTML="";
 
-  if(match(grid,boot)){
+  // boot
+  if(
+  g[0]==0 && g[1]==0 && g[2]==0 &&
+  g[3]==1 && g[4]==0 && g[5]==1 &&
+  g[6]==1 && g[7]==1 && g[8]==1
+  ){
     result.innerHTML='<img src="boot.png">';
     return;
   }
 
-  if(match(grid,shovel)){
+  // shovel
+  if(
+  g[0]==0 && g[1]==1 && g[2]==0 &&
+  g[3]==0 && g[4]==2 && g[5]==0 &&
+  g[6]==0 && g[7]==2 && g[8]==0
+  ){
     result.innerHTML='<img src="shovel.png">';
     return;
   }
 
-}
-
-function match(a,b){
-
-  for(let i=0;i<9;i++){
-    if(a[i]!=b[i]) return false;
-  }
-
-  return true;
 }
 
 </script>
