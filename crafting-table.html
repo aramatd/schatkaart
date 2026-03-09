@@ -8,24 +8,38 @@
 body{
   font-family: Arial;
   text-align:center;
+  background:#8b8b8b;
 }
 
+/* Crafting layout */
+#crafting{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:25px;
+  margin-top:40px;
+}
+
+/* 3x3 grid */
 #grid{
-  width:180px;
-  margin:auto;
   display:grid;
   grid-template-columns:repeat(3,60px);
-  gap:5px;
+  gap:6px;
 }
 
+/* Minecraft vakje look */
 .vak{
   width:60px;
   height:60px;
-  border:2px solid black;
-  background:#eee;
+  background:#c6c6c6;
+  border-top:3px solid #ffffff;
+  border-left:3px solid #ffffff;
+  border-right:3px solid #555555;
+  border-bottom:3px solid #555555;
   cursor:pointer;
 }
 
+/* materialen */
 .plank{
   background-image:url("planks_oak.png");
   background-size:cover;
@@ -33,12 +47,32 @@ body{
 
 .stick{
   background-image:url("stick.png");
-  background-size:cover;
+  background-size:contain;
+  background-position:center;
+  background-repeat:no-repeat;
 }
 
+/* pijl */
+#arrow{
+  font-size:40px;
+}
+
+/* resultaatvak */
 #result{
-  margin-top:20px;
-  height:80px;
+  width:70px;
+  height:70px;
+  background:#c6c6c6;
+  border-top:3px solid #ffffff;
+  border-left:3px solid #ffffff;
+  border-right:3px solid #555555;
+  border-bottom:3px solid #555555;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+#result img{
+  width:55px;
 }
 </style>
 </head>
@@ -46,7 +80,8 @@ body{
 <body>
 
 <h2>Craft iets</h2>
-<p>Klik vakjes om materiaal te wisselen</p>
+
+<div id="crafting">
 
 <div id="grid">
 <div class="vak"></div>
@@ -60,7 +95,11 @@ body{
 <div class="vak"></div>
 </div>
 
+<div id="arrow">→</div>
+
 <div id="result"></div>
+
+</div>
 
 <script>
 
@@ -68,14 +107,14 @@ let vakjes = document.querySelectorAll(".vak");
 let staat = [0,0,0,0,0,0,0,0,0];
 
 /*
-0 = leeg
-1 = plank
-2 = stick
+0 leeg
+1 plank
+2 stick
 */
 
 vakjes.forEach((vak,i)=>{
 
-  vak.onclick=function(){
+  vak.addEventListener("click",function(){
 
     staat[i]++;
 
@@ -87,7 +126,8 @@ vakjes.forEach((vak,i)=>{
     if(staat[i]==2) vak.classList.add("stick");
 
     checkRecipe();
-  }
+
+  });
 
 });
 
@@ -106,28 +146,24 @@ let shovel = [
 function checkRecipe(){
 
   let result = document.getElementById("result");
-  result.innerHTML = "";
+  result.innerHTML="";
 
   if(match(boot)){
-    result.innerHTML = '<img src="boot.png" width="80">';
+    result.innerHTML='<img src="boot.png">';
     return;
   }
 
   if(match(shovel)){
-    result.innerHTML = '<img src="shovel.png" width="80">';
+    result.innerHTML='<img src="shovel.png">';
     return;
   }
 
 }
 
-  document.getElementById("result").innerHTML = "";
-
-}
-
-function match(recept){
+function match(recipe){
 
   for(let i=0;i<9;i++){
-    if(staat[i]!==recept[i]) return false;
+    if(staat[i]!==recipe[i]) return false;
   }
 
   return true;
