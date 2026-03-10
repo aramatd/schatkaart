@@ -11,7 +11,7 @@ body{
 font-family:Arial;
 background:#c6c6c6;
 text-align:center;
-margin:20px;
+margin:10px;
 }
 
 /* crafting layout */
@@ -20,31 +20,30 @@ margin:20px;
 display:flex;
 align-items:center;
 justify-content:center;
-gap:30px;
-margin-top:30px;
-flex-wrap:wrap;
+gap:4vw;
+margin-top:20px;
 }
 
 /* grid */
 
 #grid{
 display:grid;
-grid-template-columns:repeat(3,80px);
-gap:6px;
+grid-template-columns:repeat(3,18vw);
+gap:1vw;
 background:#c6c6c6;
-padding:6px;
+padding:1vw;
 }
 
 /* slot style */
 
 .slot{
-width:80px;
-height:80px;
+width:18vw;
+height:18vw;
 background:#8b8b8b;
-border-top:4px solid #373737;
-border-left:4px solid #373737;
-border-right:4px solid #ffffff;
-border-bottom:4px solid #ffffff;
+border-top:0.8vw solid #373737;
+border-left:0.8vw solid #373737;
+border-right:0.8vw solid #ffffff;
+border-bottom:0.8vw solid #ffffff;
 cursor:pointer;
 }
 
@@ -56,39 +55,44 @@ background-size:cover;
 /* arrow */
 
 #arrow img{
-width:90px;
+width:14vw;
 }
 
 /* result */
 
 #result{
-width:90px;
-height:90px;
+width:18vw;
+height:18vw;
 background:#8b8b8b;
-border-top:4px solid #373737;
-border-left:4px solid #373737;
-border-right:4px solid #ffffff;
-border-bottom:4px solid #ffffff;
+border-top:0.8vw solid #373737;
+border-left:0.8vw solid #373737;
+border-right:0.8vw solid #ffffff;
+border-bottom:0.8vw solid #ffffff;
 display:flex;
 align-items:center;
 justify-content:center;
 }
 
 #result img{
-width:70px;
+width:14vw;
 cursor:pointer;
 }
 
 /* inventory */
 
 #inventory{
-margin-top:40px;
+margin-top:5vw;
 display:grid;
-grid-template-columns:repeat(9,80px);
-gap:6px;
+grid-template-columns:repeat(9,10vw);
+gap:1vw;
 justify-content:center;
 background:#c6c6c6;
-padding:6px;
+padding:1vw;
+}
+
+#inventory .slot{
+width:10vw;
+height:10vw;
 }
 
 </style>
@@ -160,8 +164,6 @@ slots.forEach(slot=>{
 
 slot.onclick=function(){
 
-/* place plank */
-
 if(selectedSlot!=-1 && !slot.classList.contains("plank")){
 
 slot.classList.add("plank");
@@ -177,8 +179,6 @@ checkRecipe();
 return;
 
 }
-
-/* remove plank */
 
 if(slot.classList.contains("plank")){
 
@@ -211,8 +211,6 @@ g.push(s.classList.contains("plank")?1:0);
 let result=document.getElementById("result");
 
 result.innerHTML="";
-
-/* boat recipe */
 
 if(
 g[0]==0 && g[1]==0 && g[2]==0 &&
