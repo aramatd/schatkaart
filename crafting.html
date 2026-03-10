@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Minecraft Crafting</title>
 
 <style>
@@ -10,6 +11,7 @@ body{
 font-family:Arial;
 background:#c6c6c6;
 text-align:center;
+margin:20px;
 }
 
 /* crafting layout */
@@ -19,29 +21,30 @@ display:flex;
 align-items:center;
 justify-content:center;
 gap:30px;
-margin-top:40px;
+margin-top:30px;
+flex-wrap:wrap;
 }
 
 /* grid */
 
 #grid{
 display:grid;
-grid-template-columns:repeat(3,64px);
-gap:4px;
+grid-template-columns:repeat(3,80px);
+gap:6px;
 background:#c6c6c6;
-padding:4px;
+padding:6px;
 }
 
 /* slot style */
 
 .slot{
-width:64px;
-height:64px;
+width:80px;
+height:80px;
 background:#8b8b8b;
-border-top:3px solid #373737;
-border-left:3px solid #373737;
-border-right:3px solid #ffffff;
-border-bottom:3px solid #ffffff;
+border-top:4px solid #373737;
+border-left:4px solid #373737;
+border-right:4px solid #ffffff;
+border-bottom:4px solid #ffffff;
 cursor:pointer;
 }
 
@@ -53,26 +56,26 @@ background-size:cover;
 /* arrow */
 
 #arrow img{
-width:80px;
+width:90px;
 }
 
 /* result */
 
 #result{
-width:72px;
-height:72px;
+width:90px;
+height:90px;
 background:#8b8b8b;
-border-top:3px solid #373737;
-border-left:3px solid #373737;
-border-right:3px solid #ffffff;
-border-bottom:3px solid #ffffff;
+border-top:4px solid #373737;
+border-left:4px solid #373737;
+border-right:4px solid #ffffff;
+border-bottom:4px solid #ffffff;
 display:flex;
 align-items:center;
 justify-content:center;
 }
 
 #result img{
-width:60px;
+width:70px;
 cursor:pointer;
 }
 
@@ -81,11 +84,11 @@ cursor:pointer;
 #inventory{
 margin-top:40px;
 display:grid;
-grid-template-columns:repeat(9,64px);
-gap:4px;
+grid-template-columns:repeat(9,80px);
+gap:6px;
 justify-content:center;
 background:#c6c6c6;
-padding:4px;
+padding:6px;
 }
 
 </style>
