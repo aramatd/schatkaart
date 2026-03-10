@@ -8,48 +8,66 @@
 
 body{
 font-family:Arial;
-background:#8b8b8b;
+background:#c6c6c6;
 text-align:center;
 }
 
+/* crafting layout */
+
 #crafting{
 display:flex;
-justify-content:center;
 align-items:center;
-gap:25px;
+justify-content:center;
+gap:30px;
 margin-top:40px;
 }
 
+/* 3x3 grid */
+
 #grid{
 display:grid;
-grid-template-columns:repeat(3,70px);
-gap:6px;
+grid-template-columns:repeat(3,64px);
+gap:4px;
+background:#ffffff;
+padding:4px;
 }
 
+/* vakjes */
+
 .slot{
-width:70px;
-height:70px;
-background:#c6c6c6;
-border-top:4px solid #ffffff;
-border-left:4px solid #ffffff;
-border-right:4px solid #555555;
-border-bottom:4px solid #555555;
+width:64px;
+height:64px;
+background:#8b8b8b;
+border-top:3px solid #373737;
+border-left:3px solid #373737;
+border-right:3px solid #ffffff;
+border-bottom:3px solid #ffffff;
 cursor:pointer;
 }
+
+/* plank texture */
 
 .plank{
 background-image:url("planks_oak.png");
 background-size:cover;
 }
 
+/* pijl */
+
+#arrow img{
+width:80px;
+}
+
+/* result slot */
+
 #result{
-width:70px;
-height:70px;
-background:#c6c6c6;
-border-top:4px solid #ffffff;
-border-left:4px solid #ffffff;
-border-right:4px solid #555555;
-border-bottom:4px solid #555555;
+width:72px;
+height:72px;
+background:#8b8b8b;
+border-top:3px solid #373737;
+border-left:3px solid #373737;
+border-right:3px solid #ffffff;
+border-bottom:3px solid #ffffff;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -60,15 +78,16 @@ width:60px;
 cursor:pointer;
 }
 
-#arrow img{
-width:90px;
-}
+/* inventory */
 
 #inventory{
 margin-top:40px;
-display:flex;
+display:grid;
+grid-template-columns:repeat(9,64px);
+gap:4px;
 justify-content:center;
-gap:6px;
+background:#ffffff;
+padding:4px;
 }
 
 </style>
@@ -115,13 +134,17 @@ function drawInventory(){
 
 invDiv.innerHTML="";
 
-for(let i=0;i<inventory;i++){
+for(let i=0;i<9;i++){
 
 let s=document.createElement("div");
-s.className="slot plank";
+s.className="slot";
+
+if(i < inventory){
+s.classList.add("plank");
 
 s.onclick=function(){
 selected=true;
+}
 }
 
 invDiv.appendChild(s);
