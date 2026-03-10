@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Minecraft Crafting</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#8b8b8b;
+text-align:center;
+}
+
+#crafting{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:25px;
+margin-top:40px;
+}
+
+#grid{
+display:grid;
+grid-template-columns:repeat(3,70px);
+gap:6px;
+}
+
+.slot{
+width:70px;
+height:70px;
+background:#c6c6c6;
+border-top:4px solid #ffffff;
+border-left:4px solid #ffffff;
+border-right:4px solid #555555;
+border-bottom:4px solid #555555;
+cursor:pointer;
+}
+
+.plank{
+background-image:url("planks_oak.png");
+background-size:cover;
+}
+
+#result{
+width:70px;
+height:70px;
+background:#c6c6c6;
+border-top:4px solid #ffffff;
+border-left:4px solid #ffffff;
+border-right:4px solid #555555;
+border-bottom:4px solid #555555;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+#result img{
+width:60px;
+cursor:pointer;
+}
+
+#arrow img{
+width:90px;
+}
+
+#inventory{
+margin-top:40px;
+display:flex;
+justify-content:center;
+gap:6px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Crafting Table</h2>
+
+<div id="crafting">
+
+<div id="grid">
+<div class="slot"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+</div>
+
+<div id="arrow">
+<img src="arrow.png">
+</div>
+
+<div id="result"></div>
+
+</div>
+
+<h3>Inventory</h3>
+
+<div id="inventory"></div>
+
+<script>
+
+let inventory = 5;
+let selected = false;
+
+let invDiv = document.getElementById("inventory");
+
+function drawInventory(){
+
+invDiv.innerHTML="";
+
+for(let i=0;i<inventory;i++){
+
+let s=document.createElement("div");
+s.className="slot plank";
+
+s.onclick=function(){
+selected=true;
+}
+
+invDiv.appendChild(s);
+
+}
+
+}
+
+drawInventory();
+
+let slots=document.querySelectorAll("#grid .slot");
+
+slots.forEach(slot=>{
+
+slot.onclick=function(){
+
+if(selected && !slot.classList.contains("plank") && inventory>0){
+
+slot.classList.add("plank");
+inventory--;
+drawInventory();
+selected=false;
+checkRecipe();
+return;
+
+}
+
+if(slot.classList.contains("plank")){
+
+slot.classList.remove("plank");
+inventory++;
+drawInventory();
+checkRecipe();
+}
+
+}
+
+});
+
+function checkRecipe(){
+
+let g=[];
+
+slots.forEach(s=>{
+g.push(s.classList.contains("plank")?1:0);
+});
+
+let result=document.getElementById("result");
+result.innerHTML="";
+
+if(
+g[0]==0 && g[1]==0 && g[2]==0 &&
+g[3]==1 && g[4]==0 && g[5]==1 &&
+g[6]==1 && g[7]==1 && g[8]==1
+){
+
+let img=document.createElement("img");
+img.src="boot.png";
+
+img.onclick=function(){
+window.location="pagina2.html";
+}
+
+result.appendChild(img);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
