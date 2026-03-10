@@ -14,9 +14,9 @@ text-align:center;
 margin:10px;
 }
 
-/* grootte van alle slots */
+/* basis grootte van slots */
 :root{
---slot: 12vw;
+--slot:12vw;
 }
 
 /* crafting layout */
@@ -35,7 +35,7 @@ margin-top:20px;
 display:grid;
 grid-template-columns:repeat(3,var(--slot));
 gap:1vw;
-background:#c6c6c6;
+background:#e6e6e6;
 padding:1vw;
 }
 
@@ -52,6 +52,14 @@ border-bottom:0.7vw solid #ffffff;
 cursor:pointer;
 }
 
+/* geselecteerd inventory slot */
+
+.selected{
+filter:brightness(1.4);
+}
+
+/* plank texture */
+
 .plank{
 background-image:url("planks_oak.png");
 background-size:cover;
@@ -63,11 +71,11 @@ background-size:cover;
 width:9vw;
 }
 
-/* result */
+/* result vak (groter) */
 
 #result{
-width:var(--slot);
-height:var(--slot);
+width:16vw;
+height:16vw;
 background:#8b8b8b;
 border-top:0.7vw solid #373737;
 border-left:0.7vw solid #373737;
@@ -126,10 +134,10 @@ padding:1vw;
 
 <script>
 
-let inventorySlots = [1,1,1,1,1,0,0];
-let selectedSlot = -1;
+let inventorySlots=[1,1,1,1,1,0,0];
+let selectedSlot=-1;
 
-let invDiv = document.getElementById("inventory");
+let invDiv=document.getElementById("inventory");
 
 function drawInventory(){
 
@@ -141,12 +149,22 @@ let s=document.createElement("div");
 s.className="slot";
 
 if(item==1){
-
 s.classList.add("plank");
+}
+
+if(i===selectedSlot){
+s.classList.add("selected");
+}
 
 s.onclick=function(){
-selectedSlot = i;
+
+if(inventorySlots[i]==1){
+selectedSlot=i;
+}else{
+selectedSlot=-1;
 }
+
+drawInventory();
 
 }
 
@@ -164,6 +182,8 @@ slots.forEach(slot=>{
 
 slot.onclick=function(){
 
+/* plank plaatsen */
+
 if(selectedSlot!=-1 && !slot.classList.contains("plank")){
 
 slot.classList.add("plank");
@@ -180,11 +200,13 @@ return;
 
 }
 
+/* plank terugnemen */
+
 if(slot.classList.contains("plank")){
 
 slot.classList.remove("plank");
 
-let index = inventorySlots.indexOf(0);
+let index=inventorySlots.indexOf(0);
 
 if(index!=-1){
 inventorySlots[index]=1;
