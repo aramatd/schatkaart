@@ -16,7 +16,7 @@ margin:10px;
 
 /* grootte van alle slots */
 :root{
---slot: 11vw;
+--slot: 12vw;
 }
 
 /* crafting layout */
@@ -88,7 +88,7 @@ cursor:pointer;
 #inventory{
 margin-top:4vw;
 display:grid;
-grid-template-columns:repeat(9,var(--slot));
+grid-template-columns:repeat(7,var(--slot));
 gap:1vw;
 justify-content:center;
 background:#c6c6c6;
@@ -126,7 +126,7 @@ padding:1vw;
 
 <script>
 
-let inventorySlots = [1,1,1,1,1,0,0,0,0];
+let inventorySlots = [1,1,1,1,1,0,0];
 let selectedSlot = -1;
 
 let invDiv = document.getElementById("inventory");
