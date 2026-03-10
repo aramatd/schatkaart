@@ -14,13 +14,18 @@ text-align:center;
 margin:10px;
 }
 
+/* grootte van alle slots */
+:root{
+--slot: 11vw;
+}
+
 /* crafting layout */
 
 #crafting{
 display:flex;
 align-items:center;
 justify-content:center;
-gap:4vw;
+gap:3vw;
 margin-top:20px;
 }
 
@@ -28,7 +33,7 @@ margin-top:20px;
 
 #grid{
 display:grid;
-grid-template-columns:repeat(3,18vw);
+grid-template-columns:repeat(3,var(--slot));
 gap:1vw;
 background:#c6c6c6;
 padding:1vw;
@@ -37,13 +42,13 @@ padding:1vw;
 /* slot style */
 
 .slot{
-width:18vw;
-height:18vw;
+width:var(--slot);
+height:var(--slot);
 background:#8b8b8b;
-border-top:0.8vw solid #373737;
-border-left:0.8vw solid #373737;
-border-right:0.8vw solid #ffffff;
-border-bottom:0.8vw solid #ffffff;
+border-top:0.7vw solid #373737;
+border-left:0.7vw solid #373737;
+border-right:0.7vw solid #ffffff;
+border-bottom:0.7vw solid #ffffff;
 cursor:pointer;
 }
 
@@ -55,44 +60,39 @@ background-size:cover;
 /* arrow */
 
 #arrow img{
-width:14vw;
+width:9vw;
 }
 
 /* result */
 
 #result{
-width:18vw;
-height:18vw;
+width:var(--slot);
+height:var(--slot);
 background:#8b8b8b;
-border-top:0.8vw solid #373737;
-border-left:0.8vw solid #373737;
-border-right:0.8vw solid #ffffff;
-border-bottom:0.8vw solid #ffffff;
+border-top:0.7vw solid #373737;
+border-left:0.7vw solid #373737;
+border-right:0.7vw solid #ffffff;
+border-bottom:0.7vw solid #ffffff;
 display:flex;
 align-items:center;
 justify-content:center;
 }
 
 #result img{
-width:14vw;
+width:80%;
 cursor:pointer;
 }
 
 /* inventory */
 
 #inventory{
-margin-top:5vw;
+margin-top:4vw;
 display:grid;
-grid-template-columns:repeat(9,10vw);
+grid-template-columns:repeat(9,var(--slot));
 gap:1vw;
 justify-content:center;
 background:#c6c6c6;
 padding:1vw;
-}
-
-#inventory .slot{
-width:10vw;
-height:10vw;
 }
 
 </style>
