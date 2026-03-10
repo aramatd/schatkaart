@@ -22,7 +22,7 @@ gap:30px;
 margin-top:40px;
 }
 
-/* 3x3 grid */
+/* grid */
 
 #grid{
 display:grid;
@@ -32,7 +32,7 @@ background:#ffffff;
 padding:4px;
 }
 
-/* vakjes */
+/* slot style */
 
 .slot{
 width:64px;
@@ -45,20 +45,18 @@ border-bottom:3px solid #ffffff;
 cursor:pointer;
 }
 
-/* plank texture */
-
 .plank{
 background-image:url("planks_oak.png");
 background-size:cover;
 }
 
-/* pijl */
+/* arrow */
 
 #arrow img{
 width:80px;
 }
 
-/* result slot */
+/* result */
 
 #result{
 width:72px;
@@ -86,7 +84,7 @@ display:grid;
 grid-template-columns:repeat(9,64px);
 gap:4px;
 justify-content:center;
-background:#ffffff;
+background:#c6c6c6;
 padding:4px;
 }
 
@@ -94,8 +92,6 @@ padding:4px;
 </head>
 
 <body>
-
-<h2>Crafting Table</h2>
 
 <div id="crafting">
 
@@ -119,14 +115,12 @@ padding:4px;
 
 </div>
 
-<h3>Inventory</h3>
-
 <div id="inventory"></div>
 
 <script>
 
-let inventory = 5;
-let selected = false;
+let inventorySlots = [1,1,1,1,1,0,0,0,0];
+let selectedSlot = -1;
 
 let invDiv = document.getElementById("inventory");
 
@@ -134,22 +128,24 @@ function drawInventory(){
 
 invDiv.innerHTML="";
 
-for(let i=0;i<9;i++){
+inventorySlots.forEach((item,i)=>{
 
 let s=document.createElement("div");
 s.className="slot";
 
-if(i < inventory){
+if(item==1){
+
 s.classList.add("plank");
 
 s.onclick=function(){
-selected=true;
+selectedSlot = i;
 }
+
 }
 
 invDiv.appendChild(s);
 
-}
+});
 
 }
 
@@ -161,23 +157,40 @@ slots.forEach(slot=>{
 
 slot.onclick=function(){
 
-if(selected && !slot.classList.contains("plank") && inventory>0){
+/* place plank */
+
+if(selectedSlot!=-1 && !slot.classList.contains("plank")){
 
 slot.classList.add("plank");
-inventory--;
+
+inventorySlots[selectedSlot]=0;
+
+selectedSlot=-1;
+
 drawInventory();
-selected=false;
+
 checkRecipe();
+
 return;
 
 }
 
+/* remove plank */
+
 if(slot.classList.contains("plank")){
 
 slot.classList.remove("plank");
-inventory++;
+
+let index = inventorySlots.indexOf(0);
+
+if(index!=-1){
+inventorySlots[index]=1;
+}
+
 drawInventory();
+
 checkRecipe();
+
 }
 
 }
@@ -193,7 +206,10 @@ g.push(s.classList.contains("plank")?1:0);
 });
 
 let result=document.getElementById("result");
+
 result.innerHTML="";
+
+/* boat recipe */
 
 if(
 g[0]==0 && g[1]==0 && g[2]==0 &&
@@ -202,6 +218,7 @@ g[6]==1 && g[7]==1 && g[8]==1
 ){
 
 let img=document.createElement("img");
+
 img.src="boot.png";
 
 img.onclick=function(){
