@@ -49,6 +49,10 @@ cursor:pointer;
 position:relative;
 }
 
+.selected{
+filter:brightness(1.4);
+}
+
 .log{
 background-image:url("log_oak.png");
 background-size:cover;
@@ -62,10 +66,6 @@ background-size:cover;
 .boot{
 background-image:url("boot.png");
 background-size:cover;
-}
-
-.selected{
-filter:brightness(1.4);
 }
 
 .count{
@@ -83,8 +83,8 @@ width:9vw;
 }
 
 #result{
-width:20vw;
-height:20vw;
+width:18vw;
+height:18vw;
 background:#8b8b8b;
 border-top:0.6vw solid #373737;
 border-left:0.6vw solid #373737;
@@ -106,6 +106,23 @@ display:grid;
 grid-template-columns:repeat(7,var(--slot));
 gap:1vw;
 justify-content:center;
+}
+
+#popup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#0008;
+align-items:center;
+justify-content:center;
+}
+
+#popupBox{
+background:white;
+padding:20px;
 }
 
 </style>
@@ -141,21 +158,19 @@ justify-content:center;
 
 <div id="inventory"></div>
 
-<div id="popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#0008;align-items:center;justify-content:center">
-
-<div style="background:white;padding:20px">
+<div id="popup">
+<div id="popupBox">
 
 <h3>Recepten</h3>
 
 <p>Hout → Planken</p>
-
 <div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
 <div class="slot log"></div>
 <div class="slot"></div>
 <div class="slot"></div>
 </div>
 
-<p>Planken → Boot</p>
+<p>Boot</p>
 
 <div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
 
@@ -172,7 +187,6 @@ justify-content:center;
 </div>
 
 <br>
-
 <button onclick="closeBook()">Sluiten</button>
 
 </div>
@@ -188,7 +202,7 @@ function closeBook(){
 document.getElementById("popup").style.display="none"
 }
 
-/* inventory */
+/* INVENTORY DATA */
 
 let inventoryData=[
 {type:"log",count:2},
@@ -197,7 +211,7 @@ null,null,null,null,null,null
 
 let selectedSlot=null
 
-let inventory=document.getElementById("inventory")
+const inventory=document.getElementById("inventory")
 
 function drawInventory(){
 
@@ -249,7 +263,9 @@ inventory.appendChild(s)
 
 drawInventory()
 
-let slots=document.querySelectorAll("#grid .slot")
+/* GRID */
+
+const slots=document.querySelectorAll("#grid .slot")
 
 slots.forEach(slot=>{
 
@@ -257,7 +273,9 @@ slot.onclick=function(){
 
 let item=inventoryData[selectedSlot]
 
-if(item && item.count>0 && !slot.dataset.item){
+/* plaatsen */
+
+if(item && !slot.dataset.item){
 
 slot.dataset.item=item.type
 slot.classList.add(item.type)
@@ -272,15 +290,16 @@ selectedSlot=null
 drawInventory()
 checkRecipe()
 return
-
 }
+
+/* terugnemen */
 
 if(slot.dataset.item){
 
 let type=slot.dataset.item
 
-slot.dataset.item=""
 slot.classList.remove(type)
+slot.dataset.item=""
 
 addItem(type,1)
 
@@ -293,15 +312,16 @@ checkRecipe()
 
 })
 
+/* ITEM TOEVOEGEN */
+
 function addItem(type,count){
 
 let slot=inventoryData.findIndex(i=>i && i.type==type)
 
 if(slot!=-1){
-
 inventoryData[slot].count+=count
-
-}else{
+return
+}
 
 let empty=inventoryData.findIndex(i=>i==null)
 
@@ -311,7 +331,7 @@ inventoryData[empty]={type:type,count:count}
 
 }
 
-}
+/* GRID LEEGMAKEN */
 
 function clearGrid(){
 
@@ -324,6 +344,8 @@ s.dataset.item=""
 
 }
 
+/* RECEPT CHECK */
+
 function checkRecipe(){
 
 let items=[]
@@ -335,7 +357,7 @@ items.push(s.dataset.item||"")
 let result=document.getElementById("result")
 result.innerHTML=""
 
-/* hout → planken */
+/* HOUT → PLANKEN */
 
 let logCount=items.filter(i=>i=="log").length
 
@@ -348,30 +370,28 @@ img.onclick=function(){
 
 addItem("plank",4)
 clearGrid()
-result.innerHTML=""
-
 drawInventory()
+result.innerHTML=""
 
 }
 
 result.appendChild(img)
-
 return
 }
 
-/* boot recept */
+/* BOOT */
 
-let plankPattern1 =
+let r1 =
 items[0]=="" && items[1]=="" && items[2]=="" &&
 items[3]=="plank" && items[4]=="" && items[5]=="plank" &&
 items[6]=="plank" && items[7]=="plank" && items[8]=="plank"
 
-let plankPattern2 =
+let r2 =
 items[0]=="plank" && items[1]=="" && items[2]=="plank" &&
 items[3]=="plank" && items[4]=="plank" && items[5]=="plank" &&
 items[6]=="" && items[7]=="" && items[8]==""
 
-if(plankPattern1 || plankPattern2){
+if(r1 || r2){
 
 let img=document.createElement("img")
 img.src="boot.png"
@@ -380,8 +400,8 @@ img.onclick=function(){
 
 addItem("boot",1)
 clearGrid()
-result.innerHTML=""
 drawInventory()
+result.innerHTML=""
 
 }
 
