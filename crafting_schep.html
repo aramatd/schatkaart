@@ -40,6 +40,11 @@ body{
   align-items:center;
   justify-content:center;
 }
+.slot img{
+  width:90%;
+  height:90%;
+  object-fit:contain;
+}
 .selected{
   filter:brightness(1.4);
 }
@@ -104,6 +109,8 @@ body{
   border-radius:8px;
   max-width:500px;
   width:90%;
+  max-height:90%;
+  overflow-y:auto;
 }
 #popupBox h3{
   margin-top:0;
@@ -181,11 +188,11 @@ body{
         <div class="slot"></div>
         <div class="slot"></div>
         <div class="slot"></div>
-        <div class="slot"><img src="log_oak.png"></div>
         <div class="slot"></div>
         <div class="slot"></div>
         <div class="slot"></div>
-        <div class="slot"><img src="log_oak.png"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
       </div>
     </div>
 
@@ -270,13 +277,21 @@ function drawInventory(){
     if(i===selectedSlot){s.classList.add("selected")}
     if(item){
       s.classList.add(item.type);
+      let img=document.createElement("img");
+      img.src=item.type=="log"?"log_oak.png":
+               item.type=="plank"?"planks_oak.png":
+               item.type=="goldNugget"?"gold_nugget.png":
+               item.type=="ingot"?"gold_ingot.png":
+               item.type=="stick"?"stick.png":
+               item.type=="schep"?"golden_shovel.png":"";
+      s.appendChild(img);
       let c=document.createElement("div");
       c.className="count";
       c.innerText=item.count;
-      s.appendChild(c)
+      s.appendChild(c);
       s.onclick=function(){
-        selectedSlot=i
-        drawInventory()
+        selectedSlot=i;
+        drawInventory();
         if(item.type=="schep"){window.location="pagina4.html";}
       }
     }else{
@@ -298,6 +313,14 @@ function drawGrid(){
     s.className="slot"
     if(item){
       s.classList.add(item.type)
+      let img=document.createElement("img");
+      img.src=item.type=="log"?"log_oak.png":
+                item.type=="plank"?"planks_oak.png":
+                item.type=="goldNugget"?"gold_nugget.png":
+                item.type=="ingot"?"gold_ingot.png":
+                item.type=="stick"?"stick.png":
+                item.type=="schep"?"golden_shovel.png":"";
+      s.appendChild(img);
       let c=document.createElement("div")
       c.className="count"
       c.innerText=item.count
