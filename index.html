@@ -2,120 +2,395 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Schatkaart</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Crafting</title>
 
 <style>
-body {
-  font-family: Arial;
-  text-align: center;
-  margin: 0;
 
-  /* NIEUWE achtergrond */
-  background: url("achtergrond.jpg") center/cover no-repeat fixed;
+body{
+font-family:Arial;
+background:#c6c6c6;
+text-align:center;
+margin:10px;
 }
 
-/* Login vakje */
-.login-box {
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
-  display: inline-block;
-  padding: 20px;
-  margin-top: 15px;
-  border-radius: 12px;
+:root{
+--slot:12vw;
 }
 
-#container {
-  position: relative;
-  width: 600px;
-  height: 600px;
-  margin: 40px auto;
+#crafting{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:3vw;
+margin-top:20px;
 }
 
-.vak {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  overflow: hidden;
+#book img{
+width:10vw;
+cursor:pointer;
 }
 
-#vak1 { top: 0; left: 0; }
-#vak2 { top: 0; left: 300px; }
-#vak3 { top: 300px; left: 0; }
-#vak4 { top: 300px; left: 300px; }
-
-.vak img {
-  position: absolute;
-  width: 680px;
-  height: 680px;
-  filter: blur(40px);
-  transition: filter 0.5s ease;
+#grid{
+display:grid;
+grid-template-columns:repeat(3,var(--slot));
+gap:1vw;
 }
 
-#vak1 img { top: -40px; left: -40px; }
-#vak2 img { top: -40px; left: -340px; }
-#vak3 img { top: -340px; left: -40px; }
-#vak4 img { top: -340px; left: -340px; }
-
-.scherp img {
-  filter: blur(0px) brightness(1);
+.slot{
+width:var(--slot);
+height:var(--slot);
+background:#8b8b8b;
+border-top:0.6vw solid #373737;
+border-left:0.6vw solid #373737;
+border-right:0.6vw solid #ffffff;
+border-bottom:0.6vw solid #ffffff;
+cursor:pointer;
+position:relative;
 }
+
+.log{
+background-image:url("log_oak.png");
+background-size:cover;
+}
+
+.plank{
+background-image:url("planks_oak.png");
+background-size:cover;
+}
+
+.boot{
+background-image:url("boot.png");
+background-size:cover;
+}
+
+.selected{
+filter:brightness(1.4);
+}
+
+.count{
+position:absolute;
+bottom:2px;
+right:4px;
+font-weight:bold;
+color:white;
+text-shadow:1px 1px 2px black;
+font-size:4vw;
+}
+
+#arrow img{
+width:9vw;
+}
+
+#result{
+width:20vw;
+height:20vw;
+background:#8b8b8b;
+border-top:0.6vw solid #373737;
+border-left:0.6vw solid #373737;
+border-right:0.6vw solid #ffffff;
+border-bottom:0.6vw solid #ffffff;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+#result img{
+width:80%;
+cursor:pointer;
+}
+
+#inventory{
+margin-top:4vw;
+display:grid;
+grid-template-columns:repeat(7,var(--slot));
+gap:1vw;
+justify-content:center;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="login-box">
-  <h2>Hallo Lucas!<br>
-    <br>
-    Los de puzzel op de kaart op en vul het antwoord hier in!<br>
-    <br>
-    Als je antwoord goed is zie je op de schatkaart de verstopplek van de volgende sleutel!</h2>
+<div id="crafting">
 
-  <form onsubmit="checkPW(); return false;">
-    <input type="password" id="pw">
-    <button type="submit">Enter</button>
-  </form>
+<div id="book">
+<img src="recipe_book.png" onclick="openBook()">
 </div>
 
-<div id="container">
+<div id="grid">
+<div class="slot"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+</div>
 
-  <div class="vak" id="vak1">
-    <img src="afbeelding.jpg">
-  </div>
+<div id="arrow">
+<img src="arrow.png">
+</div>
 
-  <div class="vak" id="vak2">
-    <img src="afbeelding.jpg">
-  </div>
+<div id="result"></div>
 
-  <div class="vak" id="vak3">
-    <img src="afbeelding.jpg">
-  </div>
+</div>
 
-  <div class="vak" id="vak4">
-    <img src="afbeelding.jpg">
-  </div>
+<div id="inventory"></div>
 
+<div id="popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#0008;align-items:center;justify-content:center">
+
+<div style="background:white;padding:20px">
+
+<h3>Recepten</h3>
+
+<p>Hout → Planken</p>
+
+<div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
+<div class="slot log"></div>
+<div class="slot"></div>
+<div class="slot"></div>
+</div>
+
+<p>Planken → Boot</p>
+
+<div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
+
+<div></div><div></div><div></div>
+
+<div class="slot plank"></div>
+<div></div>
+<div class="slot plank"></div>
+
+<div class="slot plank"></div>
+<div class="slot plank"></div>
+<div class="slot plank"></div>
+
+</div>
+
+<br>
+
+<button onclick="closeBook()">Sluiten</button>
+
+</div>
 </div>
 
 <script>
-function checkPW() {
 
-  var p = document.getElementById("pw").value;
-
-  if (p === "rood")
-    document.getElementById("vak1").classList.add("scherp");
-
-  if (p === "blauw")
-    document.getElementById("vak2").classList.add("scherp");
-
-  if (p === "groen")
-    document.getElementById("vak3").classList.add("scherp");
-
-  if (p === "geel")
-    document.getElementById("vak4").classList.add("scherp");
-
-  document.getElementById("pw").value = "";
+function openBook(){
+document.getElementById("popup").style.display="flex"
 }
+
+function closeBook(){
+document.getElementById("popup").style.display="none"
+}
+
+/* inventory */
+
+let inventoryData=[
+{type:"log",count:2},
+null,null,null,null,null,null
+]
+
+let selectedSlot=null
+
+let inventory=document.getElementById("inventory")
+
+function drawInventory(){
+
+inventory.innerHTML=""
+
+inventoryData.forEach((item,i)=>{
+
+let s=document.createElement("div")
+s.className="slot"
+
+if(i===selectedSlot){
+s.classList.add("selected")
+}
+
+if(item){
+
+s.classList.add(item.type)
+
+let c=document.createElement("div")
+c.className="count"
+c.innerText=item.count
+s.appendChild(c)
+
+s.onclick=function(){
+
+selectedSlot=i
+drawInventory()
+
+if(item.type=="boot"){
+window.location="pagina2.html"
+}
+
+}
+
+}else{
+
+s.onclick=function(){
+selectedSlot=null
+drawInventory()
+}
+
+}
+
+inventory.appendChild(s)
+
+})
+
+}
+
+drawInventory()
+
+let slots=document.querySelectorAll("#grid .slot")
+
+slots.forEach(slot=>{
+
+slot.onclick=function(){
+
+let item=inventoryData[selectedSlot]
+
+if(item && item.count>0 && !slot.dataset.item){
+
+slot.dataset.item=item.type
+slot.classList.add(item.type)
+
+item.count--
+
+if(item.count==0){
+inventoryData[selectedSlot]=null
+selectedSlot=null
+}
+
+drawInventory()
+checkRecipe()
+return
+
+}
+
+if(slot.dataset.item){
+
+let type=slot.dataset.item
+
+slot.dataset.item=""
+slot.classList.remove(type)
+
+addItem(type,1)
+
+drawInventory()
+checkRecipe()
+
+}
+
+}
+
+})
+
+function addItem(type,count){
+
+let slot=inventoryData.findIndex(i=>i && i.type==type)
+
+if(slot!=-1){
+
+inventoryData[slot].count+=count
+
+}else{
+
+let empty=inventoryData.findIndex(i=>i==null)
+
+if(empty!=-1){
+inventoryData[empty]={type:type,count:count}
+}
+
+}
+
+}
+
+function clearGrid(){
+
+slots.forEach(s=>{
+if(s.dataset.item){
+s.classList.remove(s.dataset.item)
+s.dataset.item=""
+}
+})
+
+}
+
+function checkRecipe(){
+
+let items=[]
+
+slots.forEach(s=>{
+items.push(s.dataset.item||"")
+})
+
+let result=document.getElementById("result")
+result.innerHTML=""
+
+/* hout → planken */
+
+let logCount=items.filter(i=>i=="log").length
+
+if(logCount==1){
+
+let img=document.createElement("img")
+img.src="planks_oak.png"
+
+img.onclick=function(){
+
+addItem("plank",4)
+clearGrid()
+result.innerHTML=""
+
+drawInventory()
+
+}
+
+result.appendChild(img)
+
+return
+}
+
+/* boot recept */
+
+let plankPattern1 =
+items[0]=="" && items[1]=="" && items[2]=="" &&
+items[3]=="plank" && items[4]=="" && items[5]=="plank" &&
+items[6]=="plank" && items[7]=="plank" && items[8]=="plank"
+
+let plankPattern2 =
+items[0]=="plank" && items[1]=="" && items[2]=="plank" &&
+items[3]=="plank" && items[4]=="plank" && items[5]=="plank" &&
+items[6]=="" && items[7]=="" && items[8]==""
+
+if(plankPattern1 || plankPattern2){
+
+let img=document.createElement("img")
+img.src="boot.png"
+
+img.onclick=function(){
+
+addItem("boot",1)
+clearGrid()
+result.innerHTML=""
+drawInventory()
+
+}
+
+result.appendChild(img)
+
+}
+
+}
+
 </script>
 
 </body>
