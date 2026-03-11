@@ -50,6 +50,10 @@ background-image:url("planks_oak.png");
 background-size:cover;
 }
 
+.selected{
+filter:brightness(1.4);
+}
+
 .count{
 position:absolute;
 bottom:2px;
@@ -140,6 +144,10 @@ if(i==0 && planks>0){
 
 s.classList.add("plank")
 
+if(selected){
+s.classList.add("selected")
+}
+
 let c=document.createElement("div")
 c.className="count"
 c.innerText=planks
@@ -147,12 +155,14 @@ s.appendChild(c)
 
 s.onclick=function(){
 selected=true
+drawInventory()
 }
 
 }else{
 
 s.onclick=function(){
 selected=false
+drawInventory()
 }
 
 }
