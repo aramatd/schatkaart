@@ -54,20 +54,9 @@ position:relative;
 filter:brightness(1.4);
 }
 
-.log{
-background-image:url("log_oak.png");
-background-size:cover;
-}
-
-.plank{
-background-image:url("planks_oak.png");
-background-size:cover;
-}
-
-.boot{
-background-image:url("boot.png");
-background-size:cover;
-}
+.log{background-image:url("log_oak.png");background-size:cover;}
+.plank{background-image:url("planks_oak.png");background-size:cover;}
+.boot{background-image:url("boot.png");background-size:cover;}
 
 .count{
 position:absolute;
@@ -84,15 +73,8 @@ width:9vw;
 }
 
 #result{
-width:18vw;
-height:18vw;
-background:#8b8b8b;
-border-top:0.6vw solid #373737;
-border-left:0.6vw solid #373737;
-border-right:0.6vw solid #ffffff;
-border-bottom:0.6vw solid #ffffff;
-position:relative;
-cursor:pointer;
+width:var(--slot);
+height:var(--slot);
 }
 
 #inventory{
@@ -137,7 +119,7 @@ padding:20px;
 <img src="arrow.png">
 </div>
 
-<div id="result"></div>
+<div id="result" class="slot"></div>
 
 </div>
 
@@ -345,10 +327,8 @@ inventoryData[empty]={type:type,count:count}
 function checkRecipe(){
 
 let result=document.getElementById("result")
-result.innerHTML=""
 result.className="slot"
-
-/* alle houtblokken tellen */
+result.innerHTML=""
 
 let logCount=0
 
@@ -357,8 +337,6 @@ if(s && s.type=="log"){
 logCount+=s.count
 }
 })
-
-/* hout → planken */
 
 if(logCount>0){
 
@@ -374,8 +352,6 @@ result.appendChild(c)
 result.onclick=function(){
 
 addItem("plank",4)
-
-/* 1 hout verwijderen */
 
 for(let i=0;i<gridData.length;i++){
 
@@ -403,8 +379,6 @@ checkRecipe()
 
 return
 }
-
-/* boot recept */
 
 let items=gridData.map(s=>s?s.type:"")
 
