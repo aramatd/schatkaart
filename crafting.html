@@ -27,22 +27,16 @@ gap:3vw;
 margin-top:20px;
 }
 
-/* receptenboek */
-
 #book img{
 width:10vw;
 cursor:pointer;
 }
-
-/* grid */
 
 #grid{
 display:grid;
 grid-template-columns:repeat(3,var(--slot));
 gap:1vw;
 }
-
-/* slot */
 
 .slot{
 width:var(--slot);
@@ -60,13 +54,9 @@ position:relative;
 filter:brightness(1.4);
 }
 
-/* textures */
-
 .log{background-image:url("log_oak.png");background-size:cover;}
 .plank{background-image:url("planks_oak.png");background-size:cover;}
 .boot{background-image:url("boot.png");background-size:cover;}
-
-/* aantallen */
 
 .count{
 position:absolute;
@@ -78,13 +68,9 @@ text-shadow:1px 1px 2px black;
 font-size:4vw;
 }
 
-/* arrow */
-
 #arrow img{
 width:9vw;
 }
-
-/* result */
 
 #result{
 width:18vw;
@@ -99,8 +85,6 @@ align-items:center;
 justify-content:center;
 }
 
-/* inventory */
-
 #inventory{
 margin-top:4vw;
 display:grid;
@@ -108,8 +92,6 @@ grid-template-columns:repeat(7,var(--slot));
 gap:1vw;
 justify-content:center;
 }
-
-/* popup */
 
 #popup{
 display:none;
@@ -139,21 +121,7 @@ padding:20px;
 <img src="recipe_book.png" onclick="openBook()">
 </div>
 
-<div id="grid">
-
-<div class="slot"></div>
-<div class="slot"></div>
-<div class="slot"></div>
-
-<div class="slot"></div>
-<div class="slot"></div>
-<div class="slot"></div>
-
-<div class="slot"></div>
-<div class="slot"></div>
-<div class="slot"></div>
-
-</div>
+<div id="grid"></div>
 
 <div id="arrow">
 <img src="arrow.png">
@@ -165,10 +133,7 @@ padding:20px;
 
 <div id="inventory"></div>
 
-<!-- popup receptenboek -->
-
 <div id="popup">
-
 <div id="popupBox">
 
 <h3>Recepten</h3>
@@ -202,7 +167,6 @@ padding:20px;
 <button onclick="closeBook()">Sluiten</button>
 
 </div>
-
 </div>
 
 <script>
@@ -217,7 +181,7 @@ function closeBook(){
 document.getElementById("popup").style.display="none"
 }
 
-/* inventory */
+/* INVENTORY */
 
 let inventoryData=[
 {type:"log",count:2},
@@ -278,54 +242,94 @@ inventory.appendChild(s)
 
 drawInventory()
 
-/* grid */
+/* GRID DATA */
 
-const slots=document.querySelectorAll("#grid .slot")
+let gridData=[]
 
-slots.forEach(slot=>{
+for(let i=0;i<9;i++){
+gridData.push(null)
+}
 
-slot.onclick=function(){
+const grid=document.getElementById("grid")
 
-let item=inventoryData[selectedSlot]
+function drawGrid(){
 
-/* plaatsen */
+grid.innerHTML=""
 
-if(item && !slot.dataset.item){
+gridData.forEach((item,i)=>{
 
-slot.dataset.item=item.type
-slot.classList.add(item.type)
+let s=document.createElement("div")
+s.className="slot"
 
-item.count--
+if(item){
 
-if(item.count==0){
+s.classList.add(item.type)
+
+let c=document.createElement("div")
+c.className="count"
+c.innerText=item.count
+s.appendChild(c)
+
+}
+
+s.onclick=function(){
+
+let inv=inventoryData[selectedSlot]
+
+/* item plaatsen */
+
+if(inv){
+
+if(!gridData[i]){
+
+gridData[i]={type:inv.type,count:1}
+
+}else if(gridData[i].type==inv.type){
+
+gridData[i].count++
+
+}else{
+return
+}
+
+inv.count--
+
+if(inv.count==0){
 inventoryData[selectedSlot]=null
 selectedSlot=null
 }
 
 drawInventory()
+drawGrid()
 checkRecipe()
+
 return
 }
 
-/* terugnemen */
+/* item terugnemen */
 
-if(slot.dataset.item){
+if(gridData[i]){
 
-let type=slot.dataset.item
-
-slot.classList.remove(type)
-slot.dataset.item=""
-
-addItem(type,1)
+addItem(gridData[i].type,gridData[i].count)
+gridData[i]=null
 
 drawInventory()
+drawGrid()
 checkRecipe()
 
 }
 
 }
 
+grid.appendChild(s)
+
 })
+
+}
+
+drawGrid()
+
+/* ITEM TOEVOEGEN */
 
 function addItem(type,count){
 
@@ -344,32 +348,18 @@ inventoryData[empty]={type:type,count:count}
 
 }
 
-function clearGrid(){
-
-slots.forEach(s=>{
-if(s.dataset.item){
-s.classList.remove(s.dataset.item)
-s.dataset.item=""
-}
-})
-
-}
-
-/* recepten */
+/* RECEPTEN */
 
 function checkRecipe(){
-
-let items=[]
-slots.forEach(s=>items.push(s.dataset.item||""))
 
 let result=document.getElementById("result")
 result.innerHTML=""
 
 /* hout → planken */
 
-let logCount=items.filter(i=>i=="log").length
+let logSlot=gridData.find(s=>s && s.type=="log")
 
-if(logCount==1){
+if(logSlot){
 
 let box=document.createElement("div")
 box.className="slot plank"
@@ -383,9 +373,19 @@ box.appendChild(c)
 box.onclick=function(){
 
 addItem("plank",4)
-clearGrid()
+
+logSlot.count--
+
+if(logSlot.count==0){
+
+let index=gridData.indexOf(logSlot)
+gridData[index]=null
+
+}
+
 drawInventory()
-result.innerHTML=""
+drawGrid()
+checkRecipe()
 
 }
 
@@ -393,7 +393,9 @@ result.appendChild(box)
 return
 }
 
-/* boot */
+/* BOOT */
+
+let items=gridData.map(s=>s?s.type:"")
 
 let r1 =
 items[0]=="" && items[1]=="" && items[2]=="" &&
@@ -413,9 +415,12 @@ box.className="slot boot"
 box.onclick=function(){
 
 addItem("boot",1)
-clearGrid()
+
+gridData=[null,null,null,null,null,null,null,null,null]
+
 drawInventory()
-result.innerHTML=""
+drawGrid()
+checkRecipe()
 
 }
 
