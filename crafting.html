@@ -32,11 +32,15 @@ width:10vw;
 cursor:pointer;
 }
 
+/* grid */
+
 #grid{
 display:grid;
 grid-template-columns:repeat(3,var(--slot));
 gap:1vw;
 }
+
+/* slot */
 
 .slot{
 width:var(--slot);
@@ -54,9 +58,13 @@ position:relative;
 filter:brightness(1.4);
 }
 
+/* textures */
+
 .log{background-image:url("log_oak.png");background-size:cover;}
 .plank{background-image:url("planks_oak.png");background-size:cover;}
 .boot{background-image:url("boot.png");background-size:cover;}
+
+/* aantallen */
 
 .count{
 position:absolute;
@@ -68,9 +76,13 @@ text-shadow:1px 1px 2px black;
 font-size:4vw;
 }
 
+/* arrow */
+
 #arrow img{
 width:9vw;
 }
+
+/* result */
 
 #result{
 width:18vw;
@@ -80,10 +92,11 @@ border-top:0.6vw solid #373737;
 border-left:0.6vw solid #373737;
 border-right:0.6vw solid #ffffff;
 border-bottom:0.6vw solid #ffffff;
-display:flex;
-align-items:center;
-justify-content:center;
+position:relative;
+cursor:pointer;
 }
+
+/* inventory */
 
 #inventory{
 margin-top:4vw;
@@ -92,6 +105,8 @@ grid-template-columns:repeat(7,var(--slot));
 gap:1vw;
 justify-content:center;
 }
+
+/* popup */
 
 #popup{
 display:none;
@@ -181,7 +196,7 @@ function closeBook(){
 document.getElementById("popup").style.display="none"
 }
 
-/* INVENTORY */
+/* inventory */
 
 let inventoryData=[
 {type:"log",count:2},
@@ -242,7 +257,7 @@ inventory.appendChild(s)
 
 drawInventory()
 
-/* GRID DATA */
+/* grid */
 
 let gridData=[]
 
@@ -276,8 +291,6 @@ s.onclick=function(){
 
 let inv=inventoryData[selectedSlot]
 
-/* item plaatsen */
-
 if(inv){
 
 if(!gridData[i]){
@@ -306,8 +319,6 @@ checkRecipe()
 return
 }
 
-/* item terugnemen */
-
 if(gridData[i]){
 
 addItem(gridData[i].type,gridData[i].count)
@@ -329,8 +340,6 @@ grid.appendChild(s)
 
 drawGrid()
 
-/* ITEM TOEVOEGEN */
-
 function addItem(type,count){
 
 let slot=inventoryData.findIndex(i=>i && i.type==type)
@@ -348,29 +357,28 @@ inventoryData[empty]={type:type,count:count}
 
 }
 
-/* RECEPTEN */
+/* recepten */
 
 function checkRecipe(){
 
 let result=document.getElementById("result")
 result.innerHTML=""
 
-/* hout → planken */
-
 let logSlot=gridData.find(s=>s && s.type=="log")
 
 if(logSlot){
 
-let box=document.createElement("div")
-box.className="slot plank"
+let total=logSlot.count*4
+
+result.className="plank"
 
 let c=document.createElement("div")
 c.className="count"
-c.innerText="4"
+c.innerText=total
 
-box.appendChild(c)
+result.appendChild(c)
 
-box.onclick=function(){
+result.onclick=function(){
 
 addItem("plank",4)
 
@@ -389,11 +397,10 @@ checkRecipe()
 
 }
 
-result.appendChild(box)
 return
 }
 
-/* BOOT */
+/* boot */
 
 let items=gridData.map(s=>s?s.type:"")
 
@@ -409,10 +416,9 @@ items[6]=="" && items[7]=="" && items[8]==""
 
 if(r1 || r2){
 
-let box=document.createElement("div")
-box.className="slot boot"
+result.className="boot"
 
-box.onclick=function(){
+result.onclick=function(){
 
 addItem("boot",1)
 
@@ -423,8 +429,6 @@ drawGrid()
 checkRecipe()
 
 }
-
-result.appendChild(box)
 
 }
 
