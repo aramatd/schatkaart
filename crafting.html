@@ -387,6 +387,13 @@ img.src="boot.png"
 img.onclick=function(){
 
 addBoot()
+
+/* planken uit grid verwijderen */
+
+slots.forEach(s=>{
+s.classList.remove("plank")
+})
+
 result.innerHTML=""
 
 }
