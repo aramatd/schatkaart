@@ -26,11 +26,6 @@ gap:3vw;
 margin-top:20px;
 }
 
-#book img{
-width:10vw;
-cursor:pointer;
-}
-
 #grid{
 display:grid;
 grid-template-columns:repeat(3,var(--slot));
@@ -53,20 +48,9 @@ position:relative;
 filter:brightness(1.4);
 }
 
-.log{
-background-image:url("log_oak.png");
-background-size:cover;
-}
-
-.plank{
-background-image:url("planks_oak.png");
-background-size:cover;
-}
-
-.boot{
-background-image:url("boot.png");
-background-size:cover;
-}
+.log{background-image:url("log_oak.png");background-size:cover;}
+.plank{background-image:url("planks_oak.png");background-size:cover;}
+.boot{background-image:url("boot.png");background-size:cover;}
 
 .count{
 position:absolute;
@@ -108,33 +92,12 @@ gap:1vw;
 justify-content:center;
 }
 
-#popup{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#0008;
-align-items:center;
-justify-content:center;
-}
-
-#popupBox{
-background:white;
-padding:20px;
-}
-
 </style>
 </head>
 
 <body>
 
 <div id="crafting">
-
-<div id="book">
-<img src="recipe_book.png" onclick="openBook()">
-</div>
 
 <div id="grid">
 <div class="slot"></div>
@@ -158,51 +121,9 @@ padding:20px;
 
 <div id="inventory"></div>
 
-<div id="popup">
-<div id="popupBox">
-
-<h3>Recepten</h3>
-
-<p>Hout → Planken</p>
-<div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
-<div class="slot log"></div>
-<div class="slot"></div>
-<div class="slot"></div>
-</div>
-
-<p>Boot</p>
-
-<div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
-
-<div></div><div></div><div></div>
-
-<div class="slot plank"></div>
-<div></div>
-<div class="slot plank"></div>
-
-<div class="slot plank"></div>
-<div class="slot plank"></div>
-<div class="slot plank"></div>
-
-</div>
-
-<br>
-<button onclick="closeBook()">Sluiten</button>
-
-</div>
-</div>
-
 <script>
 
-function openBook(){
-document.getElementById("popup").style.display="flex"
-}
-
-function closeBook(){
-document.getElementById("popup").style.display="none"
-}
-
-/* INVENTORY DATA */
+/* INVENTORY */
 
 let inventoryData=[
 {type:"log",count:2},
@@ -312,8 +233,6 @@ checkRecipe()
 
 })
 
-/* ITEM TOEVOEGEN */
-
 function addItem(type,count){
 
 let slot=inventoryData.findIndex(i=>i && i.type==type)
@@ -331,8 +250,6 @@ inventoryData[empty]={type:type,count:count}
 
 }
 
-/* GRID LEEGMAKEN */
-
 function clearGrid(){
 
 slots.forEach(s=>{
@@ -344,20 +261,17 @@ s.dataset.item=""
 
 }
 
-/* RECEPT CHECK */
+/* RECEPTEN */
 
 function checkRecipe(){
 
 let items=[]
-
-slots.forEach(s=>{
-items.push(s.dataset.item||"")
-})
+slots.forEach(s=>items.push(s.dataset.item||""))
 
 let result=document.getElementById("result")
 result.innerHTML=""
 
-/* HOUT → PLANKEN */
+/* hout → planken */
 
 let logCount=items.filter(i=>i=="log").length
 
@@ -379,7 +293,7 @@ result.appendChild(img)
 return
 }
 
-/* BOOT */
+/* boot */
 
 let r1 =
 items[0]=="" && items[1]=="" && items[2]=="" &&
