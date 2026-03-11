@@ -75,15 +75,6 @@ body{
   gap:1vw;
   justify-content:center;
 }
-#book{
-  background:#c6c6c6;
-  width:var(--slot);
-  height:var(--slot);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-}
 #popup{
   display:none;
   position:fixed;
@@ -94,49 +85,25 @@ body{
   background:#0008;
   align-items:center;
   justify-content:center;
-  z-index:1000;
 }
 #popupBox{
   background:white;
   padding:20px;
-  max-width:500px;
-  width:90%;
-  text-align:center;
-  border-radius:10px;
-  overflow:auto;
 }
-.recipe{
-  width:150px;
-  height:150px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  grid-template-rows:repeat(3,1fr);
-  gap:2px;
-  background:#8b8b8b;
-  border:2px solid #555;
-  margin:10px auto;
+#book img{
+  width:80%;
+  height:80%;
+  object-fit:contain;
+  cursor:pointer;
 }
-.recipe .slot{
+/* Nieuw: boek-div zonder kadertje */
+#book{
   background:#c6c6c6;
+  width:var(--slot);
+  height:var(--slot);
   display:flex;
   align-items:center;
   justify-content:center;
-}
-.recipe .slot img{
-  width:90%;
-  height:90%;
-  object-fit:contain;
-}
-.caption{
-  text-align:center;
-  margin-top:5px;
-  font-weight:bold;
-}
-#popupBox button{
-  margin-top:10px;
-  padding:5px 10px;
-  font-size:16px;
-  cursor:pointer;
 }
 </style>
 </head>
@@ -144,8 +111,8 @@ body{
 
 <div id="crafting">
   <!-- Receptenboek zonder kadertje -->
-  <div id="book" onclick="openBook()">
-    <img src="recipe_book.png">
+  <div id="book">
+    <img src="recipe_book.png" onclick="openBook()">
   </div>
   
   <div id="grid"></div>
@@ -159,75 +126,24 @@ body{
 
 <div id="inventory"></div>
 
-<div id="popup" onclick="if(event.target==this) closeBook()">
+<div id="popup">
   <div id="popupBox">
     <h3>Recepten</h3>
-    <p>Klik naast het venster of op de knop om te sluiten.</p>
-
-    <!-- Hout → Planken -->
-    <div>
-      <div class="recipe">
-        <div class="slot"><img src="log_oak.png"></div>
-        <div class="slot"></div>
-        <div class="slot"></div>
-        <div class="slot"></div>
-        <div class="slot"><img src="log_oak.png"></div>
-        <div class="slot"></div>
-        <div class="slot"></div>
-        <div class="slot"></div>
-        <div class="slot"><img src="log_oak.png"></div>
-      </div>
-      <div class="caption">Hout → Planken</div>
+    <p>Hout → Planken (1 houtblok = 4 planken)</p>
+    <div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
+      <div class="slot log"></div><div></div><div></div>
     </div>
-
-    <!-- Plank → Stokken -->
-    <div>
-      <div class="recipe">
-        <div class="slot"><img src="planks_oak.png"></div>
-        <div class="slot"></div>
-        <div class="slot"></div>
-        <div class="slot"><img src="planks_oak.png"></div>
-        <div class="slot"></div>
-        <div class="slot"></div>
-        <div class="slot"></div>
-        <div class="slot"></div>
-        <div class="slot"></div>
-      </div>
-      <div class="caption">Plank → Stokken</div>
+    <p>Plank → Stokken (1 plank = 2 stokken)</p>
+    <div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
+      <div class="slot plank"></div>
     </div>
-
-    <!-- 9 Gold Nuggets → Gold Ingot -->
-    <div>
-      <div class="recipe">
-        <div class="slot"><img src="gold_nugget.png"></div>
-        <div class="slot"><img src="gold_nugget.png"></div>
-        <div class="slot"><img src="gold_nugget.png"></div>
-        <div class="slot"><img src="gold_nugget.png"></div>
-        <div class="slot"><img src="gold_nugget.png"></div>
-        <div class="slot"><img src="gold_nugget.png"></div>
-        <div class="slot"><img src="gold_nugget.png"></div>
-        <div class="slot"><img src="gold_nugget.png"></div>
-        <div class="slot"><img src="gold_nugget.png"></div>
-      </div>
-      <div class="caption">9 Gold Nuggets → Gold Ingot</div>
+    <p>Gouden schep: 1 gold ingot + 2 stokken</p>
+    <div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
+      <div></div><div class="slot ingot"></div><div></div>
+      <div></div><div class="slot stick"></div><div></div>
+      <div></div><div class="slot stick"></div><div></div>
     </div>
-
-    <!-- Gouden Schep: 1 Ingot + 2 Stokken -->
-    <div>
-      <div class="recipe">
-        <div class="slot"></div>
-        <div class="slot"><img src="gold_ingot.png"></div>
-        <div class="slot"></div>
-        <div class="slot"></div>
-        <div class="slot"><img src="stick.png"></div>
-        <div class="slot"></div>
-        <div class="slot"></div>
-        <div class="slot"><img src="stick.png"></div>
-        <div class="slot"></div>
-      </div>
-      <div class="caption">Gouden Schep</div>
-    </div>
-
+    <br>
     <button onclick="closeBook()">Sluiten</button>
   </div>
 </div>
