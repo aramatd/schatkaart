@@ -50,6 +50,11 @@ background-image:url("planks_oak.png");
 background-size:cover;
 }
 
+.boot{
+background-image:url("boot.png");
+background-size:cover;
+}
+
 .selected{
 filter:brightness(1.4);
 }
@@ -127,6 +132,7 @@ padding:1vw;
 <script>
 
 let planks = 5
+let boot = false
 let selected = false
 
 let inventory = document.getElementById("inventory")
@@ -139,6 +145,8 @@ for(let i=0;i<7;i++){
 
 let s=document.createElement("div")
 s.className="slot"
+
+/* plank stack */
 
 if(i==0 && planks>0){
 
@@ -157,6 +165,18 @@ s.onclick=function(){
 selected=true
 drawInventory()
 }
+
+/* boot */
+
+}else if(i==1 && boot){
+
+s.classList.add("boot")
+
+s.onclick=function(){
+window.location="pagina2.html"
+}
+
+/* leeg */
 
 }else{
 
@@ -237,7 +257,11 @@ let img=document.createElement("img")
 img.src="boot.png"
 
 img.onclick=function(){
-window.location="pagina2.html"
+
+boot=true
+result.innerHTML=""
+drawInventory()
+
 }
 
 result.appendChild(img)
