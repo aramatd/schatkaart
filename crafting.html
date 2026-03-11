@@ -133,7 +133,8 @@ padding:1vw;
 
 let planks = 5
 let boots = 0
-let selected = false
+
+let selectedItem = null
 
 let inventory = document.getElementById("inventory")
 
@@ -146,13 +147,13 @@ for(let i=0;i<7;i++){
 let s=document.createElement("div")
 s.className="slot"
 
-/* plank stack */
+/* planken */
 
 if(i==0 && planks>0){
 
 s.classList.add("plank")
 
-if(selected){
+if(selectedItem=="plank"){
 s.classList.add("selected")
 }
 
@@ -162,15 +163,19 @@ c.innerText=planks
 s.appendChild(c)
 
 s.onclick=function(){
-selected=true
+selectedItem="plank"
 drawInventory()
 }
 
-/* boot stack */
+/* boot */
 
 }else if(i==1 && boots>0){
 
 s.classList.add("boot")
+
+if(selectedItem=="boot"){
+s.classList.add("selected")
+}
 
 let c=document.createElement("div")
 c.className="count"
@@ -178,15 +183,15 @@ c.innerText=boots
 s.appendChild(c)
 
 s.onclick=function(){
+selectedItem="boot"
+drawInventory()
 window.location="pagina2.html"
 }
-
-/* leeg */
 
 }else{
 
 s.onclick=function(){
-selected=false
+selectedItem=null
 drawInventory()
 }
 
@@ -206,7 +211,7 @@ slots.forEach(slot=>{
 
 slot.onclick=function(){
 
-if(selected && planks>0 && !slot.classList.contains("plank")){
+if(selectedItem=="plank" && planks>0 && !slot.classList.contains("plank")){
 
 slot.classList.add("plank")
 planks--
@@ -242,14 +247,10 @@ g.push(s.classList.contains("plank")?1:0)
 let result=document.getElementById("result")
 result.innerHTML=""
 
-/* boot onder */
-
 let recipe1 =
 g[0]==0 && g[1]==0 && g[2]==0 &&
 g[3]==1 && g[4]==0 && g[5]==1 &&
 g[6]==1 && g[7]==1 && g[8]==1
-
-/* boot boven */
 
 let recipe2 =
 g[0]==1 && g[1]==0 && g[2]==1 &&
