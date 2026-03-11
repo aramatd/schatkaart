@@ -132,7 +132,7 @@ padding:1vw;
 <script>
 
 let planks = 5
-let boot = false
+let boots = 0
 let selected = false
 
 let inventory = document.getElementById("inventory")
@@ -166,11 +166,16 @@ selected=true
 drawInventory()
 }
 
-/* boot */
+/* boot stack */
 
-}else if(i==1 && boot){
+}else if(i==1 && boots>0){
 
 s.classList.add("boot")
+
+let c=document.createElement("div")
+c.className="count"
+c.innerText=boots
+s.appendChild(c)
 
 s.onclick=function(){
 window.location="pagina2.html"
@@ -258,7 +263,7 @@ img.src="boot.png"
 
 img.onclick=function(){
 
-boot=true
+boots++
 result.innerHTML=""
 drawInventory()
 
