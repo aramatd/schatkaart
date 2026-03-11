@@ -75,6 +75,8 @@ body{
   gap:1vw;
   justify-content:center;
 }
+
+/* Popup receptenboek */
 #popup{
   display:none;
   position:fixed;
@@ -83,12 +85,43 @@ body{
   width:100%;
   height:100%;
   background:#0008;
+  display:flex;
   align-items:center;
   justify-content:center;
 }
 #popupBox{
-  background:white;
+  background:#c6c6c6;
   padding:20px;
+  border-radius:8px;
+  max-width:90%;
+}
+#popupBox h3{
+  margin-top:0;
+}
+.recipe-row{
+  display:flex;
+  align-items:center;
+  margin:10px 0;
+}
+.recipe-grid{
+  display:grid;
+  grid-template-columns:repeat(3,50px);
+  gap:5px;
+  margin-left:10px;
+}
+.recipe-grid .slot{
+  width:50px;
+  height:50px;
+  background:#8b8b8b;
+  border-top:2px solid #373737;
+  border-left:2px solid #373737;
+  border-right:2px solid #fff;
+  border-bottom:2px solid #fff;
+}
+.recipe-grid .slot img{
+  width:90%;
+  height:90%;
+  object-fit:contain;
 }
 #book img{
   width:80%;
@@ -96,7 +129,6 @@ body{
   object-fit:contain;
   cursor:pointer;
 }
-/* Nieuw: boek-div zonder kadertje */
 #book{
   background:#c6c6c6;
   width:var(--slot);
@@ -110,7 +142,6 @@ body{
 <body>
 
 <div id="crafting">
-  <!-- Receptenboek zonder kadertje -->
   <div id="book">
     <img src="recipe_book.png" onclick="openBook()">
   </div>
@@ -126,31 +157,67 @@ body{
 
 <div id="inventory"></div>
 
-<div id="popup">
+<!-- Popup receptenboek -->
+<div id="popup" onclick="closeBook(event)">
   <div id="popupBox">
     <h3>Recepten</h3>
-    <p>Hout → Planken (1 houtblok = 4 planken)</p>
-    <div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
-      <div class="slot log"></div><div></div><div></div>
+
+    <!-- Planken -->
+    <div class="recipe-row">
+      <div>Planken (1 houtblok = 4 planken)</div>
+      <div class="recipe-grid">
+        <div class="slot log"></div>
+      </div>
     </div>
-    <p>Plank → Stokken (1 plank = 2 stokken)</p>
-    <div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
-      <div class="slot plank"></div>
+
+    <!-- Stokken -->
+    <div class="recipe-row">
+      <div>Stokken (1 plank = 2 stokken)</div>
+      <div class="recipe-grid">
+        <div class="slot plank"></div>
+      </div>
     </div>
-    <p>Gouden schep: 1 gold ingot + 2 stokken</p>
-    <div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
-      <div></div><div class="slot ingot"></div><div></div>
-      <div></div><div class="slot stick"></div><div></div>
-      <div></div><div class="slot stick"></div><div></div>
+
+    <!-- Gold Ingot -->
+    <div class="recipe-row">
+      <div>Goud ingot (9 goud nuggets = 1 goud ingot)</div>
+      <div class="recipe-grid">
+        <div class="slot goldNugget"></div>
+        <div class="slot goldNugget"></div>
+        <div class="slot goldNugget"></div>
+        <div class="slot goldNugget"></div>
+        <div class="slot goldNugget"></div>
+        <div class="slot goldNugget"></div>
+        <div class="slot goldNugget"></div>
+        <div class="slot goldNugget"></div>
+        <div class="slot goldNugget"></div>
+      </div>
     </div>
-    <br>
-    <button onclick="closeBook()">Sluiten</button>
+
+    <!-- Gouden Schep -->
+    <div class="recipe-row">
+      <div>Gouden schep (1 goud ingot + 2 stokken)</div>
+      <div class="recipe-grid">
+        <div class="slot ingot"></div>
+        <div class="slot stick"></div>
+        <div class="slot stick"></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
 <script>
-function openBook(){document.getElementById("popup").style.display="flex"}
-function closeBook(){document.getElementById("popup").style.display="none"}
+function openBook(){
+  document.getElementById("popup").style.display="flex";
+}
+
+// Sluit popup door te klikken op achtergrond
+function closeBook(e){
+  if(e.target.id=="popup"){
+    document.getElementById("popup").style.display="none";
+  }
+}
 
 // Inventory: 1 houtblok + 9 gold nuggets
 let inventoryData=[
