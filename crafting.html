@@ -32,15 +32,11 @@ width:10vw;
 cursor:pointer;
 }
 
-/* grid */
-
 #grid{
 display:grid;
 grid-template-columns:repeat(3,var(--slot));
 gap:1vw;
 }
-
-/* slot */
 
 .slot{
 width:var(--slot);
@@ -58,13 +54,9 @@ position:relative;
 filter:brightness(1.4);
 }
 
-/* textures */
-
 .log{background-image:url("log_oak.png");background-size:cover;}
 .plank{background-image:url("planks_oak.png");background-size:cover;}
 .boot{background-image:url("boot.png");background-size:cover;}
-
-/* aantallen */
 
 .count{
 position:absolute;
@@ -76,13 +68,9 @@ text-shadow:1px 1px 2px black;
 font-size:4vw;
 }
 
-/* arrow */
-
 #arrow img{
 width:9vw;
 }
-
-/* result */
 
 #result{
 width:18vw;
@@ -96,8 +84,6 @@ position:relative;
 cursor:pointer;
 }
 
-/* inventory */
-
 #inventory{
 margin-top:4vw;
 display:grid;
@@ -105,8 +91,6 @@ grid-template-columns:repeat(7,var(--slot));
 gap:1vw;
 justify-content:center;
 }
-
-/* popup */
 
 #popup{
 display:none;
@@ -186,8 +170,6 @@ padding:20px;
 
 <script>
 
-/* popup */
-
 function openBook(){
 document.getElementById("popup").style.display="flex"
 }
@@ -195,8 +177,6 @@ document.getElementById("popup").style.display="flex"
 function closeBook(){
 document.getElementById("popup").style.display="none"
 }
-
-/* inventory */
 
 let inventoryData=[
 {type:"log",count:2},
@@ -256,8 +236,6 @@ inventory.appendChild(s)
 }
 
 drawInventory()
-
-/* grid */
 
 let gridData=[]
 
@@ -357,12 +335,11 @@ inventoryData[empty]={type:type,count:count}
 
 }
 
-/* recepten */
-
 function checkRecipe(){
 
 let result=document.getElementById("result")
 result.innerHTML=""
+result.className="slot"
 
 let logSlot=gridData.find(s=>s && s.type=="log")
 
@@ -370,12 +347,11 @@ if(logSlot){
 
 let total=logSlot.count*4
 
-result.className="slot plank"
+result.classList.add("plank")
 
 let c=document.createElement("div")
 c.className="count"
 c.innerText=total
-
 result.appendChild(c)
 
 result.onclick=function(){
@@ -385,10 +361,8 @@ addItem("plank",4)
 logSlot.count--
 
 if(logSlot.count==0){
-
 let index=gridData.indexOf(logSlot)
 gridData[index]=null
-
 }
 
 drawInventory()
@@ -399,8 +373,6 @@ checkRecipe()
 
 return
 }
-
-/* boot */
 
 let items=gridData.map(s=>s?s.type:"")
 
@@ -416,7 +388,7 @@ items[6]=="" && items[7]=="" && items[8]==""
 
 if(r1 || r2){
 
-result.className="slot boot"
+result.classList.add("boot")
 
 result.onclick=function(){
 
