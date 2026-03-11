@@ -54,9 +54,20 @@ position:relative;
 filter:brightness(1.4);
 }
 
-.log{background-image:url("log_oak.png");background-size:cover;}
-.plank{background-image:url("planks_oak.png");background-size:cover;}
-.boot{background-image:url("boot.png");background-size:cover;}
+.log{
+background-image:url("log_oak.png");
+background-size:cover;
+}
+
+.plank{
+background-image:url("planks_oak.png");
+background-size:cover;
+}
+
+.boot{
+background-image:url("boot.png");
+background-size:cover;
+}
 
 .count{
 position:absolute;
@@ -272,13 +283,9 @@ let inv=inventoryData[selectedSlot]
 if(inv){
 
 if(!gridData[i]){
-
 gridData[i]={type:inv.type,count:1}
-
 }else if(gridData[i].type==inv.type){
-
 gridData[i].count++
-
 }else{
 return
 }
@@ -341,11 +348,21 @@ let result=document.getElementById("result")
 result.innerHTML=""
 result.className="slot"
 
-let logSlot=gridData.find(s=>s && s.type=="log")
+/* alle houtblokken tellen */
 
-if(logSlot){
+let logCount=0
 
-let total=logSlot.count*4
+gridData.forEach(s=>{
+if(s && s.type=="log"){
+logCount+=s.count
+}
+})
+
+/* hout → planken */
+
+if(logCount>0){
+
+let total=logCount*4
 
 result.classList.add("plank")
 
@@ -358,11 +375,24 @@ result.onclick=function(){
 
 addItem("plank",4)
 
-logSlot.count--
+/* 1 hout verwijderen */
 
-if(logSlot.count==0){
-let index=gridData.indexOf(logSlot)
-gridData[index]=null
+for(let i=0;i<gridData.length;i++){
+
+let s=gridData[i]
+
+if(s && s.type=="log"){
+
+s.count--
+
+if(s.count==0){
+gridData[i]=null
+}
+
+break
+
+}
+
 }
 
 drawInventory()
@@ -373,6 +403,8 @@ checkRecipe()
 
 return
 }
+
+/* boot recept */
 
 let items=gridData.map(s=>s?s.type:"")
 
