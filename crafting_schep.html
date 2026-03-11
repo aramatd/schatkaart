@@ -101,13 +101,17 @@ body{
 <body>
 
 <div id="crafting">
+  <!-- Receptenboek als gewone slot, net als bootpagina -->
   <div id="book" class="slot">
     <img src="recipe_book.png" onclick="openBook()">
   </div>
+  
   <div id="grid"></div>
+  
   <div id="arrow">
     <img src="arrow.png">
   </div>
+  
   <div id="result" class="slot"></div>
 </div>
 
@@ -139,6 +143,7 @@ body{
 function openBook(){document.getElementById("popup").style.display="flex"}
 function closeBook(){document.getElementById("popup").style.display="none"}
 
+// Inventory: 1 houtblok + 9 gold nuggets
 let inventoryData=[
   {type:"log",count:1},
   {type:"goldNugget",count:9},
