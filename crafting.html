@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Minecraft Crafting</title>
 
 <style>
@@ -26,11 +27,22 @@ gap:3vw;
 margin-top:20px;
 }
 
+/* receptenboek */
+
+#book img{
+width:10vw;
+cursor:pointer;
+}
+
+/* grid */
+
 #grid{
 display:grid;
 grid-template-columns:repeat(3,var(--slot));
 gap:1vw;
 }
+
+/* slot */
 
 .slot{
 width:var(--slot);
@@ -48,9 +60,13 @@ position:relative;
 filter:brightness(1.4);
 }
 
+/* textures */
+
 .log{background-image:url("log_oak.png");background-size:cover;}
 .plank{background-image:url("planks_oak.png");background-size:cover;}
 .boot{background-image:url("boot.png");background-size:cover;}
+
+/* aantallen */
 
 .count{
 position:absolute;
@@ -62,9 +78,13 @@ text-shadow:1px 1px 2px black;
 font-size:4vw;
 }
 
+/* arrow */
+
 #arrow img{
 width:9vw;
 }
+
+/* result */
 
 #result{
 width:18vw;
@@ -79,10 +99,7 @@ align-items:center;
 justify-content:center;
 }
 
-#result img{
-width:80%;
-cursor:pointer;
-}
+/* inventory */
 
 #inventory{
 margin-top:4vw;
@@ -92,6 +109,25 @@ gap:1vw;
 justify-content:center;
 }
 
+/* popup */
+
+#popup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#0008;
+align-items:center;
+justify-content:center;
+}
+
+#popupBox{
+background:white;
+padding:20px;
+}
+
 </style>
 </head>
 
@@ -99,16 +135,24 @@ justify-content:center;
 
 <div id="crafting">
 
+<div id="book">
+<img src="recipe_book.png" onclick="openBook()">
+</div>
+
 <div id="grid">
+
 <div class="slot"></div>
 <div class="slot"></div>
 <div class="slot"></div>
+
 <div class="slot"></div>
 <div class="slot"></div>
 <div class="slot"></div>
+
 <div class="slot"></div>
 <div class="slot"></div>
 <div class="slot"></div>
+
 </div>
 
 <div id="arrow">
@@ -121,9 +165,59 @@ justify-content:center;
 
 <div id="inventory"></div>
 
+<!-- popup receptenboek -->
+
+<div id="popup">
+
+<div id="popupBox">
+
+<h3>Recepten</h3>
+
+<p>Hout → Planken</p>
+
+<div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
+<div class="slot log"></div>
+<div></div>
+<div></div>
+</div>
+
+<p>Boot</p>
+
+<div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
+
+<div></div><div></div><div></div>
+
+<div class="slot plank"></div>
+<div></div>
+<div class="slot plank"></div>
+
+<div class="slot plank"></div>
+<div class="slot plank"></div>
+<div class="slot plank"></div>
+
+</div>
+
+<br>
+
+<button onclick="closeBook()">Sluiten</button>
+
+</div>
+
+</div>
+
 <script>
 
-/* INVENTORY */
+/* popup */
+
+function openBook(){
+document.getElementById("popup").style.display="flex"
+}
+
+function closeBook(){
+document.getElementById("popup").style.display="none"
+}
+
+/* inventory */
 
 let inventoryData=[
 {type:"log",count:2},
@@ -184,7 +278,7 @@ inventory.appendChild(s)
 
 drawInventory()
 
-/* GRID */
+/* grid */
 
 const slots=document.querySelectorAll("#grid .slot")
 
@@ -261,7 +355,7 @@ s.dataset.item=""
 
 }
 
-/* RECEPTEN */
+/* recepten */
 
 function checkRecipe(){
 
@@ -277,10 +371,16 @@ let logCount=items.filter(i=>i=="log").length
 
 if(logCount==1){
 
-let img=document.createElement("img")
-img.src="planks_oak.png"
+let box=document.createElement("div")
+box.className="slot plank"
 
-img.onclick=function(){
+let c=document.createElement("div")
+c.className="count"
+c.innerText="4"
+
+box.appendChild(c)
+
+box.onclick=function(){
 
 addItem("plank",4)
 clearGrid()
@@ -289,7 +389,7 @@ result.innerHTML=""
 
 }
 
-result.appendChild(img)
+result.appendChild(box)
 return
 }
 
@@ -307,10 +407,10 @@ items[6]=="" && items[7]=="" && items[8]==""
 
 if(r1 || r2){
 
-let img=document.createElement("img")
-img.src="boot.png"
+let box=document.createElement("div")
+box.className="slot boot"
 
-img.onclick=function(){
+box.onclick=function(){
 
 addItem("boot",1)
 clearGrid()
@@ -319,7 +419,7 @@ result.innerHTML=""
 
 }
 
-result.appendChild(img)
+result.appendChild(box)
 
 }
 
