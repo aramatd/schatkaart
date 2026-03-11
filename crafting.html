@@ -26,60 +26,10 @@ gap:3vw;
 margin-top:20px;
 }
 
-/* boek */
-
-#book img{
-width:10vw;
-cursor:pointer;
-}
-
-/* popup */
-
-#popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.5);
-display:none;
-align-items:center;
-justify-content:center;
-}
-
-#popupContent{
-background:white;
-padding:20px;
-border-radius:10px;
-}
-
-#recipeGrid{
-display:grid;
-grid-template-columns:repeat(3,60px);
-gap:6px;
-margin-top:10px;
-}
-
-.recipeSlot{
-width:60px;
-height:60px;
-background:#8b8b8b;
-border-top:4px solid #373737;
-border-left:4px solid #373737;
-border-right:4px solid #ffffff;
-border-bottom:4px solid #ffffff;
-}
-
-.recipePlank{
-background-image:url("planks_oak.png");
-background-size:cover;
-}
-
 #grid{
 display:grid;
 grid-template-columns:repeat(3,var(--slot));
 gap:1vw;
-padding:1vw;
 }
 
 .slot{
@@ -94,19 +44,13 @@ cursor:pointer;
 position:relative;
 }
 
-.plank{
-background-image:url("planks_oak.png");
-background-size:cover;
-}
-
-.boot{
-background-image:url("boot.png");
-background-size:cover;
-}
-
 .selected{
 filter:brightness(1.4);
 }
+
+.log{background-image:url("log_oak.png");background-size:cover;}
+.plank{background-image:url("planks_oak.png");background-size:cover;}
+.boot{background-image:url("boot.png");background-size:cover;}
 
 .count{
 position:absolute;
@@ -123,8 +67,8 @@ width:9vw;
 }
 
 #result{
-width:20vw;
-height:20vw;
+width:18vw;
+height:18vw;
 background:#8b8b8b;
 border-top:0.6vw solid #373737;
 border-left:0.6vw solid #373737;
@@ -146,7 +90,6 @@ display:grid;
 grid-template-columns:repeat(7,var(--slot));
 gap:1vw;
 justify-content:center;
-padding:1vw;
 }
 
 </style>
@@ -155,10 +98,6 @@ padding:1vw;
 <body>
 
 <div id="crafting">
-
-<div id="book">
-<img src="recipe_book.png" onclick="openBook()">
-</div>
 
 <div id="grid">
 <div class="slot"></div>
@@ -182,57 +121,18 @@ padding:1vw;
 
 <div id="inventory"></div>
 
-<!-- popup -->
-
-<div id="popup" onclick="closeBook()">
-
-<div id="popupContent" onclick="event.stopPropagation()">
-
-<h3>Boot recept</h3>
-
-<div id="recipeGrid">
-
-<div class="recipeSlot"></div>
-<div class="recipeSlot"></div>
-<div class="recipeSlot"></div>
-
-<div class="recipeSlot recipePlank"></div>
-<div class="recipeSlot"></div>
-<div class="recipeSlot recipePlank"></div>
-
-<div class="recipeSlot recipePlank"></div>
-<div class="recipeSlot recipePlank"></div>
-<div class="recipeSlot recipePlank"></div>
-
-</div>
-
-<p>Klik buiten het venster om te sluiten</p>
-
-</div>
-</div>
-
 <script>
 
-/* receptenboek */
-
-function openBook(){
-document.getElementById("popup").style.display="flex"
-}
-
-function closeBook(){
-document.getElementById("popup").style.display="none"
-}
-
-/* inventory systeem */
+/* INVENTORY */
 
 let inventoryData=[
-{type:"plank",count:5},
+{type:"log",count:2},
 null,null,null,null,null,null
 ]
 
 let selectedSlot=null
 
-let inventory=document.getElementById("inventory")
+const inventory=document.getElementById("inventory")
 
 function drawInventory(){
 
@@ -284,21 +184,26 @@ inventory.appendChild(s)
 
 drawInventory()
 
-let slots=document.querySelectorAll("#grid .slot")
+/* GRID */
+
+const slots=document.querySelectorAll("#grid .slot")
 
 slots.forEach(slot=>{
 
 slot.onclick=function(){
 
-let selectedItem=inventoryData[selectedSlot]
+let item=inventoryData[selectedSlot]
 
-if(selectedItem && selectedItem.type=="plank" && selectedItem.count>0 && !slot.classList.contains("plank")){
+/* plaatsen */
 
-slot.classList.add("plank")
+if(item && !slot.dataset.item){
 
-selectedItem.count--
+slot.dataset.item=item.type
+slot.classList.add(item.type)
 
-if(selectedItem.count==0){
+item.count--
+
+if(item.count==0){
 inventoryData[selectedSlot]=null
 selectedSlot=null
 }
@@ -306,26 +211,18 @@ selectedSlot=null
 drawInventory()
 checkRecipe()
 return
-
 }
 
-if(slot.classList.contains("plank")){
+/* terugnemen */
 
-slot.classList.remove("plank")
+if(slot.dataset.item){
 
-let plankSlot=inventoryData.findIndex(i=>i && i.type=="plank")
+let type=slot.dataset.item
 
-if(plankSlot!=-1){
+slot.classList.remove(type)
+slot.dataset.item=""
 
-inventoryData[plankSlot].count++
-
-}else{
-
-let empty=inventoryData.findIndex(i=>i==null)
-
-inventoryData[empty]={type:"plank",count:1}
-
-}
+addItem(type,1)
 
 drawInventory()
 checkRecipe()
@@ -336,64 +233,88 @@ checkRecipe()
 
 })
 
-function addBoot(){
+function addItem(type,count){
 
-let bootSlot=inventoryData.findIndex(i=>i && i.type=="boot")
+let slot=inventoryData.findIndex(i=>i && i.type==type)
 
-if(bootSlot!=-1){
-
-inventoryData[bootSlot].count++
-
-}else{
+if(slot!=-1){
+inventoryData[slot].count+=count
+return
+}
 
 let empty=inventoryData.findIndex(i=>i==null)
 
 if(empty!=-1){
-inventoryData[empty]={type:"boot",count:1}
+inventoryData[empty]={type:type,count:count}
 }
 
 }
 
-drawInventory()
+function clearGrid(){
+
+slots.forEach(s=>{
+if(s.dataset.item){
+s.classList.remove(s.dataset.item)
+s.dataset.item=""
+}
+})
 
 }
+
+/* RECEPTEN */
 
 function checkRecipe(){
 
-let g=[]
-
-slots.forEach(s=>{
-g.push(s.classList.contains("plank")?1:0)
-})
+let items=[]
+slots.forEach(s=>items.push(s.dataset.item||""))
 
 let result=document.getElementById("result")
 result.innerHTML=""
 
-let recipe1=
-g[0]==0 && g[1]==0 && g[2]==0 &&
-g[3]==1 && g[4]==0 && g[5]==1 &&
-g[6]==1 && g[7]==1 && g[8]==1
+/* hout → planken */
 
-let recipe2=
-g[0]==1 && g[1]==0 && g[2]==1 &&
-g[3]==1 && g[4]==1 && g[5]==1 &&
-g[6]==0 && g[7]==0 && g[8]==0
+let logCount=items.filter(i=>i=="log").length
 
-if(recipe1 || recipe2){
+if(logCount==1){
+
+let img=document.createElement("img")
+img.src="planks_oak.png"
+
+img.onclick=function(){
+
+addItem("plank",4)
+clearGrid()
+drawInventory()
+result.innerHTML=""
+
+}
+
+result.appendChild(img)
+return
+}
+
+/* boot */
+
+let r1 =
+items[0]=="" && items[1]=="" && items[2]=="" &&
+items[3]=="plank" && items[4]=="" && items[5]=="plank" &&
+items[6]=="plank" && items[7]=="plank" && items[8]=="plank"
+
+let r2 =
+items[0]=="plank" && items[1]=="" && items[2]=="plank" &&
+items[3]=="plank" && items[4]=="plank" && items[5]=="plank" &&
+items[6]=="" && items[7]=="" && items[8]==""
+
+if(r1 || r2){
 
 let img=document.createElement("img")
 img.src="boot.png"
 
 img.onclick=function(){
 
-addBoot()
-
-/* planken uit grid verwijderen */
-
-slots.forEach(s=>{
-s.classList.remove("plank")
-})
-
+addItem("boot",1)
+clearGrid()
+drawInventory()
 result.innerHTML=""
 
 }
