@@ -131,67 +131,52 @@ padding:1vw;
 
 <script>
 
-let planks = 5
-let boots = 0
+let inventoryData=[
+{type:"plank",count:5},
+null,null,null,null,null,null
+]
 
-let selectedItem = null
+let selectedSlot=null
 
-let inventory = document.getElementById("inventory")
+let inventory=document.getElementById("inventory")
 
 function drawInventory(){
 
 inventory.innerHTML=""
 
-for(let i=0;i<7;i++){
+inventoryData.forEach((item,i)=>{
 
 let s=document.createElement("div")
 s.className="slot"
 
-/* planken */
-
-if(i==0 && planks>0){
-
-s.classList.add("plank")
-
-if(selectedItem=="plank"){
+if(i===selectedSlot){
 s.classList.add("selected")
 }
 
-let c=document.createElement("div")
-c.className="count"
-c.innerText=planks
-s.appendChild(c)
+if(item){
 
-s.onclick=function(){
-selectedItem="plank"
-drawInventory()
-}
-
-/* boot */
-
-}else if(i==1 && boots>0){
-
-s.classList.add("boot")
-
-if(selectedItem=="boot"){
-s.classList.add("selected")
-}
+s.classList.add(item.type)
 
 let c=document.createElement("div")
 c.className="count"
-c.innerText=boots
+c.innerText=item.count
 s.appendChild(c)
 
 s.onclick=function(){
-selectedItem="boot"
+
+selectedSlot=i
 drawInventory()
+
+if(item.type=="boot"){
 window.location="pagina2.html"
+}
+
 }
 
 }else{
 
 s.onclick=function(){
-selectedItem=null
+selectedSlot=null
 drawInventory()
 }
 
@@ -199,7 +184,7 @@ drawInventory()
 
 inventory.appendChild(s)
 
-}
+})
 
 }
 
@@ -211,10 +196,18 @@ slots.forEach(slot=>{
 
 slot.onclick=function(){
 
-if(selectedItem=="plank" && planks>0 && !slot.classList.contains("plank")){
+let selectedItem=inventoryData[selectedSlot]
+
+if(selectedItem && selectedItem.type=="plank" && selectedItem.count>0 && !slot.classList.contains("plank")){
 
 slot.classList.add("plank")
-planks--
+
+selectedItem.count--
+
+if(selectedItem.count==0){
+inventoryData[selectedSlot]=null
+selectedSlot=null
+}
 
 drawInventory()
 checkRecipe()
@@ -225,7 +218,20 @@ return
 if(slot.classList.contains("plank")){
 
 slot.classList.remove("plank")
-planks++
+
+let plankSlot=inventoryData.findIndex(i=>i && i.type=="plank")
+
+if(plankSlot!=-1){
+
+inventoryData[plankSlot].count++
+
+}else{
+
+let empty=inventoryData.findIndex(i=>i==null)
+
+inventoryData[empty]={type:"plank",count:1}
+
+}
 
 drawInventory()
 checkRecipe()
@@ -235,6 +241,28 @@ checkRecipe()
 }
 
 })
+
+function addBoot(){
+
+let bootSlot=inventoryData.findIndex(i=>i && i.type=="boot")
+
+if(bootSlot!=-1){
+
+inventoryData[bootSlot].count++
+
+}else{
+
+let empty=inventoryData.findIndex(i=>i==null)
+
+if(empty!=-1){
+inventoryData[empty]={type:"boot",count:1}
+}
+
+}
+
+drawInventory()
+
+}
 
 function checkRecipe(){
 
@@ -247,12 +275,12 @@ g.push(s.classList.contains("plank")?1:0)
 let result=document.getElementById("result")
 result.innerHTML=""
 
-let recipe1 =
+let recipe1=
 g[0]==0 && g[1]==0 && g[2]==0 &&
 g[3]==1 && g[4]==0 && g[5]==1 &&
 g[6]==1 && g[7]==1 && g[8]==1
 
-let recipe2 =
+let recipe2=
 g[0]==1 && g[1]==0 && g[2]==1 &&
 g[3]==1 && g[4]==1 && g[5]==1 &&
 g[6]==0 && g[7]==0 && g[8]==0
@@ -264,9 +292,8 @@ img.src="boot.png"
 
 img.onclick=function(){
 
-boots++
+addBoot()
 result.innerHTML=""
-drawInventory()
 
 }
 
