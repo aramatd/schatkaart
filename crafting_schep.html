@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crafting Gouden Schep</title>
+
+<style>
+body{
+font-family:Arial;
+background:#c6c6c6;
+text-align:center;
+margin:10px;
+}
+
+:root{
+--slot:12vw;
+}
+
+#crafting{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:3vw;
+margin-top:20px;
+}
+
+#grid{
+display:grid;
+grid-template-columns:repeat(3,var(--slot));
+gap:1vw;
+}
+
+.slot{
+width:var(--slot);
+height:var(--slot);
+background:#8b8b8b;
+border-top:0.6vw solid #373737;
+border-left:0.6vw solid #373737;
+border-right:0.6vw solid #ffffff;
+border-bottom:0.6vw solid #ffffff;
+cursor:pointer;
+position:relative;
+}
+
+.selected{
+filter:brightness(1.4);
+}
+
+.log{background-image:url("log_oak.png");background-size:cover;}
+.plank{background-image:url("planks_oak.png");background-size:cover;}
+.goldNugget{background-image:url("gold_nugget.png");background-size:cover;}
+.ingot{background-image:url("gold_ingot.png");background-size:cover;}
+.stick{background-image:url("stick.png");background-size:cover;}
+.schep{background-image:url("golden_shovel.png");background-size:cover;}
+
+.count{
+position:absolute;
+bottom:2px;
+right:4px;
+font-weight:bold;
+color:white;
+text-shadow:1px 1px 2px black;
+font-size:4vw;
+}
+
+#arrow img{
+width:9vw;
+}
+
+#result{
+width:18vw;
+height:18vw;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+#inventory{
+margin-top:4vw;
+display:grid;
+grid-template-columns:repeat(7,var(--slot));
+gap:1vw;
+justify-content:center;
+}
+</style>
+</head>
+
+<body>
+
+<div id="crafting">
+<div id="grid"></div>
+<div id="arrow">
+<img src="arrow.png">
+</div>
+<div id="result" class="slot"></div>
+</div>
+
+<div id="inventory"></div>
+
+<script>
+// Inventory: 1 houtblok en 9 gold nuggets
+let inventoryData=[
+{type:"log",count:1},
+{type:"goldNugget",count:9},
+null,null,null,null,null
+];
+
+let selectedSlot=null;
+const inventory=document.getElementById("inventory");
+
+function drawInventory(){
+inventory.innerHTML="";
+inventoryData.forEach((item,i)=>{
+let s=document.createElement("div");
+s.className="slot";
+if(i===selectedSlot){s.classList.add("selected")}
+if(item){
+s.classList.add(item.type);
+let c=document.createElement("div");
+c.className="count";
+c.innerText=item.count;
+s.appendChild(c);
+s.onclick=function(){
+selectedSlot=i;
+drawInventory();
+if(item.type=="schep"){
+window.location="pagina4.html";
+}
+}
+}else{
+s.onclick=function(){selectedSlot=null;drawInventory();}
+}
+inventory.appendChild(s);
+});
+}
+drawInventory();
+
+// Grid
+let gridData=[]
+for(let i=0;i<9;i++){gridData.push(null)}
+const grid=document.getElementById("grid")
+
+function drawGrid(){
+grid.innerHTML=""
+gridData.forEach((item,i)=>{
+let s=document.createElement("div")
+s.className="slot"
+if(item){
+s.classList.add(item.type)
+let c=document.createElement("div")
+c.className="count"
+c.innerText=item.count
+s.appendChild(c)
+}
+s.onclick=function(){
+let inv=inventoryData[selectedSlot]
+if(inv){
+if(!gridData[i]){
+gridData[i]={type:inv.type,count:1}
+}else if(gridData[i].type==inv.type){
+gridData[i].count++
+}else{return}
+inv.count--
+if(inv.count==0){inventoryData[selectedSlot]=null;selectedSlot=null}
+drawInventory()
+drawGrid()
+checkRecipe()
+return
+}
+// terugnemen van grid
+if(gridData[i]){
+addItem(gridData[i].type,gridData[i].count)
+gridData[i]=null
+drawInventory()
+drawGrid()
+checkRecipe()
+}
+}
+grid.appendChild(s)
+})
+}
+drawGrid()
+
+function addItem(type,count){
+let slot=inventoryData.findIndex(i=>i && i.type==type)
+if(slot!=-1){inventoryData[slot].count+=count;return}
+let empty=inventoryData.findIndex(i=>i==null)
+if(empty!=-1){inventoryData[empty]={type:type,count:count}}
+}
+
+function checkRecipe(){
+let result=document.getElementById("result")
+result.className="slot"
+result.innerHTML=""
+
+// Houtblok → planken
+let logCount=0
+gridData.forEach(s=>{if(s && s.type=="log"){logCount+=s.count}})
+if(logCount>0){
+let total=logCount*4
+result.classList.add("plank")
+let c=document.createElement("div")
+c.className="count"
+c.innerText=total
+result.appendChild(c)
+result.onclick=function(){
+addItem("plank",4)
+for(let i=0;i<gridData.length;i++){
+let s=gridData[i]
+if(s && s.type=="log"){
+s.count--
+if(s.count==0){gridData[i]=null}
+break
+}
+drawInventory()
+drawGrid()
+checkRecipe()
+}
+}
+return
+}
+
+// Gold nuggets → ingot (9 nuggets = 1 ingot)
+let nuggetCount=0
+gridData.forEach(s=>{if(s && s.type=="goldNugget"){nuggetCount+=s.count}})
+if(nuggetCount>=9){
+result.classList.add("ingot")
+let c=document.createElement("div")
+c.className="count"
+c.innerText="1"
+result.appendChild(c)
+result.onclick=function(){
+addItem("ingot",1)
+let taken=0
+for(let i=0;i<gridData.length;i++){
+let s=gridData[i]
+if(s && s.type=="goldNugget" && taken<9){
+taken++
+s.count--
+if(s.count==0){gridData[i]=null}
+}
+}
+drawInventory()
+drawGrid()
+checkRecipe()
+}
+return
+}
+
+// Gouden schep recept: 1 ingot + 2 stokken
+let items=gridData.map(s=>s?s.type:"")
+let r1 = items.filter(x=>x=="ingot").length==1 &&
+         items.filter(x=>x=="stick").length==2
+if(r1){
+result.classList.add("schep")
+result.onclick=function(){
+addItem("schep",1)
+// verbruik alle gebruikte materialen
+for(let i=0;i<gridData.length;i++){
+if(gridData[i] && (gridData[i].type=="ingot" || gridData[i].type=="stick")){
+gridData[i]=null
+}
+}
+drawInventory()
+drawGrid()
+checkRecipe()
+}
+}
+}
+</script>
+
+</body>
+</html>
