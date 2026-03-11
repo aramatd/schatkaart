@@ -14,12 +14,9 @@ text-align:center;
 margin:10px;
 }
 
-/* basis grootte van slots */
 :root{
 --slot:12vw;
 }
-
-/* crafting layout */
 
 #crafting{
 display:flex;
@@ -29,58 +26,52 @@ gap:3vw;
 margin-top:20px;
 }
 
-/* grid */
-
 #grid{
 display:grid;
 grid-template-columns:repeat(3,var(--slot));
 gap:1vw;
-background:#c6c6c6;
 padding:1vw;
 }
-
-/* slot style */
 
 .slot{
 width:var(--slot);
 height:var(--slot);
 background:#8b8b8b;
-border-top:0.7vw solid #373737;
-border-left:0.7vw solid #373737;
-border-right:0.7vw solid #ffffff;
-border-bottom:0.7vw solid #ffffff;
+border-top:0.6vw solid #373737;
+border-left:0.6vw solid #373737;
+border-right:0.6vw solid #ffffff;
+border-bottom:0.6vw solid #ffffff;
 cursor:pointer;
+position:relative;
 }
-
-/* geselecteerd inventory slot */
-
-.selected{
-filter:brightness(1.4);
-}
-
-/* plank texture */
 
 .plank{
 background-image:url("planks_oak.png");
 background-size:cover;
 }
 
-/* arrow */
+.count{
+position:absolute;
+bottom:2px;
+right:4px;
+font-weight:bold;
+color:white;
+text-shadow:1px 1px 2px black;
+font-size:4vw;
+}
 
 #arrow img{
 width:9vw;
 }
 
-/* result vak (groter) */
-
 #result{
-width:16vw;
-height:16vw;
+width:20vw;
+height:20vw;
 background:#8b8b8b;
-border-top:0.7vw solid #373737;
-border-left:0.7vw solid #373737;
-border-right:0.7vw solid #ffffff;
-border-bottom:0.7vw solid #ffffff;
+border-top:0.6vw solid #373737;
+border-left:0.6vw solid #373737;
+border-right:0.6vw solid #ffffff;
+border-bottom:0.6vw solid #ffffff;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -91,15 +82,12 @@ width:80%;
 cursor:pointer;
 }
 
-/* inventory */
-
 #inventory{
 margin-top:4vw;
 display:grid;
 grid-template-columns:repeat(7,var(--slot));
 gap:1vw;
 justify-content:center;
-background:#c6c6c6;
 padding:1vw;
 }
 
@@ -134,121 +122,115 @@ padding:1vw;
 
 <script>
 
-let inventorySlots=[1,1,1,1,1,0,0];
-let selectedSlot=-1;
+let planks = 5
+let selected = false
 
-let invDiv=document.getElementById("inventory");
+let inventory = document.getElementById("inventory")
 
 function drawInventory(){
 
-invDiv.innerHTML="";
+inventory.innerHTML=""
 
-inventorySlots.forEach((item,i)=>{
+for(let i=0;i<7;i++){
 
-let s=document.createElement("div");
-s.className="slot";
+let s=document.createElement("div")
+s.className="slot"
 
-if(item==1){
-s.classList.add("plank");
-}
+if(i==0 && planks>0){
 
-if(i===selectedSlot){
-s.classList.add("selected");
-}
+s.classList.add("plank")
+
+let c=document.createElement("div")
+c.className="count"
+c.innerText=planks
+s.appendChild(c)
 
 s.onclick=function(){
+selected=true
+}
 
-if(inventorySlots[i]==1){
-selectedSlot=i;
 }else{
-selectedSlot=-1;
+
+s.onclick=function(){
+selected=false
 }
-
-drawInventory();
-
-}
-
-invDiv.appendChild(s);
-
-});
 
 }
 
-drawInventory();
+inventory.appendChild(s)
 
-let slots=document.querySelectorAll("#grid .slot");
+}
+
+}
+
+drawInventory()
+
+let slots=document.querySelectorAll("#grid .slot")
 
 slots.forEach(slot=>{
 
 slot.onclick=function(){
 
-/* plank plaatsen */
+if(selected && planks>0 && !slot.classList.contains("plank")){
 
-if(selectedSlot!=-1 && !slot.classList.contains("plank")){
+slot.classList.add("plank")
+planks--
 
-slot.classList.add("plank");
-
-inventorySlots[selectedSlot]=0;
-
-selectedSlot=-1;
-
-drawInventory();
-
-checkRecipe();
-
-return;
+drawInventory()
+checkRecipe()
+return
 
 }
-
-/* plank terugnemen */
 
 if(slot.classList.contains("plank")){
 
-slot.classList.remove("plank");
+slot.classList.remove("plank")
+planks++
 
-let index=inventorySlots.indexOf(0);
-
-if(index!=-1){
-inventorySlots[index]=1;
-}
-
-drawInventory();
-
-checkRecipe();
+drawInventory()
+checkRecipe()
 
 }
 
 }
 
-});
+})
 
 function checkRecipe(){
 
-let g=[];
+let g=[]
 
 slots.forEach(s=>{
-g.push(s.classList.contains("plank")?1:0);
-});
+g.push(s.classList.contains("plank")?1:0)
+})
 
-let result=document.getElementById("result");
+let result=document.getElementById("result")
+result.innerHTML=""
 
-result.innerHTML="";
+/* boot onder */
 
-if(
+let recipe1 =
 g[0]==0 && g[1]==0 && g[2]==0 &&
 g[3]==1 && g[4]==0 && g[5]==1 &&
 g[6]==1 && g[7]==1 && g[8]==1
-){
 
-let img=document.createElement("img");
+/* boot boven */
 
-img.src="boot.png";
+let recipe2 =
+g[0]==1 && g[1]==0 && g[2]==1 &&
+g[3]==1 && g[4]==1 && g[5]==1 &&
+g[6]==0 && g[7]==0 && g[8]==0
+
+if(recipe1 || recipe2){
+
+let img=document.createElement("img")
+img.src="boot.png"
 
 img.onclick=function(){
-window.location="pagina2.html";
+window.location="pagina2.html"
 }
 
-result.appendChild(img);
+result.appendChild(img)
 
 }
 
