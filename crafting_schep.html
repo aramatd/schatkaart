@@ -139,7 +139,6 @@ body{
 function openBook(){document.getElementById("popup").style.display="flex"}
 function closeBook(){document.getElementById("popup").style.display="none"}
 
-// Inventory: 1 houtblok + 9 gold nuggets
 let inventoryData=[
   {type:"log",count:1},
   {type:"goldNugget",count:9},
@@ -173,7 +172,6 @@ function drawInventory(){
 }
 drawInventory()
 
-// Grid
 let gridData=[]
 for(let i=0;i<9;i++){gridData.push(null)}
 const grid=document.getElementById("grid")
@@ -205,7 +203,6 @@ function drawGrid(){
         checkRecipe()
         return
       }
-      // terugnemen van grid
       if(gridData[i]){
         addItem(gridData[i].type,gridData[i].count)
         gridData[i]=null
@@ -226,13 +223,11 @@ function addItem(type,count){
   if(empty!=-1){inventoryData[empty]={type:type,count:count}}
 }
 
-// Check recepten
 function checkRecipe(){
   let result=document.getElementById("result")
   result.className="slot"
   result.innerHTML=""
 
-  // Houtblok → 4 planken
   let logCount=0
   gridData.forEach(s=>{if(s && s.type=="log"){logCount+=s.count}})
   if(logCount>0){
@@ -254,7 +249,6 @@ function checkRecipe(){
     return
   }
 
-  // Plank → 2 stokken
   let plankCount=0
   gridData.forEach(s=>{if(s && s.type=="plank"){plankCount+=s.count}})
   if(plankCount>0){
@@ -280,7 +274,6 @@ function checkRecipe(){
     return
   }
 
-  // Gold nuggets → ingot (9 nuggets = 1 ingot)
   let nuggetCount=0
   gridData.forEach(s=>{if(s && s.type=="goldNugget"){nuggetCount+=s.count}})
   if(nuggetCount>=9){
@@ -307,7 +300,6 @@ function checkRecipe(){
     return
   }
 
-  // Gouden schep recept: 1 ingot + 2 stokken
   let items=gridData.map(s=>s?s.type:"")
   let r1 = items.filter(x=>x=="ingot").length==1 &&
            items.filter(x=>x=="stick").length==2
