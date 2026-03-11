@@ -96,13 +96,22 @@ body{
   object-fit:contain;
   cursor:pointer;
 }
+/* Nieuw: boek-div zonder kadertje */
+#book{
+  background:#c6c6c6;
+  width:var(--slot);
+  height:var(--slot);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 </style>
 </head>
 <body>
 
 <div id="crafting">
-  <!-- Receptenboek als gewone slot, net als bootpagina -->
-  <div id="book" class="slot">
+  <!-- Receptenboek zonder kadertje -->
+  <div id="book">
     <img src="recipe_book.png" onclick="openBook()">
   </div>
   
