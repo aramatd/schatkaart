@@ -26,6 +26,55 @@ gap:3vw;
 margin-top:20px;
 }
 
+/* boek */
+
+#book img{
+width:10vw;
+cursor:pointer;
+}
+
+/* popup */
+
+#popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+display:none;
+align-items:center;
+justify-content:center;
+}
+
+#popupContent{
+background:white;
+padding:20px;
+border-radius:10px;
+}
+
+#recipeGrid{
+display:grid;
+grid-template-columns:repeat(3,60px);
+gap:6px;
+margin-top:10px;
+}
+
+.recipeSlot{
+width:60px;
+height:60px;
+background:#8b8b8b;
+border-top:4px solid #373737;
+border-left:4px solid #373737;
+border-right:4px solid #ffffff;
+border-bottom:4px solid #ffffff;
+}
+
+.recipePlank{
+background-image:url("planks_oak.png");
+background-size:cover;
+}
+
 #grid{
 display:grid;
 grid-template-columns:repeat(3,var(--slot));
@@ -107,6 +156,10 @@ padding:1vw;
 
 <div id="crafting">
 
+<div id="book">
+<img src="recipe_book.png" onclick="openBook()">
+</div>
+
 <div id="grid">
 <div class="slot"></div>
 <div class="slot"></div>
@@ -129,7 +182,48 @@ padding:1vw;
 
 <div id="inventory"></div>
 
+<!-- popup -->
+
+<div id="popup" onclick="closeBook()">
+
+<div id="popupContent" onclick="event.stopPropagation()">
+
+<h3>Boot recept</h3>
+
+<div id="recipeGrid">
+
+<div class="recipeSlot"></div>
+<div class="recipeSlot"></div>
+<div class="recipeSlot"></div>
+
+<div class="recipeSlot recipePlank"></div>
+<div class="recipeSlot"></div>
+<div class="recipeSlot recipePlank"></div>
+
+<div class="recipeSlot recipePlank"></div>
+<div class="recipeSlot recipePlank"></div>
+<div class="recipeSlot recipePlank"></div>
+
+</div>
+
+<p>Klik buiten het venster om te sluiten</p>
+
+</div>
+</div>
+
 <script>
+
+/* receptenboek */
+
+function openBook(){
+document.getElementById("popup").style.display="flex"
+}
+
+function closeBook(){
+document.getElementById("popup").style.display="none"
+}
+
+/* inventory systeem */
 
 let inventoryData=[
 {type:"plank",count:5},
