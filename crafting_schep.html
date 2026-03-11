@@ -120,15 +120,15 @@ body{
 }
 .recipe-grid{
   display:grid;
-  grid-template-columns:repeat(3,50px);
-  grid-template-rows:repeat(3,50px);
-  gap:5px;
+  grid-template-columns:repeat(3,30px);
+  grid-template-rows:repeat(3,30px);
+  gap:3px;
   justify-content:center;
   margin-top:5px;
 }
 .recipe-grid .slot{
-  width:50px;
-  height:50px;
+  width:30px;
+  height:30px;
   background:#8b8b8b;
   border-top:2px solid #373737;
   border-left:2px solid #373737;
@@ -249,16 +249,8 @@ body{
 </div>
 
 <script>
-function openBook(){
-  document.getElementById("popup").style.display="flex";
-}
-
-// Sluit popup door te klikken op achtergrond
-function closeBook(e){
-  if(e.target.id=="popup"){
-    document.getElementById("popup").style.display="none";
-  }
-}
+function openBook(){document.getElementById("popup").style.display="flex";}
+function closeBook(e){if(e.target.id=="popup"){document.getElementById("popup").style.display="none";}}
 
 // Inventory: 1 houtblok + 9 gold nuggets
 let inventoryData=[
@@ -274,7 +266,7 @@ function drawInventory(){
   inventoryData.forEach((item,i)=>{
     let s=document.createElement("div");
     s.className="slot";
-    if(i===selectedSlot){s.classList.add("selected")}
+    if(i===selectedSlot)s.classList.add("selected");
     if(item){
       s.classList.add(item.type);
       let img=document.createElement("img");
@@ -294,9 +286,7 @@ function drawInventory(){
         drawInventory();
         if(item.type=="schep"){window.location="pagina4.html";}
       }
-    }else{
-      s.onclick=function(){selectedSlot=null;drawInventory();}
-    }
+    }else{s.onclick=function(){selectedSlot=null;drawInventory();}}
     inventory.appendChild(s)
   })
 }
@@ -366,6 +356,7 @@ function checkRecipe(){
   result.className="slot"
   result.innerHTML=""
 
+  // Planken
   let logCount=0
   gridData.forEach(s=>{if(s && s.type=="log"){logCount+=s.count}})
   if(logCount>0){
@@ -378,15 +369,14 @@ function checkRecipe(){
       addItem("plank",4)
       for(let i=0;i<gridData.length;i++){
         let s=gridData[i]
-        if(s && s.type=="log"){s.count--;if(s.count==0){gridData[i]=null}break}
+        if(s && s.type=="log"){s.count--;if(s.count==0)gridData[i]=null;break}
       }
-      drawInventory()
-      drawGrid()
-      checkRecipe()
+      drawInventory(); drawGrid(); checkRecipe()
     }
     return
   }
 
+  // Stokken
   let plankCount=0
   gridData.forEach(s=>{if(s && s.type=="plank"){plankCount+=s.count}})
   if(plankCount>0){
@@ -401,58 +391,38 @@ function checkRecipe(){
         let s=gridData[i]
         if(s && s.type=="plank" && used<1){
           addItem("stick",2)
-          s.count--;if(s.count==0){gridData[i]=null}
+          s.count--;if(s.count==0)gridData[i]=null
           used++
         }
       }
-      drawInventory()
-      drawGrid()
-      checkRecipe()
+      drawInventory(); drawGrid(); checkRecipe()
     }
     return
   }
 
-  let nuggetCount=0
-  gridData.forEach(s=>{if(s && s.type=="goldNugget"){nuggetCount+=s.count}})
-  if(nuggetCount>=9){
+  // Gold Ingot: exact 9 nuggets, 1 per vakje
+  if(gridData.every(s=>s && s.type=="goldNugget" && s.count==1)){
     result.classList.add("ingot")
-    let c=document.createElement("div")
-    c.className="count"
-    c.innerText="1"
-    result.appendChild(c)
+    let c=document.createElement("div"); c.className="count"; c.innerText="1"; result.appendChild(c)
     result.onclick=function(){
       addItem("ingot",1)
-      let taken=0
-      for(let i=0;i<gridData.length;i++){
-        let s=gridData[i]
-        if(s && s.type=="goldNugget" && taken<9){
-          taken++
-          s.count--
-          if(s.count==0){gridData[i]=null}
-        }
-      }
-      drawInventory()
-      drawGrid()
-      checkRecipe()
+      for(let i=0;i<gridData.length;i++) gridData[i]=null
+      drawInventory(); drawGrid(); checkRecipe()
     }
     return
   }
 
-  let items=gridData.map(s=>s?s.type:"")
-  let r1 = items.filter(x=>x=="ingot").length==1 &&
-           items.filter(x=>x=="stick").length==2
-  if(r1){
+  // Gouden Schep: patroon 3x3 grid, alleen 1 ingot boven midden, sticks in midden van middelste en onderste rij
+  let patternCorrect = gridData[1] && gridData[1].type=="ingot" &&
+                       gridData[4] && gridData[4].type=="stick" &&
+                       gridData[7] && gridData[7].type=="stick" &&
+                       gridData.filter((s,i)=>[1,4,7].includes(i) ? false : s).every(s=>!s);
+  if(patternCorrect){
     result.classList.add("schep")
     result.onclick=function(){
       addItem("schep",1)
-      for(let i=0;i<gridData.length;i++){
-        if(gridData[i] && (gridData[i].type=="ingot" || gridData[i].type=="stick")){
-          gridData[i]=null
-        }
-      }
-      drawInventory()
-      drawGrid()
-      checkRecipe()
+      [1,4,7].forEach(i=>gridData[i]=null)
+      drawInventory(); drawGrid(); checkRecipe()
     }
   }
 }
