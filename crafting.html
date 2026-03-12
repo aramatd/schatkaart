@@ -413,24 +413,12 @@ result.appendChild(c)
 
 result.onclick=function(){
 
-addItem("plank",4)
+addItem("plank", total)
 
 for(let i=0;i<gridData.length;i++){
-
-let s=gridData[i]
-
-if(s && s.type=="log"){
-
-s.count--
-
-if(s.count==0){
+if(gridData[i] && gridData[i].type=="log"){
 gridData[i]=null
 }
-
-break
-
-}
-
 }
 
 drawInventory()
