@@ -25,7 +25,7 @@ body{
   display:grid;
   grid-template-columns:repeat(3,var(--slot));
   row-gap:0; /* geen ruimte tussen rijen */
-  column-gap:1vw; /* optioneel kleine ruimte tussen kolommen */
+  column-gap:1vw;
 }
 .slot{
   width:var(--slot);
@@ -103,12 +103,11 @@ body{
   margin-top:0;
 }
 #recipesContent{
-  overflow-y:auto;
-  margin-bottom:10px;
+  overflow-y:auto; /* scrollbaar */
+  flex-grow:1;
 }
 .recipe-row{
   display:flex;
-  flex-wrap:wrap;
   align-items:center;
   margin:10px 0;
 }
@@ -236,14 +235,13 @@ function openBook(){
   document.getElementById("popup").style.display="flex";
 }
 
-// Sluit popup door te klikken op achtergrond
 function closeBook(e){
   if(e.target.id=="popup"){
     document.getElementById("popup").style.display="none";
   }
 }
 
-// Inventory: 1 houtblok + 9 gold nuggets
+// Inventory
 let inventoryData=[
   {type:"log",count:1},
   {type:"goldNugget",count:9},
