@@ -88,21 +88,79 @@ gap:1vw;
 justify-content:center;
 }
 
+/* Popup receptenboek */
 #popup{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#0008;
-align-items:center;
-justify-content:center;
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:#0008;
+  align-items:center;
+  justify-content:center;
+  overflow:auto;
 }
-
 #popupBox{
-background:white;
-padding:20px;
+  background:#c6c6c6;
+  padding:20px;
+  border-radius:8px;
+  max-width:90%;
+  display:flex;
+  flex-direction:column;
+}
+#popupBox h3{
+  margin-top:0;
+}
+.recipe-row{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  margin:15px 0;
+}
+.recipe-grid{
+  display:grid;
+  grid-template-columns:repeat(3,20px);
+  grid-template-rows:repeat(3,20px);
+  gap:2px;
+  margin-top:5px;
+}
+.recipe-grid .slot{
+  width:20px;
+  height:20px;
+  background:#8b8b8b;
+  border-top:1px solid #373737;
+  border-left:1px solid #373737;
+  border-right:1px solid #fff;
+  border-bottom:1px solid #fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.recipe-grid .slot img{
+  width:90%;
+  height:90%;
+  object-fit:contain;
+}
+#popupHint{
+  text-align:center;
+  margin-top:10px;
+  font-size:0.9em;
+  color:#333;
+}
+#book img{
+  width:80%;
+  height:80%;
+  object-fit:contain;
+  cursor:pointer;
+}
+#book{
+  background:#c6c6c6;
+  width:var(--slot);
+  height:var(--slot);
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 </style>
