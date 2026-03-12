@@ -24,7 +24,7 @@ body{
 #grid{
   display:grid;
   grid-template-columns:repeat(3,var(--slot));
-  row-gap:0;
+  row-gap:0; /* Geen ruimte tussen rijen */
   column-gap:1vw;
 }
 .slot{
@@ -40,6 +40,11 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
+}
+.slot img{
+  width:90%;
+  height:90%;
+  object-fit:contain;
 }
 .selected{
   filter:brightness(1.4);
@@ -86,36 +91,32 @@ body{
   width:100%;
   height:100%;
   background:#0008;
-  display:flex;
   align-items:center;
   justify-content:center;
+  overflow:auto;
 }
 #popupBox{
   background:#c6c6c6;
   padding:20px;
   border-radius:8px;
   max-width:90%;
-  max-height:90%;
   display:flex;
   flex-direction:column;
 }
 #popupBox h3{
   margin-top:0;
 }
-#recipesContent{
-  overflow-y:auto;
-  flex-grow:1;
-}
 .recipe-row{
-  margin:10px 0;
-  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  margin:15px 0;
 }
 .recipe-grid{
   display:grid;
   grid-template-columns:repeat(3,20px);
   grid-template-rows:repeat(3,20px);
   gap:2px;
-  justify-content:center;
   margin-top:5px;
 }
 .recipe-grid .slot{
@@ -126,6 +127,9 @@ body{
   border-left:1px solid #373737;
   border-right:1px solid #fff;
   border-bottom:1px solid #fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 .recipe-grid .slot img{
   width:90%;
@@ -133,10 +137,10 @@ body{
   object-fit:contain;
 }
 #popupHint{
-  font-size:0.9em;
   text-align:center;
-  color:#333;
   margin-top:10px;
+  font-size:0.9em;
+  color:#333;
 }
 #book img{
   width:80%;
@@ -176,69 +180,62 @@ body{
 <div id="popup" onclick="closeBook(event)">
   <div id="popupBox">
     <h3>Recepten</h3>
-    <div id="recipesContent">
-      <!-- Planken -->
-      <div class="recipe-row">
-        <div>Planken (1 houtblok = 4 planken)</div>
-        <div class="recipe-grid">
-          <div class="slot"><img src="log_oak.png"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-        </div>
-      </div>
 
-      <!-- Stokken -->
-      <div class="recipe-row">
-        <div>Stokken (1 plank = 2 stokken)</div>
-        <div class="recipe-grid">
-          <div class="slot"><img src="planks_oak.png"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-        </div>
+    <!-- Planken -->
+    <div class="recipe-row">
+      <div>Planken (1 houtblok = 4 planken)</div>
+      <div class="recipe-grid">
+        <div class="slot"><img src="log_oak.png"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
       </div>
+    </div>
 
-      <!-- Gold Ingot -->
-      <div class="recipe-row">
-        <div>Goud ingot (9 goud nuggets = 1 goud ingot)</div>
-        <div class="recipe-grid">
-          <div class="slot"><img src="gold_nugget.png"></div>
-          <div class="slot"><img src="gold_nugget.png"></div>
-          <div class="slot"><img src="gold_nugget.png"></div>
-          <div class="slot"><img src="gold_nugget.png"></div>
-          <div class="slot"><img src="gold_nugget.png"></div>
-          <div class="slot"><img src="gold_nugget.png"></div>
-          <div class="slot"><img src="gold_nugget.png"></div>
-          <div class="slot"><img src="gold_nugget.png"></div>
-          <div class="slot"><img src="gold_nugget.png"></div>
-        </div>
+    <!-- Stokken -->
+    <div class="recipe-row">
+      <div>Stokken (1 plank = 2 stokken)</div>
+      <div class="recipe-grid">
+        <div class="slot"><img src="planks_oak.png"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
       </div>
+    </div>
 
-      <!-- Gouden Schep -->
-      <div class="recipe-row">
-        <div>Gouden schep (1 goud ingot + 2 stokken)</div>
-        <div class="recipe-grid">
-          <div class="slot"></div>
-          <div class="slot"><img src="gold_ingot.png"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"><img src="stick.png"></div>
-          <div class="slot"></div>
-          <div class="slot"></div>
-          <div class="slot"><img src="stick.png"></div>
-          <div class="slot"></div>
-        </div>
+    <!-- Gold Ingot -->
+    <div class="recipe-row">
+      <div>Goud ingot (9 goud nuggets = 1 goud ingot)</div>
+      <div class="recipe-grid">
+        <div class="slot"><img src="gold_nugget.png"></div>
+        <div class="slot"><img src="gold_nugget.png"></div>
+        <div class="slot"><img src="gold_nugget.png"></div>
+        <div class="slot"><img src="gold_nugget.png"></div>
+        <div class="slot"><img src="gold_nugget.png"></div>
+        <div class="slot"><img src="gold_nugget.png"></div>
+        <div class="slot"><img src="gold_nugget.png"></div>
+        <div class="slot"><img src="gold_nugget.png"></div>
+        <div class="slot"><img src="gold_nugget.png"></div>
+      </div>
+    </div>
+
+    <!-- Gouden Schep -->
+    <div class="recipe-row">
+      <div>Gouden schep (1 goud ingot + 2 stokken)</div>
+      <div class="recipe-grid">
+        <div class="slot"></div><div class="slot"><img src="gold_ingot.png"></div><div class="slot"></div>
+        <div class="slot"></div><div class="slot"><img src="stick.png"></div><div class="slot"></div>
+        <div class="slot"></div><div class="slot"><img src="stick.png"></div><div class="slot"></div>
       </div>
     </div>
 
@@ -247,9 +244,8 @@ body{
 </div>
 
 <script>
-// Popup openen/sluiten
-function openBook(){ document.getElementById("popup").style.display="flex"; }
-function closeBook(e){ if(e.target.id=="popup"){ document.getElementById("popup").style.display="none"; } }
+function openBook(){document.getElementById("popup").style.display="flex";}
+function closeBook(e){if(e.target.id=="popup"){document.getElementById("popup").style.display="none";}}
 
 // Inventory
 let inventoryData=[{type:"log",count:1},{type:"goldNugget",count:9},null,null,null,null,null];
@@ -264,76 +260,160 @@ function drawInventory(){
     if(i===selectedSlot){s.classList.add("selected")}
     if(item){
       s.classList.add(item.type);
-      let c=document.createElement("div"); c.className="count"; c.innerText=item.count; s.appendChild(c)
-      s.onclick=function(){ selectedSlot=i; drawInventory(); if(item.type=="schep"){window.location="pagina4.html";} }
-    }else{ s.onclick=function(){selectedSlot=null;drawInventory();} }
+      let c=document.createElement("div");
+      c.className="count";
+      c.innerText=item.count;
+      s.appendChild(c)
+      s.onclick=function(){
+        selectedSlot=i
+        drawInventory()
+        if(item.type=="schep"){window.location="pagina4.html";}
+      }
+    }else{
+      s.onclick=function(){selectedSlot=null;drawInventory();}
+    }
     inventory.appendChild(s)
   })
 }
 drawInventory()
 
-// Crafting table
-let gridData=Array(9).fill(null);
-const grid=document.getElementById("grid");
+let gridData=[]
+for(let i=0;i<9;i++){gridData.push(null)}
+const grid=document.getElementById("grid")
 
 function drawGrid(){
-  grid.innerHTML="";
+  grid.innerHTML=""
   gridData.forEach((item,i)=>{
-    let s=document.createElement("div"); s.className="slot";
-    if(item){ s.classList.add(item.type); let c=document.createElement("div"); c.className="count"; c.innerText=item.count; s.appendChild(c); }
-    s.onclick=function(){
-      let inv=inventoryData[selectedSlot];
-      if(inv){
-        if(!gridData[i]){ gridData[i]={type:inv.type,count:1} }
-        else if(gridData[i].type==inv.type){ gridData[i].count++ }
-        else{return}
-        inv.count--; if(inv.count==0){inventoryData[selectedSlot]=null;selectedSlot=null}
-        drawInventory(); drawGrid(); checkRecipe(); return;
-      }
-      if(gridData[i]){ addItem(gridData[i].type,gridData[i].count); gridData[i]=null; drawInventory(); drawGrid(); checkRecipe(); }
+    let s=document.createElement("div")
+    s.className="slot"
+    if(item){
+      s.classList.add(item.type)
+      let c=document.createElement("div")
+      c.className="count"
+      c.innerText=item.count
+      s.appendChild(c)
     }
-    grid.appendChild(s);
-  });
+    s.onclick=function(){
+      let inv=inventoryData[selectedSlot]
+      if(inv){
+        if(!gridData[i]){
+          gridData[i]={type:inv.type,count:1}
+        }else if(gridData[i].type==inv.type){
+          gridData[i].count++
+        }else{return}
+        inv.count--
+        if(inv.count==0){inventoryData[selectedSlot]=null;selectedSlot=null}
+        drawInventory()
+        drawGrid()
+        checkRecipe()
+        return
+      }
+      if(gridData[i]){
+        addItem(gridData[i].type,gridData[i].count)
+        gridData[i]=null
+        drawInventory()
+        drawGrid()
+        checkRecipe()
+      }
+    }
+    grid.appendChild(s)
+  })
 }
 drawGrid()
 
 function addItem(type,count){
-  let slot=inventoryData.findIndex(i=>i && i.type==type);
-  if(slot!=-1){ inventoryData[slot].count+=count; return; }
-  let empty=inventoryData.findIndex(i=>i==null);
-  if(empty!=-1){ inventoryData[empty]={type:type,count:count}; }
+  let slot=inventoryData.findIndex(i=>i && i.type==type)
+  if(slot!=-1){inventoryData[slot].count+=count;return}
+  let empty=inventoryData.findIndex(i=>i==null)
+  if(empty!=-1){inventoryData[empty]={type:type,count:count}}
 }
 
-// Check recipes (laatst correcte werkende versie, exact zoals jullie wilden)
+// Check recipes
 function checkRecipe(){
-  let result=document.getElementById("result"); result.className="slot"; result.innerHTML="";
-  
-  // Planken van log
-  let logCount=0; gridData.forEach(s=>{ if(s && s.type=="log") logCount+=s.count; });
-  if(logCount>0 && gridData.every(s=>!s || s.type=="log")){
-    result.classList.add("plank"); let c=document.createElement("div"); c.className="count"; c.innerText=logCount*4; result.appendChild(c);
-    result.onclick=function(){ addItem("plank",4); for(let i=0;i<gridData.length;i++){ if(gridData[i] && gridData[i].type=="log"){ gridData[i].count--; if(gridData[i].count==0) gridData[i]=null } } drawInventory(); drawGrid(); checkRecipe(); }
-    return;
+  let result=document.getElementById("result")
+  result.className="slot"
+  result.innerHTML=""
+
+  // Hout -> planken
+  if(gridData.filter(s=>s).length===1 && gridData.some(s=>s && s.type=="log")){
+    result.classList.add("plank")
+    let c=document.createElement("div")
+    c.className="count"
+    c.innerText="4"
+    result.appendChild(c)
+    result.onclick=function(){
+      addItem("plank",4)
+      for(let i=0;i<9;i++){if(gridData[i] && gridData[i].type=="log"){gridData[i]=null; break}}
+      drawInventory(); drawGrid(); checkRecipe()
+    }
+    return
   }
 
-  // Stokken van plank
-  let plankCount=0; gridData.forEach(s=>{ if(s && s.type=="plank") plankCount+=s.count; });
-  if(plankCount>0 && gridData.every(s=>!s || s.type=="plank")){
-    result.classList.add("stick"); let c=document.createElement("div"); c.className="count"; c.innerText=plankCount*2; result.appendChild(c);
-    result.onclick=function(){ let used=0; for(let i=0;i<gridData.length;i++){ let s=gridData[i]; if(s && s.type=="plank" && used<plankCount){ addItem("stick",2); s.count--; if(s.count==0) gridData[i]=null; used++ } } drawInventory(); drawGrid(); checkRecipe(); }
-    return;
+  // Plank -> stick (alle planken tellen)
+  let plankSlots = gridData.filter(s => s && s.type=="plank");
+  if(plankSlots.length>0 && gridData.filter(s => s && s.type!="plank").length===0){
+    result.classList.add("stick")
+    let c=document.createElement("div")
+    c.className="count"
+    let total = plankSlots.reduce((sum,s)=>sum+s.count,0)
+    c.innerText = total*2
+    result.appendChild(c)
+    result.onclick = function(){
+      for(let i=0;i<9;i++){
+        if(gridData[i] && gridData[i].type=="plank"){
+          gridData[i]=null
+        }
+      }
+      addItem("stick", total*2)
+      drawInventory(); drawGrid(); checkRecipe()
+    }
+    return
   }
 
-  // Gold ingot
-  let nuggetCount=0; gridData.forEach(s=>{ if(s && s.type=="goldNugget") nuggetCount+=s.count; });
-  if(nuggetCount==9 && gridData.every(s=>s && s.type=="goldNugget")){ result.classList.add("ingot"); let c=document.createElement("div"); c.className="count"; c.innerText="1"; result.appendChild(c);
-    result.onclick=function(){ addItem("ingot",1); for(let i=0;i<gridData.length;i++){ let s=gridData[i]; if(s && s.type=="goldNugget"){ s.count--; if(s.count==0) gridData[i]=null } } drawInventory(); drawGrid(); checkRecipe(); } return; }
+  // Gold nuggets -> ingot (alle 9 correct verdeeld)
+  let allNine=true
+  for(let i=0;i<9;i++){
+    if(!gridData[i] || gridData[i].type!="goldNugget"){allNine=false; break}
+  }
+  if(allNine){
+    result.classList.add("ingot")
+    let c=document.createElement("div")
+    c.className="count"
+    c.innerText="1"
+    result.appendChild(c)
+    result.onclick=function(){
+      addItem("ingot",1)
+      for(let i=0;i<9;i++){gridData[i]=null}
+      drawInventory(); drawGrid(); checkRecipe()
+    }
+    return
+  }
 
-  // Gouden schep (1 ingot + 2 stokken)
-  let items=gridData.map(s=>s?s.type:"");
-  if(items.filter(x=>x=="ingot").length==1 && items.filter(x=>x=="stick").length==2 && gridData.every(s=>!s || s.type=="ingot" || s.type=="stick")){
-    result.classList.add("schep");
-    result.onclick=function(){ addItem("schep",1); for(let i=0;i<gridData.length;i++){ if(gridData[i] && (gridData[i].type=="ingot" || gridData[i].type=="stick")) gridData[i]=null } drawInventory(); drawGrid(); checkRecipe(); }
+  // Gouden schep exact patroon
+  const patterns=[
+    [1,4,7], // middenkolom
+    [0,3,6], // linkerkolom
+    [2,5,8]  // rechterkolom
+  ]
+  for(let p of patterns){
+    let valid=true
+    for(let i=0;i<9;i++){
+      if(p.includes(i)){
+        if(i===p[0] && (!gridData[i] || gridData[i].type!="ingot")){valid=false; break}
+        if((i===p[1] || i===p[2]) && (!gridData[i] || gridData[i].type!="stick")){valid=false; break}
+      } else {
+        if(gridData[i]){valid=false; break}
+      }
+    }
+    if(valid){
+      result.classList.add("schep")
+      result.onclick=function(){
+        addItem("schep",1)
+        for(let i of p){gridData[i]=null}
+        drawInventory(); drawGrid(); checkRecipe()
+      }
+      return
+    }
   }
 }
 </script>
