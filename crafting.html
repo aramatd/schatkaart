@@ -7,7 +7,6 @@
 <title>Minecraft Crafting</title>
 
 <style>
-
 body{
   font-family:Arial;
   background:#c6c6c6;
@@ -44,7 +43,7 @@ body{
   background:#8b8b8b;
   border-top:0.6vw solid #373737;
   border-left:0.6vw solid #373737;
-  border-right:0.6vw solid #ffffff;
+  border-right:0.6vw solid #ffffff; /* witte rand terug */
   border-bottom:0.6vw solid #ffffff;
   cursor:pointer;
   position:relative;
@@ -159,7 +158,6 @@ body{
   margin-top:15px;
   font-weight:bold;
 }
-
 </style>
 </head>
 
@@ -207,11 +205,11 @@ body{
 
     <!-- Boot -->
     <div class="recipe-row">
-      <div>Boot (5 planken)</div>
+      <div>Boot (5 planken = 1 boot)</div>
       <div class="recipe-grid">
-        <div></div><div></div><div></div>
-        <div class="slot plank"></div><div></div><div class="slot plank"></div>
         <div class="slot plank"></div><div class="slot plank"></div><div class="slot plank"></div>
+        <div class="slot plank"></div><div></div><div class="slot plank"></div>
+        <div></div><div></div><div></div>
       </div>
     </div>
 
@@ -308,17 +306,20 @@ function checkRecipe(){
   result.className="slot";
   result.innerHTML="";
 
-  // Hout -> planken
-  if(gridData.filter(s=>s).length===1 && gridData.some(s=>s && s.type=="log")){
+  // Hout -> planken (alle houtblokken tellen)
+  let logCount = gridData.filter(s=>s && s.type=="log").reduce((sum,s)=>sum+s.count,0);
+  if(logCount>0){
     result.classList.add("plank");
     let c=document.createElement("div");
     c.className="count";
-    c.innerText="4";
+    c.innerText = logCount*4; // direct correct aantal
     result.appendChild(c);
     result.onclick=function(){
-      addItem("plank",4);
+      addItem("plank", logCount*4);
       for(let i=0;i<gridData.length;i++){
-        if(gridData[i] && gridData[i].type=="log"){gridData[i]=null; break;}
+        if(gridData[i] && gridData[i].type=="log"){
+          gridData[i]=null;
+        }
       }
       drawInventory(); drawGrid(); checkRecipe();
     }
@@ -328,16 +329,11 @@ function checkRecipe(){
   // Boot pattern exact
   const items=gridData.map(s=>s?s.type:"");
   const r1=
-    items[0]=="" && items[1]=="" && items[2]=="" &&
+    items[0]=="plank" && items[1]=="plank" && items[2]=="plank" &&
     items[3]=="plank" && items[4]=="" && items[5]=="plank" &&
-    items[6]=="plank" && items[7]=="plank" && items[8]=="plank";
-
-  const r2=
-    items[0]=="plank" && items[1]=="" && items[2]=="plank" &&
-    items[3]=="plank" && items[4]=="plank" && items[5]=="plank" &&
     items[6]=="" && items[7]=="" && items[8]=="";  
 
-  if(r1 || r2){
+  if(r1){
     result.classList.add("boot");
     result.onclick=function(){
       addItem("boot",1);
@@ -346,7 +342,6 @@ function checkRecipe(){
     }
   }
 }
-
 </script>
 
 </body>
