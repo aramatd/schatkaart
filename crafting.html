@@ -186,51 +186,51 @@ justify-content:center;
 
 <div id="inventory"></div>
 
-<div id="popup">
-<div id="popupBox">
+<!-- Popup receptenboek -->
+<div id="popup" onclick="closeBook(event)">
+  <div id="popupBox">
+    <h3>Recepten</h3>
 
-<h3>Recepten</h3>
+    <!-- Planken -->
+    <div class="recipe-row">
+      <div>Planken (1 houtblok = 4 planken)</div>
+      <div class="recipe-grid">
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"><img src="log_oak.png"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+      </div>
+    </div>
 
-<p>Hout → Planken</p>
+    <!-- Boot -->
+    <div class="recipe-row">
+      <div>Boot (5 planken = 1 boot)</div>
+      <div class="recipe-grid">
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"><img src="planks_oak.png"></div>
+        <div class="slot"></div>
+        <div class="slot"><img src="planks_oak.png"></div>
+        <div class="slot"><img src="planks_oak.png"></div>
+        <div class="slot"><img src="planks_oak.png"></div>
+        <div class="slot"><img src="planks_oak.png"></div>
+      </div>
+    </div>
 
-<div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
-<div class="slot log"></div>
-<div></div>
-<div></div>
-</div>
-
-<p>Boot</p>
-
-<div style="display:grid;grid-template-columns:repeat(3,60px);gap:5px">
-
-<div></div><div></div><div></div>
-
-<div class="slot plank"></div>
-<div></div>
-<div class="slot plank"></div>
-
-<div class="slot plank"></div>
-<div class="slot plank"></div>
-<div class="slot plank"></div>
-
-</div>
-
-<br>
-
-<button onclick="closeBook()">Sluiten</button>
-
-</div>
+    <div id="popupHint">Klik naast het venster om te sluiten</div>
+  </div>
 </div>
 
 <script>
+function openBook(){document.getElementById("popup").style.display="flex";}
+function closeBook(e){if(e.target.id=="popup"){document.getElementById("popup").style.display="none";}}
 
-function openBook(){
-document.getElementById("popup").style.display="flex"
-}
-
-function closeBook(){
-document.getElementById("popup").style.display="none"
-}
 
 let inventoryData=[
 {type:"log",count:2},
