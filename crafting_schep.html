@@ -224,7 +224,6 @@ body{
     <div class="recipe-row">
       <div>Gouden schep (1 goud ingot + 2 stokken)</div>
       <div class="recipe-grid">
-        <!-- Middenkolom -->
         <div class="slot"></div><div class="slot"><img src="gold_ingot.png"></div><div class="slot"></div>
         <div class="slot"></div><div class="slot"><img src="stick.png"></div><div class="slot"></div>
         <div class="slot"></div><div class="slot"><img src="stick.png"></div><div class="slot"></div>
@@ -235,21 +234,11 @@ body{
 </div>
 
 <script>
-function openBook(){
-  document.getElementById("popup").style.display="flex";
-}
-function closeBook(e){
-  if(e.target.id=="popup"){
-    document.getElementById("popup").style.display="none";
-  }
-}
+function openBook(){document.getElementById("popup").style.display="flex";}
+function closeBook(e){if(e.target.id=="popup"){document.getElementById("popup").style.display="none";}}
 
 // Inventory
-let inventoryData=[
-  {type:"log",count:1},
-  {type:"goldNugget",count:9},
-  null,null,null,null,null
-];
+let inventoryData=[{type:"log",count:1},{type:"goldNugget",count:9},null,null,null,null,null];
 let selectedSlot=null;
 const inventory=document.getElementById("inventory");
 
@@ -350,21 +339,22 @@ function checkRecipe(){
     return
   }
 
-  // Plank -> stick
-  if(gridData.filter(s=>s).length===1 && gridData.some(s=>s && s.type=="plank")){
+  // Plank -> stick (alle planken tellen)
+  let plankSlots = gridData.filter(s => s && s.type=="plank");
+  if(plankSlots.length>0 && gridData.filter(s => s && s.type!="plank").length===0){
     result.classList.add("stick")
     let c=document.createElement("div")
     c.className="count"
-    c.innerText="2"
+    let total = plankSlots.reduce((sum,s)=>sum+s.count,0)
+    c.innerText = total*2
     result.appendChild(c)
-    result.onclick=function(){
+    result.onclick = function(){
       for(let i=0;i<9;i++){
         if(gridData[i] && gridData[i].type=="plank"){
-          addItem("stick",2)
           gridData[i]=null
-          break
         }
       }
+      addItem("stick", total*2)
       drawInventory(); drawGrid(); checkRecipe()
     }
     return
