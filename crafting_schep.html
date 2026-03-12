@@ -85,7 +85,7 @@ body{
 
 /* Popup receptenboek */
 #popup{
-  display:none;
+  display:none;        /* MOET op none staan bij laden */
   position:fixed;
   top:0;
   left:0;
@@ -93,24 +93,26 @@ body{
   height:100%;
   background:#0008;
   overflow:auto;
-  padding:10px;           /* ruimte rondom voor klikken */
+  padding:20px;        /* meer ruimte rondom */
   box-sizing:border-box;
-  display:flex;
   justify-content:center;
+  align-items:center;
+  display:flex;        /* flex pas hier */
 }
 #popupBox{
   background:#c6c6c6;
   border-radius:8px;
-  max-width:400px;        /* of een percentage, bv 90% */
+  max-width:350px;      /* past beter op mobiel */
   width:100%;
-  max-height:90vh;        /* nooit hoger dan scherm */
-  overflow:auto;           /* scroll als inhoud groter is */
+  max-height:85vh;      /* ruimte boven en onder */
+  overflow:auto;        /* scroll als te groot */
   padding:20px;
   display:flex;
   flex-direction:column;
   font-family:'Minecraftia', sans-serif;
   color:black;
-  text-align:left;
+  margin:0 10px;        /* extra ruimte aan de zijkanten */
+  box-sizing:border-box;
 }
 #popupBox h3{
   margin-top:0;
