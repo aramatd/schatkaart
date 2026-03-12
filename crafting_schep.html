@@ -333,6 +333,7 @@ function checkRecipe(){
   let result=document.getElementById("result")
   result.className="slot"
   result.innerHTML=""
+  result.onclick=null
 
   // Hout -> planken
   if(gridData.filter(s=>s).length===1 && gridData.some(s=>s && s.type=="log")){
