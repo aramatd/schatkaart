@@ -108,10 +108,14 @@ justify-content:center;
   padding:20px;
   border-radius:8px;
   max-width:90%;
+  width:90%;           /* Zorg dat het past op kleine schermen */
+  max-height:90vh;     /* Hoogte maximaal 90% van viewport */
+  overflow:auto;       /* Scrollen als het te groot is */
   display:flex;
   flex-direction:column;
   font-family:'Minecraftia', sans-serif;
-
+  color:black;
+  text-align:left;
 }
 #popupBox h3{
   margin-top:0;
