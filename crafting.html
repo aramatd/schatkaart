@@ -121,11 +121,13 @@ justify-content:center;
 #popupBox h3{
   margin-top:0;
 }
+/* Pas recipe-row aan voor horizontale layout */
 .recipe-row{
   display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  margin:15px 0;
+  flex-direction:row;           /* nu horizontaal in plaats van kolom */
+  align-items:center;           /* verticaal uitlijnen */
+  margin:10px 0;
+  gap:10px;                     /* ruimte tussen grid en tekst */
 }
 .recipe-grid{
   display:grid;
@@ -242,7 +244,7 @@ text-align:left;
         <div class="slot"><img src="planks_oak.png"></div>
         <div class="slot"><img src="planks_oak.png"></div>
       </div>
-      <div>= Boot</div>
+      <div>= boot</div>
     </div>
 
     <div id="popupHint">Klik naast het venster om te sluiten</div>
