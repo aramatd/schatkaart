@@ -16,17 +16,18 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: url('achtergrond.jpg') no-repeat center center;
-    background-size: cover;
+    background: url('schatkaart/boot_groot.png') no-repeat center center;
+    background-size: contain; /* past de boot in de breedte en hoogte */
+    background-color: #f0f0f0;
     overflow: hidden;
   }
 
   /* Kleine “papier” rechthoek in het midden */
   #paper {
     position: absolute;
-    width: 50px;  /* startgrootte klein */
+    width: 50px;
     height: auto;
-    max-width: 90%; /* past automatisch in de breedte */
+    max-width: 90%; /* past automatisch in de breedte van het scherm */
     background-color: white;
     border: 2px solid black;
     box-sizing: border-box;
@@ -53,8 +54,8 @@
     position: fixed;
     top: 5%;
     left: 5%;
-    width: 90%;       /* altijd 90% van de schermbreedte */
-    max-height: 90%;  /* hoogte past automatisch */
+    width: 90%;
+    max-height: 90%;
     background-color: white;
     border: 4px solid black;
     display: none;
@@ -65,7 +66,7 @@
     font-family: 'Minecraftia', sans-serif;
     font-size: 1.5rem;
     text-align: center;
-    overflow-y: auto; /* scroll als tekst te groot is */
+    overflow-y: auto;
   }
 
   /* Responsive tekst op klein papier */
