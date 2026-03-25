@@ -34,34 +34,42 @@
     display: block;
   }
 
- #paper {
+#paper {
   position: absolute;
   top: 35%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0.1) rotate(-15deg); /* diagonaal */
-  width: 70%;
-  max-width: 90%;
-  aspect-ratio: 3/4;
-  background-color: #ffffff; /* wit papier */
-  border: 2px solid #000;   /* zwarte pixelrand */
+  transform: translate(-50%, -50%) scale(0.1) rotate(-15deg);
+  width: 40px;   /* veel kleiner */
+  height: 50px;  /* pixelverhouding zoals in Minecraft */
+  background-color: #ffffff;
+
+  /* pixelige zwarte rand */
+  border: 1px solid #000;
   box-shadow:
-    2px 2px 0 #000,
-    -2px 2px 0 #000,
-    2px -2px 0 #000,
-    -2px -2px 0 #000;
+    1px 1px 0 #000,
+    -1px 1px 0 #000,
+    1px -1px 0 #000,
+    -1px -1px 0 #000;
+
+  /* lichte vlekjes zoals in Minecraft */
+  background-image:
+    linear-gradient(90deg, rgba(240,240,240,0.5) 10%, transparent 10%),
+    linear-gradient(rgba(240,240,240,0.5) 10%, transparent 10%);
+  background-size: 5px 5px;
+
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
   font-family: 'Minecraftia', sans-serif;
-  font-size: 1rem;
+  font-size: 0.7rem;
   opacity: 0;
   transition: transform 3s ease, opacity 0.5s ease;
 }
+
 #paper.show {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1) rotate(-15deg); /* groeit diagonaal */
+  transform: translate(-50%, -50%) scale(1) rotate(-15deg);
 }
   /* Groot papier overlay */
   #full-paper {
