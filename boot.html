@@ -34,39 +34,35 @@
     display: block;
   }
 
-  /* Kleine “Minecraft-paper” rechthoek hoger op de pagina */
-  #paper {
-    position: absolute;
-    top: 35%;             /* hoger op de pagina */
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.1);
-    width: 70%;
-    max-width: 90%;
-    aspect-ratio: 3/4;    /* hoger dan breed */
-    background: #fffdf5;  /* lichte crèmekleur */
-    border: 2px solid #000; /* zwarte rand */
-    border-radius: 2px;  
-    box-shadow: 
-      inset -2px -2px 0 #e0dfd0,
-      inset 2px 2px 0 #e0dfd0,
-      3px 3px 0 #000;      /* lichte textuur en diepte */
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 15px;
-    font-family: 'Minecraftia', sans-serif;
-    font-size: 1rem;
-    opacity: 0;
-    transition: transform 3s ease, opacity 0.5s ease;
-  }
-
-  #paper.show {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
+ #paper {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.1) rotate(-15deg); /* diagonaal */
+  width: 70%;
+  max-width: 90%;
+  aspect-ratio: 3/4;
+  background-color: #ffffff; /* wit papier */
+  border: 2px solid #000;   /* zwarte pixelrand */
+  box-shadow:
+    2px 2px 0 #000,
+    -2px 2px 0 #000,
+    2px -2px 0 #000,
+    -2px -2px 0 #000;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: 'Minecraftia', sans-serif;
+  font-size: 1rem;
+  opacity: 0;
+  transition: transform 3s ease, opacity 0.5s ease;
+}
+#paper.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1) rotate(-15deg); /* groeit diagonaal */
+}
   /* Groot papier overlay */
   #full-paper {
     position: fixed;
