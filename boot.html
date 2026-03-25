@@ -34,43 +34,25 @@
     display: block;
   }
 
-#paper {
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.1) rotate(-15deg);
-  width: 40px;   /* veel kleiner */
-  height: 50px;  /* pixelverhouding zoals in Minecraft */
-  background-color: #ffffff;
+  /* Klein papier (Minecraft-stijl) */
+  #paper {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1) rotate(-15deg); /* diagonaal */
+    width: 40px;   /* klein zoals in Minecraft */
+    height: auto;
+    image-rendering: pixelated; /* scherp pixelpapier bij opschalen */
+    cursor: pointer;
+    opacity: 0;
+    transition: transform 3s ease, opacity 0.5s ease;
+  }
 
-  /* pixelige zwarte rand */
-  border: 1px solid #000;
-  box-shadow:
-    1px 1px 0 #000,
-    -1px 1px 0 #000,
-    1px -1px 0 #000,
-    -1px -1px 0 #000;
+  #paper.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(-15deg);
+  }
 
-  /* lichte vlekjes zoals in Minecraft */
-  background-image:
-    linear-gradient(90deg, rgba(240,240,240,0.5) 10%, transparent 10%),
-    linear-gradient(rgba(240,240,240,0.5) 10%, transparent 10%);
-  background-size: 5px 5px;
-
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Minecraftia', sans-serif;
-  font-size: 0.7rem;
-  opacity: 0;
-  transition: transform 3s ease, opacity 0.5s ease;
-}
-
-#paper.show {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1) rotate(-15deg);
-}
   /* Groot papier overlay */
   #full-paper {
     position: fixed;
@@ -98,9 +80,6 @@
 
   /* Responsive tekst voor kleine schermen */
   @media (max-width: 600px) {
-    #paper {
-      font-size: 0.9rem;
-    }
     #full-paper {
       font-size: 1.2rem;
     }
@@ -111,7 +90,7 @@
 
 <div id="background-container">
   <img id="boot" src="boot_groot.png" alt="Boot">
-  <div id="paper">Klik hier</div>
+  <img id="paper" src="paper.png" alt="Minecraft Papier">
 </div>
 
 <div id="full-paper">
@@ -119,7 +98,7 @@
 </div>
 
 <script>
-  // Papier verschijnt na 5 seconden
+  // Klein papier verschijnt na 5 seconden
   setTimeout(() => {
     document.getElementById('paper').classList.add('show');
   }, 5000);
