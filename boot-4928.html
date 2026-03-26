@@ -28,6 +28,17 @@
     max-width: 500px;
   }
 
+  #boot-text {
+  position: absolute;
+  top: -40px;          /* boven de boot */
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Minecraftia', sans-serif;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+}
+
   #boot {
     width: 100%;
     height: auto;
@@ -90,6 +101,7 @@
 <body>
 
 <div id="background-container">
+  <div id="boot-text">Yes! Je hebt een boot gemaakt, nu kun je naar de schat varen! Maar hee, wat ligt er op de bodem van de boot?</div>
   <img id="boot" src="boot_groot.png" alt="Boot">
   <img id="paper" src="paper-.png" alt="Minecraft Papier">
 </div>
