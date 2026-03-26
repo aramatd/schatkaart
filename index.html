@@ -31,7 +31,6 @@ body {
     text-align: center;
     font-family: 'Minecraftia', sans-serif;
     font-size: 14px;
-    flex-shrink: 0;
 }
 
 .overlay input {
@@ -40,12 +39,12 @@ body {
     width: 160px;
     font-size: 14px;
     font-family: 'Minecraftia', sans-serif;
-    color: black;
 }
 
+/* kaart */
 .map {
     position: relative;
-    flex: 1;              
+    flex: 1;
     width: 100%;
     max-width: 90vw;
     display: flex;
@@ -84,6 +83,7 @@ body {
     mask-image: none;
 }
 
+/* modal */
 .mc-modal {
     position: fixed;
     inset: 0;
@@ -91,7 +91,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
 }
 
 .mc-modal.hidden {
@@ -101,9 +100,7 @@ body {
 .mc-box {
     background: #c6c6c6;
     border: 2px solid black;
-    box-shadow: 
-        -2px -2px 0 white,
-        2px 2px 0 #888;
+    box-shadow: -2px -2px 0 white, 2px 2px 0 #888;
     padding: 16px 24px;
     text-align: center;
     font-family: 'Minecraftia', sans-serif;
@@ -121,10 +118,6 @@ body {
     box-shadow: -2px -2px 0 white, 2px 2px 0 #888;
     cursor: pointer;
 }
-
-.mc-box button:active {
-    box-shadow: inset 2px 2px 0 #000;
-}
 </style>
 </head>
 
@@ -133,7 +126,7 @@ body {
 <div class="container">
 
     <div class="overlay">
-        <div>Voer code in: 
+        <div>Voer code in:
         <input type="text" id="codeInput"></div>
     </div>
 
@@ -150,7 +143,7 @@ body {
 
 <div id="mcModal" class="mc-modal hidden">
     <div class="mc-box">
-        <div class="mc-text">Deze code is onjuist, probeer opnieuw</div>
+        <div class="mc-text">Deze code is niet juist, probeer opnieuw</div>
         <button onclick="closeModal()">OK</button>
     </div>
 </div>
@@ -159,21 +152,18 @@ body {
 let step = 0;
 const codes = ["39", "85", "goud", "diamant"];
 
-document.getElementById("codeInput").addEventListener("keypress", function(e) {
-    const modal = document.getElementById("mcModal");
+const input = document.getElementById("codeInput");
 
-    // Blokkeer invoer als modal open is
-    if (!modal.classList.contains("hidden")) return;
-
+input.addEventListener("keypress", function(e) {
     if (e.key === "Enter") {
         checkCode();
     }
 });
 
 function checkCode() {
-    const input = document.getElementById("codeInput").value.toLowerCase();
+    const value = input.value.toLowerCase();
 
-    if (input === codes[step]) {
+    if (value === codes[step]) {
         step++;
 
         const layer = document.getElementById("layer" + (step + 1));
@@ -202,18 +192,27 @@ function checkCode() {
         showModal();
     }
 
-    document.getElementById("codeInput").value = "";
+    input.value = "";
 }
 
 function showModal() {
-    document.getElementById("mcModal").classList.remove("hidden");
+    const modal = document.getElementById("mcModal");
+
+    modal.classList.remove("hidden");
+
+    input.blur();
+    input.disabled = true;
 }
 
 function closeModal() {
-    document.getElementById("mcModal").classList.add("hidden");
+    const modal = document.getElementById("mcModal");
+
+    modal.classList.add("hidden");
+
+    input.disabled = false;
+    input.focus();
 }
 
-// Enter sluit modal
 document.addEventListener("keydown", function(e) {
     const modal = document.getElementById("mcModal");
 
