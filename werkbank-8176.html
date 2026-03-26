@@ -252,7 +252,9 @@ text-align:left;
 
 <script>
 function openBook(){document.getElementById("popup").style.display="flex";}
-function closeBook(e){if(e.target.id=="popup"){document.getElementById("popup").style.display="none";}}
+function closeBook(){
+  document.getElementById("popup").style.display="none";
+}
 
 
 let inventoryData=[
