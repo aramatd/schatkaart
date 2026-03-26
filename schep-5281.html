@@ -77,6 +77,13 @@
     overflow-y: auto;
   }
 
+  #full-paper img {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  display: block;
+}
+
   /* Responsive tekst voor kleine schermen */
   @media (max-width: 600px) {
     #full-paper {
@@ -92,12 +99,11 @@
   <img id="paper" src="paper-.png" alt="Minecraft Papier">
 </div>
 
+
 <div id="full-paper">
-  A. 3/8 + 1/8<br><br>
-  B. 9/16 + 3/16<br><br>
-  C. 4/4 - 3/4<br><br>
-  D. 1/2 + 1/2
+  <img src="breuken.png" alt="Opdracht">
 </div>
+
 
 <script>
   // Klein papier verschijnt na 5 seconden
