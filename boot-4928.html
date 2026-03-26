@@ -5,11 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Boot</title>
 
-<!-- Minecraft lettertype via CDN -->
 <link href="https://fonts.cdnfonts.com/css/minecraftia" rel="stylesheet">
 
 <style>
-  /* Minecraft-blauwe achtergrond rondom de boot */
   body {
     margin: 0;
     padding: 0;
@@ -17,24 +15,28 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #3b82f6; /* Minecraft blauw */
+    background-color: #3b82f6;
     overflow: hidden;
   }
 
-  /* Container met boot in het midden */
   #background-container {
-    position: relative;
     width: 90%;
     max-width: 500px;
+    text-align: center;
   }
 
-#boot-text {
-  font-family: 'Minecraftia', sans-serif;
-  color: white;
-  font-size: 20px;
-  text-align: center;
-  margin-bottom: 10px;
-}
+  /* Tekst boven de boot */
+  #boot-text {
+    font-family: 'Minecraftia', sans-serif;
+    color: white;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  /* Wrapper voor correcte positionering */
+  #boot-wrapper {
+    position: relative;
+  }
 
   #boot {
     width: 100%;
@@ -42,27 +44,27 @@
     display: block;
   }
 
-  /* Klein papier (Minecraft-stijl) */
+  /* Papier op vaste plek op boot */
   #paper {
     position: absolute;
     top: 43%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.1) rotate(-15deg); /* diagonaal */
-    width: 70px;   /* klein zoals in Minecraft */
+    transform: translate(-50%, -50%) scale(0.1) rotate(-15deg);
+    width: 70px;
     height: auto;
     cursor: pointer;
     opacity: 0;
+    pointer-events: none;
     transition: transform 3s ease, opacity 0.5s ease;
-    pointer-events: none; /* niet klikbaar */
   }
 
   #paper.show {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1) rotate(-15deg);
-     pointer-events: auto; /* wél klikbaar zodra zichtbaar */
+    pointer-events: auto;
   }
 
-  /* Groot papier overlay */
+  /* Groot papier */
   #full-paper {
     position: fixed;
     top: 5%;
@@ -87,7 +89,6 @@
     overflow-y: auto;
   }
 
-  /* Responsive tekst voor kleine schermen */
   @media (max-width: 600px) {
     #full-paper {
       font-size: 1.2rem;
@@ -95,47 +96,52 @@
   }
 </style>
 </head>
+
 <body>
 
 <div id="background-container">
-  <div id="boot-text">Yes! Je hebt een boot gemaakt, nu kun je naar de schat varen! Maar hee, wat ligt er op de bodem van de boot?</div>
-  <img id="boot" src="boot_groot.png" alt="Boot">
-  <img id="paper" src="paper-.png" alt="Minecraft Papier">
+
+  <div id="boot-text">Goedzo! Je hebt een boot gecraft! Nu kun je straks naar de schat varen!<br>
+  <br>
+  Hee! Wat ligt daar op de bodem van de boot?</div>
+
+  <div id="boot-wrapper">
+    <img id="boot" src="boot_groot.png" alt="Boot">
+    <img id="paper" src="paper-.png" alt="Minecraft Papier">
+  </div>
+
 </div>
 
 <div id="full-paper">
   Horizontaal:<br>
-1. 78 - 27<br>
-2. 158 x 4<br>
-5. 640 : 8<br>
-6. 331 + 55<br>
-8. 102 : 2<br>
-9. 784 - 67<br>
-10. 290 + 93<br>
-13. 7 x 9<br>
-<br>
-Verticaal:<br>
-3. 88 - 55<br>
-4. 125 : 5<br>
-7. 141 + 412<br>
-11. 156 - 62<br>
-12. 134 : 2<br>
-14. 29 + 54<br>
-15. 47 + 45<br>
+  1. 78 - 27<br>
+  2. 158 x 4<br>
+  5. 640 : 8<br>
+  6. 331 + 55<br>
+  8. 102 : 2<br>
+  9. 784 - 67<br>
+  10. 290 + 93<br>
+  13. 7 x 9<br>
+  <br>
+  Verticaal:<br>
+  3. 88 - 55<br>
+  4. 125 : 5<br>
+  7. 141 + 412<br>
+  11. 156 - 62<br>
+  12. 134 : 2<br>
+  14. 29 + 54<br>
+  15. 47 + 45<br>
 </div>
 
 <script>
-  // Klein papier verschijnt na 5 seconden
   setTimeout(() => {
     document.getElementById('paper').classList.add('show');
-  }, 10000);
+  }, 20000);
 
-  // Klik op klein papier → groot papier tonen
   document.getElementById('paper').addEventListener('click', () => {
     document.getElementById('full-paper').style.display = 'flex';
   });
 
-  // Klik op groot papier → sluiten
   document.getElementById('full-paper').addEventListener('click', () => {
     document.getElementById('full-paper').style.display = 'none';
   });
