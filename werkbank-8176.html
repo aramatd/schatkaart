@@ -425,7 +425,9 @@ logCount+=s.count
 }
 })
 
-if(logCount>0){
+let onlyLogs = gridData.every(s => !s || s.type === "log");
+
+if(logCount > 0 && onlyLogs){
 
 let total=logCount*4
 
