@@ -150,11 +150,12 @@ body {
 
 <script>
 let step = 0;
-const codes = ["39", "85", "CABD", "diamant"];
+const codes = ["39", "85", "goud", "diamant"];
 
 const input = document.getElementById("codeInput");
 
-input.addEventListener("keypress", function(e) {
+// Enter in input
+input.addEventListener("keydown", function(e) {
     if (e.key === "Enter") {
         checkCode();
     }
@@ -196,27 +197,20 @@ function checkCode() {
 }
 
 function showModal() {
-    const modal = document.getElementById("mcModal");
-
-    modal.classList.remove("hidden");
-
-    input.blur();
-    input.disabled = true;
+    document.getElementById("mcModal").classList.remove("hidden");
 }
 
 function closeModal() {
-    const modal = document.getElementById("mcModal");
-
-    modal.classList.add("hidden");
-
-    input.disabled = false;
-    input.focus();
+    document.getElementById("mcModal").classList.add("hidden");
 }
 
+// Enter sluit modal (zonder doorlekken)
 document.addEventListener("keydown", function(e) {
     const modal = document.getElementById("mcModal");
 
     if (!modal.classList.contains("hidden") && e.key === "Enter") {
+        e.preventDefault();
+        e.stopPropagation();
         closeModal();
     }
 });
