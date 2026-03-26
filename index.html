@@ -1,330 +1,228 @@
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Minecraft Crafting</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schatkaart</title>
+
+<link href="https://fonts.cdnfonts.com/css/minecraftia" rel="stylesheet">
 
 <style>
-
-body{
-font-family:Arial;
-background:#c6c6c6;
-text-align:center;
-margin:10px;
+body {
+    margin: 0;
+    height: 100dvh;
+    background: #333;
 }
 
-:root{
---slot:12vw;
+/* layout */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    box-sizing: border-box;
 }
 
-#crafting{
-display:flex;
-align-items:center;
-justify-content:center;
-gap:3vw;
-margin-top:20px;
+/* invoerveld */
+.overlay {
+    background: #c6c6c6;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-align: center;
+    font-family: 'Minecraftia', sans-serif;
+    font-size: 14px;
+    flex-shrink: 0;
 }
 
-#grid{
-display:grid;
-grid-template-columns:repeat(3,var(--slot));
-gap:1vw;
+.overlay input {
+    margin-top: 6px;
+    padding: 6px;
+    width: 160px;
+    font-size: 14px;
+    font-family: 'Minecraftia', sans-serif;
+    color: black;
 }
 
-.slot{
-width:var(--slot);
-height:var(--slot);
-background:#8b8b8b;
-border-top:0.6vw solid #373737;
-border-left:0.6vw solid #373737;
-border-right:0.6vw solid #ffffff;
-border-bottom:0.6vw solid #ffffff;
-cursor:pointer;
-position:relative;
+/* afbeelding */
+.map {
+    position: relative;
+    flex: 1;              
+    width: 100%;
+    max-width: 90vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.selected{
-filter:brightness(1.4);
+.map-inner {
+    position: relative;
+    height: 100%;
+    aspect-ratio: 1278 / 676;
 }
 
-.log{background-image:url("log_oak.png");background-size:cover;}
-.plank{background-image:url("planks_oak.png");background-size:cover;}
-.boot{background-image:url("boot.png");background-size:cover;}
-
-.count{
-position:absolute;
-bottom:2px;
-right:4px;
-font-weight:bold;
-color:white;
-text-shadow:1px 1px 2px black;
-font-size:4vw;
+.layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
-#arrow img{
-width:9vw;
+/* animatie */
+.hidden {
+    opacity: 0;
 }
 
-#result{
-width:18vw;
-height:18vw;
-background:#8b8b8b;
-border-top:0.6vw solid #373737;
-border-left:0.6vw solid #373737;
-border-right:0.6vw solid #ffffff;
-border-bottom:0.6vw solid #ffffff;
-display:flex;
-align-items:center;
-justify-content:center;
+.transition {
+    opacity: 1;
+    mask-image: radial-gradient(circle at var(--x, 0%) 50%,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,1) var(--r, 0%),
+        rgba(0,0,0,0) calc(var(--r, 0%) + 10%)
+    );
 }
 
-#result img{
-width:80%;
-cursor:pointer;
+.visible {
+    opacity: 1;
+    mask-image: none;
 }
 
-#inventory{
-margin-top:4vw;
-display:grid;
-grid-template-columns:repeat(7,var(--slot));
-gap:1vw;
-justify-content:center;
+/* minecraft-stijl modal */
+.mc-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
+.mc-modal.hidden {
+    display: none;
+}
+
+/* Minecraft-knop/box stijl zoals screenshot */
+.mc-box {
+    background: #c6c6c6; /* knop achtergrond */
+    border: 2px solid black; /* zwarte buitenrand */
+    box-shadow: 
+        -2px -2px 0 white,  /* witte bovenrand en linkerkant */
+        2px 2px 0 #888;     /* grijze onderrand en rechterkant */
+    padding: 16px 24px;
+    text-align: center;
+    font-family: 'Minecraftia', sans-serif;
+}
+
+.mc-text {
+    margin-bottom: 12px;
+}
+
+.mc-box button {
+    font-family: 'Minecraftia', sans-serif;
+    padding: 6px 16px;
+    background: #c6c6c6;
+    border: 2px solid black;
+    box-shadow: -2px -2px 0 white, 2px 2px 0 #888;
+    cursor: pointer;
+}
+
+.mc-box button:active {
+    box-shadow: inset 2px 2px 0 #000;
+}
 </style>
 </head>
 
 <body>
 
-<div id="crafting">
+<div class="container">
 
-<div id="grid">
-<div class="slot"></div>
-<div class="slot"></div>
-<div class="slot"></div>
-<div class="slot"></div>
-<div class="slot"></div>
-<div class="slot"></div>
-<div class="slot"></div>
-<div class="slot"></div>
-<div class="slot"></div>
-</div>
+    <div class="overlay">
+        <div>Voer code in</div>
+        <input type="text" id="codeInput">
+    </div>
 
-<div id="arrow">
-<img src="arrow.png">
-</div>
-
-<div id="result"></div>
+    <div class="map">
+        <div class="map-inner">
+            <img src="schatkaart-1.png" class="layer">
+            <img src="schatkaart-2.png" class="layer hidden" id="layer2">
+            <img src="schatkaart-3.png" class="layer hidden" id="layer3">
+            <img src="schatkaart-4.png" class="layer hidden" id="layer4">
+        </div>
+    </div>
 
 </div>
 
-<div id="inventory"></div>
+<!-- Minecraft-stijl foutmelding -->
+<div id="mcModal" class="mc-modal hidden">
+    <div class="mc-box">
+        <div class="mc-text">Foute code</div>
+        <button onclick="closeModal()">OK</button>
+    </div>
+</div>
 
 <script>
+let step = 0;
+const codes = ["steen", "ijzer", "goud", "diamant"];
 
-/* INVENTORY */
+document.getElementById("codeInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        checkCode();
+    }
+});
 
-let inventoryData=[
-{type:"log",count:2},
-null,null,null,null,null,null
-]
+function checkCode() {
+    const input = document.getElementById("codeInput").value.toLowerCase();
 
-let selectedSlot=null
+    if (input === codes[step]) {
+        step++;
 
-const inventory=document.getElementById("inventory")
+        const layer = document.getElementById("layer" + (step + 1));
 
-function drawInventory(){
+        if (layer) {
+            layer.classList.remove("hidden");
+            layer.classList.add("transition");
 
-inventory.innerHTML=""
+            let progress = 0;
 
-inventoryData.forEach((item,i)=>{
+            const interval = setInterval(() => {
+                progress += 2;
 
-let s=document.createElement("div")
-s.className="slot"
+                layer.style.setProperty('--x', progress + "%");
+                layer.style.setProperty('--r', (progress * 1.2) + "%");
 
-if(i===selectedSlot){
-s.classList.add("selected")
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    layer.classList.remove("transition");
+                    layer.classList.add("visible");
+                }
+            }, 50);
+        }
+
+    } else {
+        showModal(); // minecraft-stijl foutmelding
+    }
+
+    document.getElementById("codeInput").value = "";
 }
 
-if(item){
-
-s.classList.add(item.type)
-
-let c=document.createElement("div")
-c.className="count"
-c.innerText=item.count
-s.appendChild(c)
-
-s.onclick=function(){
-
-selectedSlot=i
-drawInventory()
-
-if(item.type=="boot"){
-window.location="pagina2.html"
+// Minecraft-stijl modal functies
+function showModal() {
+    document.getElementById("mcModal").classList.remove("hidden");
 }
 
+function closeModal() {
+    document.getElementById("mcModal").classList.add("hidden");
 }
 
-}else{
-
-s.onclick=function(){
-selectedSlot=null
-drawInventory()
-}
-
-}
-
-inventory.appendChild(s)
-
-})
-
-}
-
-drawInventory()
-
-/* GRID */
-
-const slots=document.querySelectorAll("#grid .slot")
-
-slots.forEach(slot=>{
-
-slot.onclick=function(){
-
-let item=inventoryData[selectedSlot]
-
-/* plaatsen */
-
-if(item && !slot.dataset.item){
-
-slot.dataset.item=item.type
-slot.classList.add(item.type)
-
-item.count--
-
-if(item.count==0){
-inventoryData[selectedSlot]=null
-selectedSlot=null
-}
-
-drawInventory()
-checkRecipe()
-return
-}
-
-/* terugnemen */
-
-if(slot.dataset.item){
-
-let type=slot.dataset.item
-
-slot.classList.remove(type)
-slot.dataset.item=""
-
-addItem(type,1)
-
-drawInventory()
-checkRecipe()
-
-}
-
-}
-
-})
-
-function addItem(type,count){
-
-let slot=inventoryData.findIndex(i=>i && i.type==type)
-
-if(slot!=-1){
-inventoryData[slot].count+=count
-return
-}
-
-let empty=inventoryData.findIndex(i=>i==null)
-
-if(empty!=-1){
-inventoryData[empty]={type:type,count:count}
-}
-
-}
-
-function clearGrid(){
-
-slots.forEach(s=>{
-if(s.dataset.item){
-s.classList.remove(s.dataset.item)
-s.dataset.item=""
-}
-})
-
-}
-
-/* RECEPTEN */
-
-function checkRecipe(){
-
-let items=[]
-slots.forEach(s=>items.push(s.dataset.item||""))
-
-let result=document.getElementById("result")
-result.innerHTML=""
-
-/* hout → planken */
-
-let logCount=items.filter(i=>i=="log").length
-
-if(logCount==1){
-
-let img=document.createElement("img")
-img.src="planks_oak.png"
-
-img.onclick=function(){
-
-addItem("plank",4)
-clearGrid()
-drawInventory()
-result.innerHTML=""
-
-}
-
-result.appendChild(img)
-return
-}
-
-/* boot */
-
-let r1 =
-items[0]=="" && items[1]=="" && items[2]=="" &&
-items[3]=="plank" && items[4]=="" && items[5]=="plank" &&
-items[6]=="plank" && items[7]=="plank" && items[8]=="plank"
-
-let r2 =
-items[0]=="plank" && items[1]=="" && items[2]=="plank" &&
-items[3]=="plank" && items[4]=="plank" && items[5]=="plank" &&
-items[6]=="" && items[7]=="" && items[8]==""
-
-if(r1 || r2){
-
-let img=document.createElement("img")
-img.src="boot.png"
-
-img.onclick=function(){
-
-addItem("boot",1)
-clearGrid()
-drawInventory()
-result.innerHTML=""
-
-}
-
-result.appendChild(img)
-
-}
-
-}
-
+// Enter-toets sluit de modal
+document.addEventListener("keydown", function(e) {
+    const modal = document.getElementById("mcModal");
+    if (!modal.classList.contains("hidden") && e.key === "Enter") {
+        closeModal();
+    }
+});
 </script>
 
 </body>
