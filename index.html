@@ -14,7 +14,6 @@ body {
     background: #333;
 }
 
-/* layout */
 .container {
     display: flex;
     flex-direction: column;
@@ -25,7 +24,6 @@ body {
     box-sizing: border-box;
 }
 
-/* invoerveld */
 .overlay {
     background: #c6c6c6;
     padding: 8px 12px;
@@ -45,7 +43,6 @@ body {
     color: black;
 }
 
-/* afbeelding */
 .map {
     position: relative;
     flex: 1;              
@@ -69,7 +66,6 @@ body {
     object-fit: contain;
 }
 
-/* animatie */
 .hidden {
     opacity: 0;
 }
@@ -88,7 +84,6 @@ body {
     mask-image: none;
 }
 
-/* minecraft-stijl modal */
 .mc-modal {
     position: fixed;
     inset: 0;
@@ -103,13 +98,12 @@ body {
     display: none;
 }
 
-/* Minecraft-knop/box stijl zoals screenshot */
 .mc-box {
-    background: #c6c6c6; /* knop achtergrond */
-    border: 2px solid black; /* zwarte buitenrand */
+    background: #c6c6c6;
+    border: 2px solid black;
     box-shadow: 
-        -2px -2px 0 white,  /* witte bovenrand en linkerkant */
-        2px 2px 0 #888;     /* grijze onderrand en rechterkant */
+        -2px -2px 0 white,
+        2px 2px 0 #888;
     padding: 16px 24px;
     text-align: center;
     font-family: 'Minecraftia', sans-serif;
@@ -154,7 +148,6 @@ body {
 
 </div>
 
-<!-- Minecraft-stijl foutmelding -->
 <div id="mcModal" class="mc-modal hidden">
     <div class="mc-box">
         <div class="mc-text">Deze code is niet juist, probeer opnieuw</div>
@@ -164,9 +157,14 @@ body {
 
 <script>
 let step = 0;
-const codes = ["39", "ijzer", "goud", "diamant"];
+const codes = ["39", "85", "goud", "diamant"];
 
 document.getElementById("codeInput").addEventListener("keypress", function(e) {
+    const modal = document.getElementById("mcModal");
+
+    // Blokkeer invoer als modal open is
+    if (!modal.classList.contains("hidden")) return;
+
     if (e.key === "Enter") {
         checkCode();
     }
@@ -201,13 +199,12 @@ function checkCode() {
         }
 
     } else {
-        showModal(); // minecraft-stijl foutmelding
+        showModal();
     }
 
     document.getElementById("codeInput").value = "";
 }
 
-// Minecraft-stijl modal functies
 function showModal() {
     document.getElementById("mcModal").classList.remove("hidden");
 }
@@ -216,9 +213,10 @@ function closeModal() {
     document.getElementById("mcModal").classList.add("hidden");
 }
 
-// Enter-toets sluit de modal
+// Enter sluit modal
 document.addEventListener("keydown", function(e) {
     const modal = document.getElementById("mcModal");
+
     if (!modal.classList.contains("hidden") && e.key === "Enter") {
         closeModal();
     }
