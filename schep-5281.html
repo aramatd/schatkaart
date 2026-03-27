@@ -21,11 +21,23 @@
     overflow: hidden;
   }
 
-  /* Container met boot in het midden */
-  #background-container {
-    position: relative;
+ #background-container {
     width: 90%;
     max-width: 500px;
+    text-align: center;
+  }
+
+  /* Tekst boven de boot */
+  #boot-text {
+    font-family: 'Minecraftia', sans-serif;
+    color: white;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  /* Wrapper voor correcte positionering */
+  #boot-wrapper {
+    position: relative;
   }
 
   #boot {
@@ -95,10 +107,18 @@
 </style>
 </head>
 <body>
-
 <div id="background-container">
-  <img id="boot" src="goudenschep.png" alt="Boot">
-  <img id="paper" src="paper-.png" alt="Minecraft Papier">
+
+  <div id="boot-text">Goedzo! Je hebt een boot gecraft! Nu kun je straks naar de schat varen!<br>
+  <br>
+  Hee! Wat ligt daar op de bodem van de boot?<br>
+  <br></div>
+
+  <div id="boot-wrapper">
+    <img id="boot" src="goudenschep.png" alt="Boot">
+    <img id="paper" src="paper-.png" alt="Minecraft Papier">
+  </div>
+
 </div>
 
 
