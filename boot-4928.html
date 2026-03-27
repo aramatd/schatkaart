@@ -90,7 +90,7 @@
   }
 
 #full-paper {
-  font-size: clamp(0.6rem, 2.5vw, 1rem);
+  font-size: clamp(1rem, 2.5vw, 1rem);
 }
 </style>
 </head>
@@ -137,7 +137,7 @@
 <script>
   setTimeout(() => {
     document.getElementById('paper').classList.add('show');
-  }, 20000);
+  }, 10000);
 
   document.getElementById('paper').addEventListener('click', () => {
     document.getElementById('full-paper').style.display = 'flex';
